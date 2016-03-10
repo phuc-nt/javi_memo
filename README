@@ -1,5 +1,5 @@
-This application is designed to help users quickly memorize the Japanese word/sentence they stored:
-・An entry (word or sentence) has a level indicates how many times it has been visited. If user views an entry for 10 times, we can assume that he already memorized the entry.
-・Random quiz are generated based on entry data and organized as a game so that users can enjoy studying.
+# This application is designed to help users quickly memorize the Japanese word/sentence they stored:
+* An entry (word or sentence) has a level indicates how many times it has been visited. If user views an entry for 10 times, we can assume that he already memorized the entry.
+* Random quiz are generated based on entry data and organized as a game so that users can enjoy studying.
 
 
