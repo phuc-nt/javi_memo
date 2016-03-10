@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">YT-dictionary</string>
+    <string name="quiz_tab_label">QUIZ</string>
+    <string name="entryList_tab_label">LIST</string>
+    <string name="kanjiList_tab_label">KANJI</string>
+    <string name="setting_tab_label">SETTING</string>
+    <string name="toolbar_search_label">Search</string>
+    <string name="toolbar_refresh_label">Refresh</string>
+    <string name="toolbar_sort_label">Sort</string>
+    <string name="quiz_select_vocabulary_button">Vocabulary Quiz</string>
+    <string name="quiz_select_kanji_button">Kanji Quiz</string>
+    <string name="vocabulary_label">VOCABULARY</string>
+    <string name="kanji_label">KANJI</string>
+    <string name="record_label">RECORD</string>
+    <string name="new_word_hint">add new word</string>
+    <string name="back_button">back</string>
+    <string name="edit_button">edit</string>
+    <string name="done_button">done</string>
+    <string name="app_setting_button">App Setting</string>
+    <string name="user_setting_button">User Setting</string>
+    <string name="quiz_setting_button">Quiz Setting</string>
+    <string name="feedback_button">Feedback</string>
+    <string name="logout_button">Log Out</string>
+    <string name="user_name_label">User Name</string>
+    <string name="password_label">Password</string>
+    <string name="retype_password_label">Re-type password</string>
+    <string name="sign_in_button">Sign in</string>
+    <string name="sign_up_button">Sign up</string>
+    <string name="registration_button">Registration</string>
+    <string name="alphabet_menu_item">Alphabet</string>
+    <string name="date_menu_item">Add Date</string>
+    <string name="level_menu_item">Level</string>
+    <string name="high_score_title">HIGH SCORE</string>
+    <string name="your_score_title">YOUR SCORE</string>
+    <string name="level_title">LEVEL</string>
+    <string name="start_button">START</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

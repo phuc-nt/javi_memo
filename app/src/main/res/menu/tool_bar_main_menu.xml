@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/toolbar_search"
+        android:icon="@mipmap/ic_search_white_24dp"
+        android:orderInCategory="1"
+        android:title="@string/toolbar_search_label"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView" />
+
+    <item
+        android:id="@+id/toolbar_sort"
+        android:icon="@mipmap/ic_sort_white_24dp"
+        android:orderInCategory="2"
+        android:title="@string/toolbar_sort_label"
+        app:showAsAction="ifRoom|collapseActionView">
+        <menu>
+            <item
+                android:id="@+id/toolbar_sort_by_alphabet"
+                android:title="@string/alphabet_menu_item" />
+            <item
+                android:id="@+id/toolbar_sort_by_date"
+                android:title="@string/date_menu_item" />
+            <item
+                android:id="@+id/toolbar_sort_by_level"
+                android:title="@string/level_menu_item" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/toolbar_refresh"
+        android:icon="@mipmap/ic_refresh_white_24dp"
+        android:orderInCategory="3"
+        android:title="@string/toolbar_refresh_label"
+        app:showAsAction="ifRoom|collapseActionView" />
+</menu>
