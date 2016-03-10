@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,6 +26,8 @@ import android.widget.Toast;;import com.nhaarman.listviewanimations.itemmanipula
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCallback;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import dao.db_handle.TBKanjiHandler;
@@ -68,6 +71,7 @@ public class KanjiListFragment extends Fragment {
 
         // set adapter to ListView
         kanjiList.setAdapter(adapter);
+        kanjiList.setTextFilterEnabled(true);
 
         // on click listView item
         kanjiList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -114,6 +118,9 @@ public class KanjiListFragment extends Fragment {
         MenuItem sortByLevelItem = menu.findItem(R.id.toolbar_sort_by_level);
         MenuItem refreshItem = menu.findItem(R.id.toolbar_refresh);
 
+        sortByDateItem.setEnabled(false);
+
+        //Search Function start
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -125,7 +132,12 @@ public class KanjiListFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;
+                if (TextUtils.isEmpty(newText)) {
+                    kanjiList.clearTextFilter();
+                } else {
+                    kanjiList.setFilterText(newText.toString());
+                }
+                return true;
             }
         });
     }
@@ -135,7 +147,7 @@ public class KanjiListFragment extends Fragment {
         int id = item.getItemId();
         switch (id) {
             // Refresh Kanji ListView
-            case R.id.toolbar_refresh :
+            case R.id.toolbar_refresh:
                 //Get new List Object
                 listKanjiOb = kanjiHd.getAll();
                 // Set data to adapter (customized)
@@ -143,6 +155,29 @@ public class KanjiListFragment extends Fragment {
                 // set adapter to ListView
                 kanjiList.setAdapter(adapter);
                 break;
+            case R.id.toolbar_sort_by_alphabet:
+                // Sort by A->Z
+                Collections.sort(listKanjiOb, new Comparator<KanjiObj>() {
+                    @Override
+                    public int compare(KanjiObj ob1, KanjiObj ob2) {
+                        return (ob1.getCharacter() - ob2.getCharacter());
+                    }
+                });
+                // Set sorted data to adapter (customized)
+                adapter = new KanjiListAdapter(getActivity(), listKanjiOb);
+                // set sorted adapter to ListView
+                kanjiList.setAdapter(adapter);
+                break;
+            // Sort by Level
+            case R.id.toolbar_sort_by_level:
+                Collections.sort(listKanjiOb, new Comparator<KanjiObj>() {
+                    @Override
+                    public int compare(KanjiObj lhs, KanjiObj rhs) {
+                        return (lhs.getLevel() - rhs.getLevel());
+                    }
+                });
+                adapter = new KanjiListAdapter(getActivity(), listKanjiOb);
+                kanjiList.setAdapter(adapter);
         }
         return super.onOptionsItemSelected(item);
     }

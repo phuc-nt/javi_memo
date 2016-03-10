@@ -391,16 +391,6 @@ public class EntryListFragment extends Fragment {
                 }
             }
 
-            // Test
-            TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(getActivity());
-            List<Integer> list = tbKanjiEntryHandler.getAllKanjiIdByEntryId(newEntryId);
-            System.out.println("List KanjiID Size : " + list.size());
-            for (int j = 0; j < list.size(); j++) {
-                System.out.println("New KanjiID : " + list.get(j));
-                System.out.println("Kanji: " + new TBKanjiHandler(getActivity()).getById(list.get(j)).getCharacter());
-            }
-
-
             // Refresh ListView
             listEntryOb = entryHd.getAll();
             adapter = new EntryListAdapter(getActivity(), listEntryOb);

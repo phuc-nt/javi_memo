@@ -12,6 +12,8 @@ public class SuggestDataAccess {
     private SQLiteOpenHelper openHelper;
     private SQLiteDatabase database;
     private static SuggestDataAccess instance;
+    private static final String SUGGEST_TABLE_NAME = "nhat_viet";
+    private static final String SUGGEST_TABLE_WORD_COLUMN_NAME = "word";
 
     /**
      * Private constructor to avoid object creation from outside classes.
@@ -53,7 +55,9 @@ public class SuggestDataAccess {
 
     public String getSuggestMeaning(String word) {
         String result = "No Suggest";
-        Cursor cursor = database.rawQuery("select * from nhat_viet where word = '" + word + "'", null);
+        Cursor cursor = database.rawQuery("select * from " + SUGGEST_TABLE_NAME
+                + " where " + SUGGEST_TABLE_WORD_COLUMN_NAME
+                + " = '" + word + "'", null);
         //System.out.println("Cursor count: " + cursor.getCount());
         if (cursor.getCount() != 0) {
             cursor.moveToFirst();

@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         Intent i = getIntent();
         if (i.getExtras() != null) {
             String fragmentPositionString = i.getStringExtra("fragmentPosition");
-            if (!fragmentPositionString.equals(null)) {
+            if (fragmentPositionString != null) {
                 fragmentPosition = Integer.parseInt(fragmentPositionString);
             }
         }
@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
         entryHd.dropAllTables();
 
         for (int i = 1; i <= 5; i++) {
-            kanjiHd.add(new KanjiObj(i, (char) ('食' + i), "音読み" + i, "訓読み" + i, "hán việt" + i, "意味" + i, "Associated" + i, 0));
+            kanjiHd.add(new KanjiObj(i, (char) ('食' + i), "音読み" + i, "訓読み" + i, "hán việt" + i, "意味" + i, "Associated" + i, i));
         }
         //System.out.println("Kanji 4 : " + kanjiHd.getAll().get(4).getCharacter());
 
