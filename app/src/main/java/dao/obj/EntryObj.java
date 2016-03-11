@@ -21,17 +21,17 @@ public class EntryObj implements Serializable {
 
     }
 
-    public EntryObj(int entryId, int userId, String content, String furigana, String meaning,
-                    String example, int level, String source, Date createdDate) {
-        this.entryId = entryId;
+    public EntryObj(int userId, String content, String furigana, String meaning,
+                    String example, String source) {
+        this.entryId = 0;
         this.userId = userId;
         this.content = content;
         this.furigana = furigana;
         this.meaning = meaning;
         this.example = example;
-        this.level = level;
+        this.level = 0;
         this.source = source;
-        this.createdDate = createdDate;
+        this.createdDate = new Date(new java.util.Date().getTime());
     }
 
     public String toString() {

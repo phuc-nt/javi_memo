@@ -72,22 +72,15 @@ public class EntryListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_entry, container, false);
 
-        // Match object to layout elements
-        toolbar = (Toolbar) view.findViewById(R.id.entry_list_fragment_toolbar);
-        addBt = (ImageButton) view.findViewById(R.id.entry_list_add_new_button);
-        newEntryEt = (EditText) view.findViewById(R.id.entry_list_new_text_edit);
-        entryList = (DynamicListView) view.findViewById(R.id.entry_list_view);
-
         // Get data from database (list Entry Object)
         entryHd = new TBEntryHandler(getActivity());
         listEntryOb = entryHd.getAll();
 
-        // Set data to adapter (customized)
-        adapter = new EntryListAdapter(getActivity(), listEntryOb);
+        // Match object to layout elements
+        matchObjectToLayout(view);
 
-        // set adapter to ListView
-        entryList.setAdapter(adapter);
-        entryList.setTextFilterEnabled(true);
+        // Set default data
+        setDefaultData();
 
         // on click listView item
         entryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -116,14 +109,6 @@ public class EntryListFragment extends Fragment {
                     }
                 }
         );
-
-        // set ActionBar function to toolbar
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-        setHasOptionsMenu(true);
-
-        // Set TextWatcher to 'new entry edit text'
-        //newEntryEt.addTextChangedListener(newEntryWatcher);
 
         // on click Add Button
         addBt.setOnClickListener(new View.OnClickListener() {
@@ -268,6 +253,35 @@ public class EntryListFragment extends Fragment {
     }
 
     /**
+     * Match object to layout elements
+     *
+     * @param view View of EntryListFragment
+     */
+    private void matchObjectToLayout(View view) {
+        toolbar = (Toolbar) view.findViewById(R.id.entry_list_fragment_toolbar);
+        addBt = (ImageButton) view.findViewById(R.id.entry_list_add_new_button);
+        newEntryEt = (EditText) view.findViewById(R.id.entry_list_new_text_edit);
+        entryList = (DynamicListView) view.findViewById(R.id.entry_list_view);
+    }
+
+    /**
+     * Set default data
+     */
+    private void setDefaultData() {
+        // Set data to adapter (customized)
+        adapter = new EntryListAdapter(getActivity(), listEntryOb);
+
+        // set adapter to ListView
+        entryList.setAdapter(adapter);
+        entryList.setTextFilterEnabled(true);
+
+        // set ActionBar function to toolbar
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        setHasOptionsMenu(true);
+    }
+
+    /**
      * Customized Adapter for Entry List Object
      */
     public class EntryListAdapter extends ArrayAdapter<EntryObj> {
@@ -322,8 +336,6 @@ public class EntryListFragment extends Fragment {
                     tbKanjiEntryHandler.delete(list.get(j), entryObj.getEntryId());
                 }
 
-                //System.out.println("Size: " + tbKanjiEntryHandler.getAllKanjiIdByEntryId(entryObj.getEntryId()).size());
-
                 // Delete on database
                 entryHd.delete(entryObj.getEntryId());
 
@@ -354,43 +366,15 @@ public class EntryListFragment extends Fragment {
         alert.show();
     }
 
+    /**
+     * Add new Entry to database by Entry Object.
+     * Also get all Kanji on new Entry and add new Entry to database
+     *
+     * @param newEntryObj new Entry object
+     */
     public void addEntry(EntryObj newEntryObj) {
-        int newEntryId = entryHd.add(newEntryObj);
+        int newEntryId = entryHd.add(newEntryObj, getActivity());
         if (newEntryId != -1) {
-            // Get all Kanji available on new Entry
-            JapaneseHandler jpHd = new JapaneseHandler();
-            String kanji = jpHd.getAllKanji(newEntryObj.getContent());
-
-            // Add new kanji to database one-by-one
-            int cpLength = jpHd.getCodePointLength(kanji);
-            for (int i = 0; i < cpLength; ++i) {
-                // Get unique kanji from all kanji
-                KanjiObj kanjiObj = new KanjiObj(jpHd.getUniqueKanji(kanji, i, 1));
-                // Set suggest meaning to new Kanji
-                SuggestDataAccess dbAccess = SuggestDataAccess.getInstance(getActivity());
-                dbAccess.open();
-                kanjiObj.setMeaning(dbAccess.getSuggestMeaning(Character.toString(kanjiObj.getCharacter())));
-                dbAccess.close();
-
-                // Add new kanji to database
-                TBKanjiHandler kanjiHandler = new TBKanjiHandler(getActivity());
-                int newKanjiId = kanjiHandler.add(kanjiObj);
-
-                // Create new Entry-Kanji constrain and add to 'KanjiEntry Table'
-                if (newKanjiId != -1) {
-                    KanjiEntryObj kanjiEntryObj = new KanjiEntryObj(newKanjiId, newEntryId);
-                    TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(getActivity());
-                    tbKanjiEntryHandler.add(kanjiEntryObj);
-                    Toast.makeText(getActivity(), "Add Kanji Successfully", Toast.LENGTH_LONG).show();
-                } else {
-                    KanjiObj o = kanjiHandler.getByCharater(kanjiObj.getCharacter());
-                    KanjiEntryObj kanjiEntryObj = new KanjiEntryObj(o.getKanjiId(), newEntryId);
-                    TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(getActivity());
-                    tbKanjiEntryHandler.add(kanjiEntryObj);
-                    Toast.makeText(getActivity(), "Add Kanji Failed", Toast.LENGTH_LONG).show();
-                }
-            }
-
             // Refresh ListView
             listEntryOb = entryHd.getAll();
             adapter = new EntryListAdapter(getActivity(), listEntryOb);

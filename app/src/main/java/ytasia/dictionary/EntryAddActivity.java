@@ -74,10 +74,9 @@ public class EntryAddActivity extends AppCompatActivity {
             String newEntryFurigana = entryFuriganaEt.getText().toString();
             String newEntryMeaning = entryMeaningEt.getText().toString();
             String newEntryExample = entryExampleEt.getText().toString();
-            Date now = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 
             // Create new object with new data
-            EntryObj newObj = new EntryObj(0, 1, newEntryContent, newEntryFurigana, newEntryMeaning, newEntryExample, 0, null, now);
+            EntryObj newObj = new EntryObj(MainActivity.user.getUserId(), newEntryContent, newEntryFurigana, newEntryMeaning, newEntryExample, null);
 
             // Put Object to EntryListFragment
             Intent myIntent = getIntent();

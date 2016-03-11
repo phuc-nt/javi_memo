@@ -15,7 +15,6 @@
         <activity android:name=".KanjiViewActivity" />
         <activity android:name=".EntryEditActivity" />
         <activity android:name=".EntryAddActivity" />
-        <activity android:name=".KanjiEditActivity" />
         <activity android:name=".AppSettingActivity" />
         <activity android:name=".UserSettingActivity" />
         <activity android:name=".QuizSettingActivity" />
@@ -30,5 +29,4 @@
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".EntryQuizPlayActivity"></activity>
     </application>
-
 </manifest>

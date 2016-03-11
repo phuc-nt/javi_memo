@@ -3,6 +3,7 @@ package ytasia.dictionary;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -71,7 +72,7 @@ public class EntryViewActivity extends AppCompatActivity {
         // Set data for view
         entryContentTv.setText(ob.getContent());
         entryFuriganaTv.setText(ob.getFurigana());
-        entryMeaningTv.setText(ob.getMeaning());
+        entryMeaningTv.setText(Html.fromHtml(ob.getMeaning()));
         entryExamleTv.setText(ob.getExample());
 
         // Set ActionBar function for toolbar

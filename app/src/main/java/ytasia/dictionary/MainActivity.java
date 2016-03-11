@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout mainTabLayout;
     private ViewPager mainViewPager;
 
+    public static UserObj user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,13 +160,11 @@ public class MainActivity extends AppCompatActivity {
         int id = ls.get(1).getUserId();
         TBEntryHandler entryHd = new TBEntryHandler(this);
 
-        EntryObj entryObj1 = new EntryObj(0, id, "Content1", "Furigana", "Meaning", "Example", 1,
-                "Source", new Date(new java.util.Date().getTime()));
-        entryHd.add(entryObj1);
+        EntryObj entryObj1 = new EntryObj(id, "Content1", "Furigana", "Meaning", "Example", "Source");
+        entryHd.add(entryObj1, this);
 
-        EntryObj entryObj2 = new EntryObj(0, id, "Content2", "Furigana2", "Meaning2", "Example2", 4,
-                "Source", new Date(new java.util.Date().getTime()));
-        entryHd.add(entryObj2);
+        EntryObj entryObj2 = new EntryObj(id, "Content2", "Furigana2", "Meaning2", "Example2", "Source");
+        entryHd.add(entryObj2, this);
 
         List<EntryObj> ls2 = entryHd.getAll();
         Assert.assertEquals(ls2.size(), 2);
@@ -217,20 +217,33 @@ public class MainActivity extends AppCompatActivity {
     private void createSampleDb() {
         TBKanjiHandler kanjiHd = new TBKanjiHandler(this);
         TBEntryHandler entryHd = new TBEntryHandler(this);
+        TBUserHandler hd = new TBUserHandler(this);
+
         kanjiHd.dropAllTables();
         entryHd.dropAllTables();
+        hd.dropAllTables();
 
-        for (int i = 1; i <= 5; i++) {
+        // Create sample user
+        UserObj obj1 = new UserObj("phucnt@yz-japan.tokyo", "1234");
+        hd.add(obj1);
+        // Set sample current user
+        user = obj1;
+
+        // Create sample kanji
+        /*for (int i = 1; i <= 5; i++) {
             kanjiHd.add(new KanjiObj(i, (char) ('食' + i), "音読み" + i, "訓読み" + i, "hán việt" + i, "意味" + i, "Associated" + i, i));
-        }
-        //System.out.println("Kanji 4 : " + kanjiHd.getAll().get(4).getCharacter());
+        }*/
 
+        // Create sample entry
+        /*SuggestDataAccess dbAccess = SuggestDataAccess.getInstance(this);
+        dbAccess.open();
+        dbAccess.close();*/
+        entryHd.add(new EntryObj(user.getUserId(), "連絡する", "れんらくする", "", "example", "source"), this);
+        entryHd.add(new EntryObj(user.getUserId(), "家族", "かぞく", "", "example", "source"), this);
+        entryHd.add(new EntryObj(user.getUserId(), "報告", "ほうこく", "", "example", "source"), this);
+        entryHd.add(new EntryObj(user.getUserId(), "和食", "わしょく", "", "example", "source"), this);
+        entryHd.add(new EntryObj(user.getUserId(), "食事する", "しょくじする", "", "example", "source"), this);
 
-        java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-        for (int i = 1; i <= 5; i++) {
-            entryHd.add(new EntryObj(i, 1, "Content" + i, "furigana" + i, "meaning" + i, "example" + i, i, "source" + i, date));
-        }
-        //System.out.println("Entry 4 : " + entryHd.getById(4).getContent());
     }
 
     private void testSuggestDb() {

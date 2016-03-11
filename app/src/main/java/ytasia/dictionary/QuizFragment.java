@@ -23,7 +23,7 @@ public class QuizFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_quiz, container, false);
 
@@ -36,6 +36,7 @@ public class QuizFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), EntryQuizMainActivity.class);
+                intent.putExtra("user_object", MainActivity.user);
                 startActivity(intent);
             }
         });

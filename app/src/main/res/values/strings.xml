@@ -34,6 +34,11 @@
     <string name="your_score_title">YOUR SCORE</string>
     <string name="level_title">LEVEL</string>
     <string name="start_button">START</string>
+    <string name="time_title">TIME</string>
+    <string name="furigana">furigana</string>
+    <string name="lose_title">YOU LOSE</string>
+    <string name="lose_message">Click OK to continue</string>
+    <string name="ok_button">OK</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

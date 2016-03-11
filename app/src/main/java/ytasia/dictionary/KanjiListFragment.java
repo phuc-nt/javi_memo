@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;;import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCallback;
@@ -37,7 +38,7 @@ import dao.obj.KanjiObj;
 public class KanjiListFragment extends Fragment {
 
     private Toolbar toolbar;
-    private DynamicListView kanjiList;
+    private ListView kanjiList;
     List<String> list = new ArrayList<>();
     TBKanjiHandler kanjiHd;
     List<KanjiObj> listKanjiOb;
@@ -86,18 +87,6 @@ public class KanjiListFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
-        // on swipe listView element
-        kanjiList.enableSwipeToDismiss(
-                new OnDismissCallback() {
-                    @Override
-                    public void onDismiss(@NonNull final ViewGroup listView, @NonNull final int[] reverseSortedPositions) {
-                        for (final int position : reverseSortedPositions) {
-                            deleteKanji(position);
-                        }
-                    }
-                }
-        );
 
         // set ActionBar function to toolbar
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -212,46 +201,5 @@ public class KanjiListFragment extends Fragment {
 
             return itemView;
         }
-    }
-
-    /**
-     * Delete Kanji on ListView by position
-     *
-     * @param position The position of the object
-     */
-    public void deleteKanji(final int position) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-        alert.setTitle("Alert!!");
-        alert.setMessage("Are you sure to delete record");
-        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // delete Kanji in database
-                kanjiHd.delete(listKanjiOb.get(position).getKanjiId());
-                // get new list Kanji object
-                listKanjiOb = kanjiHd.getAll();
-                // Set new data to adapter (customized)
-                adapter = new KanjiListAdapter(getActivity(), listKanjiOb);
-                // set new adapter to ListView
-                kanjiList.setAdapter(adapter);
-
-                // notify
-                Toast.makeText(getActivity().getApplicationContext(),
-                        "REMOVE Position :" + position + "  ListItem : " + kanjiList.getItemAtPosition(position), Toast.LENGTH_LONG)
-                        .show();
-                dialog.dismiss();
-            }
-        });
-        alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                dialog.dismiss();
-            }
-        });
-
-        alert.show();
     }
 }

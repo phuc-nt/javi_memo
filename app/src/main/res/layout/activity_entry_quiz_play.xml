@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/entry_quiz_answer_3"
         android:layout_centerHorizontal="true"
-        android:text="Answer 2" />
+        android:text="Answer 2 (false)" />
 
     <Button
         android:id="@+id/entry_quiz_answer_1"
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/entry_quiz_answer_2"
         android:layout_centerHorizontal="true"
-        android:text="Answer 1" />
+        android:text="Answer 1 (true)" />
 
     <TextView
         android:id="@+id/entry_quiz_play_your_score_title"
@@ -50,7 +50,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:text="Medium Text"
+        android:text="@string/your_score_title"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -68,7 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/entry_quiz_play_your_score_tv"
         android:layout_centerHorizontal="true"
-        android:text="Medium Text"
+        android:text="@string/time_title"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -96,7 +96,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/entry_quiz_play_question_entry_tv"
         android:layout_centerHorizontal="true"
-        android:text="Small Text"
+        android:text="@string/furigana"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView

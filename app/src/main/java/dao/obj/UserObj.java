@@ -1,11 +1,12 @@
 package dao.obj;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
  * Created by luongduy on 2/25/16.
  */
-public class UserObj {
+public class UserObj implements Serializable {
     private int userId;
     private String email;
     private String password;

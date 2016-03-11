@@ -55,6 +55,7 @@ public class KanjiViewActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.tool_bar_view_menu, menu);
 
+        menu.getItem(0).setEnabled(false);
         return true;
     }
 
@@ -64,13 +65,6 @@ public class KanjiViewActivity extends AppCompatActivity {
 
         if (id == android.R.id.home) {
             onBackPressed();
-            return true;
-        }
-
-        if (id == R.id.toolbar_edit_button) {
-            Intent myIntent = new Intent(KanjiViewActivity.this, KanjiEditActivity.class);
-
-            startActivity(myIntent);
             return true;
         }
 
