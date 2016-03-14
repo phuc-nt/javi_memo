@@ -46,15 +46,14 @@
             android:text="KANJI"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <SeekBar
-            android:id="@+id/kanji_seekBar"
-            android:layout_width="180dp"
+        <TextView
+            android:id="@+id/kanji_view_level_text_view"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_margin="5dp"
-            android:max="10" />
+            android:layout_margin="5dp" />
     </RelativeLayout>
 
     <RelativeLayout

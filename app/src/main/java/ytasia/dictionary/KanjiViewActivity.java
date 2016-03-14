@@ -16,7 +16,8 @@ import dao.obj.KanjiObj;
 public class KanjiViewActivity extends AppCompatActivity {
 
     private Toolbar kanjiToolbar;
-    private TextView kanjiContentTv, kanjiHanvietTv, kanjiOnyomiTv, kanjiKunyomiTv, kanjiMeaningTv, kanjiAssociatedTv;
+    private TextView kanjiContentTv, kanjiHanvietTv, kanjiOnyomiTv, kanjiKunyomiTv,
+            kanjiMeaningTv, kanjiAssociatedTv, levelTv;
     private KanjiObj ob;
 
     @Override
@@ -65,13 +66,14 @@ public class KanjiViewActivity extends AppCompatActivity {
      * Match object to layout elements
      */
     private void matchObjectToLayout() {
-        kanjiToolbar = (Toolbar) this.findViewById(R.id.kanji_view_toolbar);
-        kanjiContentTv = (TextView) this.findViewById(R.id.kanji_view_content_text_view);
-        kanjiHanvietTv = (TextView) this.findViewById(R.id.kanji_view_hanviet_text_view);
-        kanjiOnyomiTv = (TextView) this.findViewById(R.id.kanji_view_onyomi_text_view);
-        kanjiKunyomiTv = (TextView) this.findViewById(R.id.kanji_view_kunyomi_text_view);
-        kanjiMeaningTv = (TextView) this.findViewById(R.id.kanji_view_meaning_text_view);
-        kanjiAssociatedTv = (TextView) this.findViewById(R.id.kanji_view_associated_text_view);
+        kanjiToolbar = (Toolbar) findViewById(R.id.kanji_view_toolbar);
+        kanjiContentTv = (TextView) findViewById(R.id.kanji_view_content_text_view);
+        kanjiHanvietTv = (TextView) findViewById(R.id.kanji_view_hanviet_text_view);
+        kanjiOnyomiTv = (TextView) findViewById(R.id.kanji_view_onyomi_text_view);
+        kanjiKunyomiTv = (TextView) findViewById(R.id.kanji_view_kunyomi_text_view);
+        kanjiMeaningTv = (TextView) findViewById(R.id.kanji_view_meaning_text_view);
+        kanjiAssociatedTv = (TextView) findViewById(R.id.kanji_view_associated_text_view);
+        levelTv = (TextView) findViewById(R.id.kanji_view_level_text_view);
     }
 
     /**
@@ -84,5 +86,6 @@ public class KanjiViewActivity extends AppCompatActivity {
         kanjiKunyomiTv.setText(ob.getKunyomi());
         kanjiMeaningTv.setText(Html.fromHtml(ob.getMeaning()));
         kanjiAssociatedTv.setText(ob.getAssociated());
+        levelTv.setText(Integer.toString(ob.getLevel()));
     }
 }

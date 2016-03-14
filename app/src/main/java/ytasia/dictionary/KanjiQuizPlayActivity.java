@@ -27,6 +27,7 @@ public class KanjiQuizPlayActivity extends AppCompatActivity {
     private int quizTime;
     private int score = 0;
     private CountDownTimer timer;
+    private Boolean isAnswer1, isAnswer2, isAnswer3, isAnswer4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +49,44 @@ public class KanjiQuizPlayActivity extends AppCompatActivity {
         answer1Bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onTrue();
+                if (isAnswer1) {
+                    onTrue();
+                } else {
+                    onFault();
+                }
             }
         });
 
         answer2Bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onFault();
+                if (isAnswer2) {
+                    onTrue();
+                } else {
+                    onFault();
+                }
+            }
+        });
+
+        answer3Bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isAnswer3) {
+                    onTrue();
+                } else {
+                    onFault();
+                }
+            }
+        });
+
+        answer4Bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isAnswer4) {
+                    onTrue();
+                } else {
+                    onFault();
+                }
             }
         });
     }
@@ -105,17 +136,64 @@ public class KanjiQuizPlayActivity extends AppCompatActivity {
      * Set Quiz data
      */
     private void setQuizData() {
+        // Get random question on user database
         TBKanjiHandler kanjiHandler = new TBKanjiHandler(this);
         List<KanjiObj> kanjiObjs = kanjiHandler.getAll();
         Random random = new Random();
         int randomInt = random.nextInt(kanjiObjs.size());
         questionKanjiTv.setText(Character.toString(kanjiObjs.get(randomInt).getCharacter()));
+
+        // Set true answer to randomly location
+        int random2 = random.nextInt(4) + 1;
+        switch (random2) {
+            case 1:
+                isAnswer1 = true;
+                isAnswer2 = false;
+                isAnswer3 = false;
+                isAnswer4 = false;
+                answer1Bt.setText("TRUE");
+                answer2Bt.setText("FALSE");
+                answer3Bt.setText("FALSE");
+                answer4Bt.setText("FALSE");
+                break;
+            case 2:
+                isAnswer1 = false;
+                isAnswer2 = true;
+                isAnswer3 = false;
+                isAnswer4 = false;
+                answer1Bt.setText("FALSE");
+                answer2Bt.setText("TRUE");
+                answer3Bt.setText("FALSE");
+                answer4Bt.setText("FALSE");
+                break;
+            case 3:
+                isAnswer1 = false;
+                isAnswer2 = false;
+                isAnswer3 = true;
+                isAnswer4 = false;
+                answer1Bt.setText("FALSE");
+                answer2Bt.setText("FALSE");
+                answer3Bt.setText("TRUE");
+                answer4Bt.setText("FALSE");
+                break;
+            case 4:
+                isAnswer1 = false;
+                isAnswer2 = false;
+                isAnswer3 = false;
+                isAnswer4 = true;
+                answer1Bt.setText("FALSE");
+                answer2Bt.setText("FALSE");
+                answer3Bt.setText("FALSE");
+                answer4Bt.setText("TRUE");
+                break;
+        }
     }
 
     /**
      * When user choose true answer, continue with new question,
      * score + 1 and reset time counter
      */
+
     private void onTrue() {
         timer.cancel();
         score++;

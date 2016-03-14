@@ -9,7 +9,7 @@
     <string name="toolbar_sort_label">Sort</string>
     <string name="quiz_select_vocabulary_button">Vocabulary Quiz</string>
     <string name="quiz_select_kanji_button">Kanji Quiz</string>
-    <string name="vocabulary_label">VOCABULARY</string>
+    <string name="entry_label">ENTRY</string>
     <string name="kanji_label">KANJI</string>
     <string name="record_label">RECORD</string>
     <string name="new_word_hint">add new word</string>
