@@ -40,11 +40,6 @@ public class EntryQuizMainActivity extends AppCompatActivity {
         // Set default data
         setDefaultData();
 
-        // Get parent width
-        /*DisplayMetrics displaymetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        int parentWidth = displaymetrics.widthPixels;*/
-
         // on click Start button
         startBt.setOnClickListener(new View.OnClickListener() {
 
