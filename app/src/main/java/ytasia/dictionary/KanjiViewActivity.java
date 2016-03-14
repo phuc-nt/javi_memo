@@ -17,6 +17,7 @@ public class KanjiViewActivity extends AppCompatActivity {
 
     private Toolbar kanjiToolbar;
     private TextView kanjiContentTv, kanjiHanvietTv, kanjiOnyomiTv, kanjiKunyomiTv, kanjiMeaningTv, kanjiAssociatedTv;
+    private KanjiObj ob;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,25 +25,14 @@ public class KanjiViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_kanji_view);
 
         // Match object to Layout
-        kanjiToolbar = (Toolbar) this.findViewById(R.id.kanji_view_toolbar);
-        kanjiContentTv = (TextView) this.findViewById(R.id.kanji_view_content_text_view);
-        kanjiHanvietTv = (TextView) this.findViewById(R.id.kanji_view_hanviet_text_view);
-        kanjiOnyomiTv = (TextView) this.findViewById(R.id.kanji_view_onyomi_text_view);
-        kanjiKunyomiTv = (TextView) this.findViewById(R.id.kanji_view_kunyomi_text_view);
-        kanjiMeaningTv = (TextView) this.findViewById(R.id.kanji_view_meaning_text_view);
-        kanjiAssociatedTv = (TextView) this.findViewById(R.id.kanji_view_associated_text_view);
+        matchObjectToLayout();
 
         // Get object from list
         Intent intent = getIntent();
-        KanjiObj ob = (KanjiObj) intent.getExtras().getSerializable("kanji_object");
+        ob = (KanjiObj) intent.getExtras().getSerializable("kanji_object");
 
         // Set data for view
-        kanjiContentTv.setText(Character.toString(ob.getCharacter()));
-        kanjiHanvietTv.setText(ob.getHanviet());
-        kanjiOnyomiTv.setText(ob.getOnyomi());
-        kanjiKunyomiTv.setText(ob.getKunyomi());
-        kanjiMeaningTv.setText(Html.fromHtml(ob.getMeaning()));
-        kanjiAssociatedTv.setText(ob.getAssociated());
+        setData();
 
         // Set ActionBar function for toolbar
         setSupportActionBar(kanjiToolbar);
@@ -69,5 +59,30 @@ public class KanjiViewActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Match object to layout elements
+     */
+    private void matchObjectToLayout() {
+        kanjiToolbar = (Toolbar) this.findViewById(R.id.kanji_view_toolbar);
+        kanjiContentTv = (TextView) this.findViewById(R.id.kanji_view_content_text_view);
+        kanjiHanvietTv = (TextView) this.findViewById(R.id.kanji_view_hanviet_text_view);
+        kanjiOnyomiTv = (TextView) this.findViewById(R.id.kanji_view_onyomi_text_view);
+        kanjiKunyomiTv = (TextView) this.findViewById(R.id.kanji_view_kunyomi_text_view);
+        kanjiMeaningTv = (TextView) this.findViewById(R.id.kanji_view_meaning_text_view);
+        kanjiAssociatedTv = (TextView) this.findViewById(R.id.kanji_view_associated_text_view);
+    }
+
+    /**
+     * Set data for view
+     */
+    private void setData() {
+        kanjiContentTv.setText(Character.toString(ob.getCharacter()));
+        kanjiHanvietTv.setText(ob.getHanviet());
+        kanjiOnyomiTv.setText(ob.getOnyomi());
+        kanjiKunyomiTv.setText(ob.getKunyomi());
+        kanjiMeaningTv.setText(Html.fromHtml(ob.getMeaning()));
+        kanjiAssociatedTv.setText(ob.getAssociated());
     }
 }

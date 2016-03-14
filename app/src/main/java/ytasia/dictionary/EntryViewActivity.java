@@ -33,47 +33,18 @@ public class EntryViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry_view);
 
-        // Match object to Layout
-        kanjiSv = (ScrollView) this.findViewById(R.id.entry_view_kanji_scroll_view);
-        entryToolbar = (Toolbar) this.findViewById(R.id.entry_view_toolbar);
-        entryContentTv = (TextView) this.findViewById(R.id.entry_view_content_text_view);
-        entryFuriganaTv = (TextView) this.findViewById(R.id.entry_view_furigana_text_view);
-        entryMeaningTv = (TextView) this.findViewById(R.id.entry_view_meaning_text_view);
-        entryExamleTv = (TextView) this.findViewById(R.id.entry_view_example_text_view);
-
         // Get object from list
         Intent intent = getIntent();
         ob = (EntryObj) intent.getExtras().getSerializable("entry_object");
 
-        // Create Kanji Button
-        LinearLayout ll = new LinearLayout(this);
-        ll.setOrientation(LinearLayout.HORIZONTAL);
-        TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(this);
-        List<Integer> list = tbKanjiEntryHandler.getAllKanjiIdByEntryId(ob.getEntryId());
-        for (int j = 0; j < list.size(); j++) {
-            final KanjiObj kanjiObj = new TBKanjiHandler(this).getById(list.get(j));
-            Button bt = new Button(this);
-            bt.setText(Character.toString(kanjiObj.getCharacter()));
-            ll.addView(bt);
-            // Set onClick function
-            bt.setOnClickListener(new Button.OnClickListener() {
+        // Match object to Layout
+        matchObjectToLayout();
 
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(EntryViewActivity.this, KanjiViewActivity.class);
-                    intent.putExtra("kanji_object", kanjiObj);
-                    startActivity(intent);
-                }
-            });
-        }
-        // add kanji buttons to view
-        kanjiSv.addView(ll);
+        // Create Kanji Button
+        createKanjiButton();
 
         // Set data for view
-        entryContentTv.setText(ob.getContent());
-        entryFuriganaTv.setText(ob.getFurigana());
-        entryMeaningTv.setText(Html.fromHtml(ob.getMeaning()));
-        entryExamleTv.setText(ob.getExample());
+        setData();
 
         // Set ActionBar function for toolbar
         setSupportActionBar(entryToolbar);
@@ -127,5 +98,55 @@ public class EntryViewActivity extends AppCompatActivity {
                     break;
             }
         }
+    }
+
+    /**
+     * Match object to layout elements
+     */
+    private void matchObjectToLayout() {
+        kanjiSv = (ScrollView) this.findViewById(R.id.entry_view_kanji_scroll_view);
+        entryToolbar = (Toolbar) this.findViewById(R.id.entry_view_toolbar);
+        entryContentTv = (TextView) this.findViewById(R.id.entry_view_content_text_view);
+        entryFuriganaTv = (TextView) this.findViewById(R.id.entry_view_furigana_text_view);
+        entryMeaningTv = (TextView) this.findViewById(R.id.entry_view_meaning_text_view);
+        entryExamleTv = (TextView) this.findViewById(R.id.entry_view_example_text_view);
+    }
+
+    /**
+     * Create all Kanji buttons belongs to Entry
+     */
+    private void createKanjiButton() {
+        LinearLayout ll = new LinearLayout(this);
+        ll.setOrientation(LinearLayout.HORIZONTAL);
+        TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(this);
+        List<Integer> list = tbKanjiEntryHandler.getAllKanjiIdByEntryId(ob.getEntryId());
+        for (int j = 0; j < list.size(); j++) {
+            final KanjiObj kanjiObj = new TBKanjiHandler(this).getById(list.get(j));
+            Button bt = new Button(this);
+            bt.setText(Character.toString(kanjiObj.getCharacter()));
+            ll.addView(bt);
+            // Set onClick function
+            bt.setOnClickListener(new Button.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(EntryViewActivity.this, KanjiViewActivity.class);
+                    intent.putExtra("kanji_object", kanjiObj);
+                    startActivity(intent);
+                }
+            });
+        }
+        // add kanji buttons to view
+        kanjiSv.addView(ll);
+    }
+
+    /**
+     * Set data for view
+     */
+    private void setData() {
+        entryContentTv.setText(ob.getContent());
+        entryFuriganaTv.setText(ob.getFurigana());
+        entryMeaningTv.setText(Html.fromHtml(ob.getMeaning()));
+        entryExamleTv.setText(ob.getExample());
     }
 }

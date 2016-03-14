@@ -27,22 +27,15 @@ public class EntryEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry_edit);
 
-        // Match object to Layout
-        entryToolbar = (Toolbar) this.findViewById(R.id.entry_edit_toolbar);
-        entryContentTv = (TextView) this.findViewById(R.id.entry_edit_content_text_edit);
-        entryFuriganaTv = (TextView) this.findViewById(R.id.entry_edit_furigana_text_edit);
-        entryMeaningTv = (TextView) this.findViewById(R.id.entry_edit_meaning_text_edit);
-        entryExamleTv = (TextView) this.findViewById(R.id.entry_edit_example_text_edit);
-
         // Get object from list
         Intent intent = getIntent();
         obj = (EntryObj) intent.getExtras().getSerializable("entry_object");
 
+        // Match object to Layout
+        matchObjectToLayout();
+
         // Set data for view
-        entryContentTv.setText(obj.getContent());
-        entryFuriganaTv.setText(obj.getFurigana());
-        entryMeaningTv.setText(obj.getMeaning());
-        entryExamleTv.setText(obj.getExample());
+        setData();
 
         // Set ActionBar function for toolbar
         setSupportActionBar(entryToolbar);
@@ -85,5 +78,26 @@ public class EntryEditActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Match object to layout elements
+     */
+    private void matchObjectToLayout() {
+        entryToolbar = (Toolbar) this.findViewById(R.id.entry_edit_toolbar);
+        entryContentTv = (TextView) this.findViewById(R.id.entry_edit_content_text_edit);
+        entryFuriganaTv = (TextView) this.findViewById(R.id.entry_edit_furigana_text_edit);
+        entryMeaningTv = (TextView) this.findViewById(R.id.entry_edit_meaning_text_edit);
+        entryExamleTv = (TextView) this.findViewById(R.id.entry_edit_example_text_edit);
+    }
+
+    /**
+     * Set data for view
+     */
+    private void setData() {
+        entryContentTv.setText(obj.getContent());
+        entryFuriganaTv.setText(obj.getFurigana());
+        entryMeaningTv.setText(obj.getMeaning());
+        entryExamleTv.setText(obj.getExample());
     }
 }
