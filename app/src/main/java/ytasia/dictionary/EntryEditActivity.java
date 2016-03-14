@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -14,12 +15,14 @@ import java.util.List;
 
 import dao.db_handle.TBEntryHandler;
 import dao.obj.EntryObj;
+import util.YTDictValues;
 
 public class EntryEditActivity extends AppCompatActivity {
 
 
     private Toolbar entryToolbar;
-    private TextView entryContentTv, entryFuriganaTv, entryMeaningTv, entryExamleTv;
+    private TextView entryContentTv, entryFuriganaTv, entryMeaningTv, entryExamleTv, levelTv;
+    private SeekBar levelSb;
     EntryObj obj;
 
     @Override
@@ -41,6 +44,26 @@ public class EntryEditActivity extends AppCompatActivity {
         setSupportActionBar(entryToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // on Level SeekBar change
+        levelSb.setMax(YTDictValues.ENTRY_MAX_LEVEL);
+        levelSb.setProgress(obj.getLevel());
+        levelSb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                levelTv.setText(Integer.toString(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     @Override
@@ -67,6 +90,7 @@ public class EntryEditActivity extends AppCompatActivity {
             obj.setFurigana(entryFuriganaTv.getText().toString());
             obj.setMeaning(entryMeaningTv.getText().toString());
             obj.setExample(entryExamleTv.getText().toString());
+            obj.setLevel(Integer.parseInt(levelTv.getText().toString()));
             //obj.setCreatedDate(now);
 
             //Put new Object to EntryViewActivity
@@ -89,6 +113,8 @@ public class EntryEditActivity extends AppCompatActivity {
         entryFuriganaTv = (TextView) this.findViewById(R.id.entry_edit_furigana_text_edit);
         entryMeaningTv = (TextView) this.findViewById(R.id.entry_edit_meaning_text_edit);
         entryExamleTv = (TextView) this.findViewById(R.id.entry_edit_example_text_edit);
+        levelTv = (TextView) this.findViewById(R.id.entry_edit_level_text_view);
+        levelSb = (SeekBar) this.findViewById(R.id.entry_edit_level_seekbar);
     }
 
     /**
@@ -99,5 +125,6 @@ public class EntryEditActivity extends AppCompatActivity {
         entryFuriganaTv.setText(obj.getFurigana());
         entryMeaningTv.setText(obj.getMeaning());
         entryExamleTv.setText(obj.getExample());
+        levelTv.setText(Integer.toString(obj.getLevel()));
     }
 }

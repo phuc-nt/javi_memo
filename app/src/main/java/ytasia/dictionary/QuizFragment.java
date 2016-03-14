@@ -47,6 +47,7 @@ public class QuizFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), KanjiQuizMainActivity.class);
+                intent.putExtra("user_object", MainActivity.user);
                 startActivity(intent);
             }
         });

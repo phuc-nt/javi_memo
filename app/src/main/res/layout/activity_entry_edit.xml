@@ -56,6 +56,15 @@
             android:layout_margin="5dp"
             android:max="10" />
 
+        <TextView
+            android:id="@+id/entry_edit_level_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/entry_edit_level_seekbar"
+            android:layout_margin="5dp"
+            android:text="Level" />
+
     </RelativeLayout>
 
     <RelativeLayout

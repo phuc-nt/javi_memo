@@ -27,6 +27,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".RegistrationActivity" />
-        <activity android:name=".EntryQuizPlayActivity"></activity>
+        <activity android:name=".EntryQuizPlayActivity" />
+        <activity android:name=".KanjiQuizPlayActivity"></activity>
     </application>
+
 </manifest>

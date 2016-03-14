@@ -23,7 +23,7 @@ import dao.obj.KanjiObj;
 public class EntryViewActivity extends AppCompatActivity {
 
     private Toolbar entryToolbar;
-    private TextView entryContentTv, entryFuriganaTv, entryMeaningTv, entryExamleTv;
+    private TextView entryContentTv, entryFuriganaTv, entryMeaningTv, entryExamleTv, levelTv;
     private EntryObj ob;
     private ScrollView kanjiSv;
 
@@ -110,6 +110,7 @@ public class EntryViewActivity extends AppCompatActivity {
         entryFuriganaTv = (TextView) this.findViewById(R.id.entry_view_furigana_text_view);
         entryMeaningTv = (TextView) this.findViewById(R.id.entry_view_meaning_text_view);
         entryExamleTv = (TextView) this.findViewById(R.id.entry_view_example_text_view);
+        levelTv = (TextView) this.findViewById(R.id.entry_view_level_text_view);
     }
 
     /**
@@ -148,5 +149,6 @@ public class EntryViewActivity extends AppCompatActivity {
         entryFuriganaTv.setText(ob.getFurigana());
         entryMeaningTv.setText(Html.fromHtml(ob.getMeaning()));
         entryExamleTv.setText(ob.getExample());
+        levelTv.setText(Integer.toString(ob.getLevel()));
     }
 }

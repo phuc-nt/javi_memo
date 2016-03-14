@@ -238,12 +238,25 @@ public class MainActivity extends AppCompatActivity {
         /*SuggestDataAccess dbAccess = SuggestDataAccess.getInstance(this);
         dbAccess.open();
         dbAccess.close();*/
-        entryHd.add(new EntryObj(user.getUserId(), "連絡する", "れんらくする", "", "example", "source"), this);
-        entryHd.add(new EntryObj(user.getUserId(), "家族", "かぞく", "", "example", "source"), this);
-        entryHd.add(new EntryObj(user.getUserId(), "報告", "ほうこく", "", "example", "source"), this);
-        entryHd.add(new EntryObj(user.getUserId(), "和食", "わしょく", "", "example", "source"), this);
-        entryHd.add(new EntryObj(user.getUserId(), "食事する", "しょくじする", "", "example", "source"), this);
+        EntryObj ob1, ob2, ob3, ob4, ob5;
 
+        ob1 = new EntryObj(user.getUserId(), "連絡する", "れんらくする", "", "example", "source");
+        ob2 = new EntryObj(user.getUserId(), "家族", "かぞく", "", "example", "source");
+        ob3 = new EntryObj(user.getUserId(), "報告", "ほうこく", "", "example", "source");
+        ob4 = new EntryObj(user.getUserId(), "和食", "わしょく", "", "example", "source");
+        ob5 = new EntryObj(user.getUserId(), "食事する", "しょくじする", "", "example", "source");
+
+        ob1.setLevel(5);
+        ob2.setLevel(3);
+        ob3.setLevel(1);
+        ob4.setLevel(2);
+        ob5.setLevel(4);
+
+        entryHd.add(ob1, this);
+        entryHd.add(ob2, this);
+        entryHd.add(ob3, this);
+        entryHd.add(ob4, this);
+        entryHd.add(ob5, this);
     }
 
     private void testSuggestDb() {
