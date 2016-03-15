@@ -135,10 +135,6 @@ public class EntryListFragment extends Fragment {
 
         // Match object to layout elements
         MenuItem searchItem = menu.findItem(R.id.toolbar_search);
-        MenuItem sortByAlphabetItem = menu.findItem(R.id.toolbar_sort_by_alphabet);
-        MenuItem sortByDateItem = menu.findItem(R.id.toolbar_sort_by_date);
-        MenuItem sortByLevelItem = menu.findItem(R.id.toolbar_sort_by_level);
-        MenuItem refreshItem = menu.findItem(R.id.toolbar_refresh);
 
         // Search function
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
@@ -330,14 +326,14 @@ public class EntryListFragment extends Fragment {
                 EntryObj entryObj = listEntryOb.get(position);
 
                 // Delete all data related in this object on "KanjiEntry table"
-                TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(getActivity());
+                /*TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(getActivity());
                 List<Integer> list = tbKanjiEntryHandler.getAllKanjiIdByEntryId(entryObj.getEntryId());
                 for (int j = 0; j < list.size(); j++) {
                     tbKanjiEntryHandler.delete(list.get(j), entryObj.getEntryId());
-                }
+                }*/
 
                 // Delete on database
-                entryHd.delete(entryObj.getEntryId());
+                entryHd.delete(getActivity(), entryObj.getEntryId());
 
                 // notify
                 Toast.makeText(getActivity().getApplicationContext(),

@@ -16,8 +16,6 @@
         <activity android:name=".EntryEditActivity" />
         <activity android:name=".EntryAddActivity" />
         <activity android:name=".AppSettingActivity" />
-        <activity android:name=".UserSettingActivity" />
-        <activity android:name=".QuizSettingActivity" />
         <activity android:name=".FeedbackActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
@@ -28,7 +26,8 @@
         </activity>
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".EntryQuizPlayActivity" />
-        <activity android:name=".KanjiQuizPlayActivity"></activity>
+        <activity android:name=".KanjiQuizPlayActivity" />
+        <activity android:name=".UpgradeActivity"></activity>
     </application>
 
 </manifest>

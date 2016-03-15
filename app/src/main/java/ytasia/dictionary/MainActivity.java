@@ -97,6 +97,11 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
     }
 
+    /**
+     * Setup 4 main fragments to ViewPager
+     *
+     * @param v ViewPager
+     */
     private void setupViewPager(ViewPager v) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
@@ -108,6 +113,9 @@ public class MainActivity extends AppCompatActivity {
         v.setAdapter(adapter);
     }
 
+    /**
+     * Customized PagerAdapter
+     */
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
@@ -172,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
         Assert.assertEquals(ls2.get(0).getLevel(), 1);
         Assert.assertEquals("Content2", ls2.get(1).getContent());
 
-        entryHd.delete(ls2.get(0).getEntryId());
+        entryHd.delete(this, ls2.get(0).getEntryId());
         List<EntryObj> ls7 = entryHd.getAll();
         Assert.assertEquals(1, ls7.size());
 

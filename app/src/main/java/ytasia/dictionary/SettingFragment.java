@@ -12,8 +12,7 @@ import android.widget.Button;
 public class SettingFragment extends Fragment {
 
     private Button appSetBt;
-    private Button userSetBt;
-    private Button quizSetBt;
+    private Button upgradeSetBt;
     private Button feedbackBt;
     private Button logoutBt;
 
@@ -32,8 +31,7 @@ public class SettingFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
 
         appSetBt = (Button) view.findViewById(R.id.app_setting_button);
-        userSetBt = (Button) view.findViewById(R.id.user_setting_button);
-        quizSetBt = (Button) view.findViewById(R.id.quiz_setting_button);
+        upgradeSetBt = (Button) view.findViewById(R.id.upgrade_setting_button);
         feedbackBt = (Button) view.findViewById(R.id.feedback_button);
         logoutBt = (Button) view.findViewById(R.id.logout_button);
 
@@ -41,25 +39,16 @@ public class SettingFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),AppSettingActivity.class);
+                Intent intent = new Intent(getActivity(), AppSettingActivity.class);
                 startActivity(intent);
             }
         });
 
-        userSetBt.setOnClickListener(new View.OnClickListener() {
+        upgradeSetBt.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),UserSettingActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        quizSetBt.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),QuizSettingActivity.class);
+                Intent intent = new Intent(getActivity(), UpgradeActivity.class);
                 startActivity(intent);
             }
         });
@@ -68,7 +57,7 @@ public class SettingFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),FeedbackActivity.class);
+                Intent intent = new Intent(getActivity(), FeedbackActivity.class);
                 startActivity(intent);
             }
         });

@@ -81,7 +81,7 @@ public class TBEntryHandler extends ytdictDbHandler {
         if (intId != -1) {
             getAndAddKanjiFromNewEntry(context, obj.getContent(), intId);
         }
-        
+
         return intId;
     }
 
@@ -93,8 +93,16 @@ public class TBEntryHandler extends ytdictDbHandler {
         db.close(); // Closing database connection
     }
 
-    public void delete(int id) {
+    public void delete(Context context, int id) {
         SQLiteDatabase db = getWritableDb();
+
+        // Delete all data related in this object on "KanjiEntry table"
+        TBKanjiEntryHandler kanjiEntryHandler = new TBKanjiEntryHandler(context);
+        List<Integer> list = kanjiEntryHandler.getAllKanjiIdByEntryId(id);
+        for (int j = 0; j < list.size(); j++) {
+            kanjiEntryHandler.delete(list.get(j), id);
+        }
+
         // Deleting Row
         db.delete(YTDictSchema.TBEntry.TABLE_NAME, YTDictSchema.TBEntry.COLUMN_NAME_ENTRY_ID + "=" + id, null);
         db.close(); // Closing database connection

@@ -8,37 +8,30 @@
     <!-- TODO: Update blank fragment layout -->
 
     <Button
+        android:id="@+id/upgrade_setting_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/app_setting_button"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/upgrade_setting_button" />
+
+    <Button
         android:id="@+id/app_setting_button"
-        android:layout_gravity="center_horizontal" />
-
-    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/user_setting_button"
-        android:id="@+id/user_setting_button"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:text="@string/app_setting_button" />
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/quiz_setting_button"
-        android:id="@+id/quiz_setting_button"
-        android:layout_gravity="center_horizontal" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/feedback_button"
         android:id="@+id/feedback_button"
-        android:layout_gravity="center_horizontal" />
-
-    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/logout_button"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/feedback_button" />
+
+    <Button
         android:id="@+id/logout_button"
-        android:layout_gravity="center_horizontal" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/logout_button" />
 </LinearLayout>

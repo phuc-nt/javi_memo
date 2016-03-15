@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import dao.obj.EntryObj;
 import dao.obj.KanjiObj;
 import dao.schema.YTDictSchema;
 
@@ -66,7 +67,7 @@ public class TBKanjiHandler extends ytdictDbHandler {
     public KanjiObj getByCharater(char kanji) {
         SQLiteDatabase db = getReadableDb();
         String query = "SELECT * FROM " + YTDictSchema.TBKanji.TABLE_NAME +
-                " WHERE " + YTDictSchema.TBKanji.COLUMN_NAME_CHARACTER + "='" + kanji +"'";
+                " WHERE " + YTDictSchema.TBKanji.COLUMN_NAME_CHARACTER + "='" + kanji + "'";
         Cursor cursor = db.rawQuery(query, null);
         if (cursor != null) cursor.moveToFirst();
         else return null;
@@ -87,6 +88,20 @@ public class TBKanjiHandler extends ytdictDbHandler {
         Integer intId = id.intValue();
         db.close(); // Closing database connection
         return intId;
+    }
+
+    /**
+     * Update entry on database by object and id
+     *
+     * @param obj
+     * @param id
+     */
+    public void update(KanjiObj obj, int id) {
+        SQLiteDatabase db = getWritableDb();
+        ContentValues values = generateContentValues(obj);
+        // Updating Row
+        db.update(YTDictSchema.TBKanji.TABLE_NAME, values, YTDictSchema.TBKanji.COLUMN_NAME_KANJI_ID + "=" + id, null);
+        db.close(); // Closing database connection
     }
 
     /***

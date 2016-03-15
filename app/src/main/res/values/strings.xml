@@ -17,7 +17,7 @@
     <string name="edit_button">edit</string>
     <string name="done_button">done</string>
     <string name="app_setting_button">App Setting</string>
-    <string name="user_setting_button">User Setting</string>
+    <string name="upgrade_setting_button">Upgrade</string>
     <string name="quiz_setting_button">Quiz Setting</string>
     <string name="feedback_button">Feedback</string>
     <string name="logout_button">Log Out</string>
@@ -39,6 +39,27 @@
     <string name="lose_title">YOU LOSE</string>
     <string name="lose_message">Click OK to continue</string>
     <string name="ok_button">OK</string>
+    <string name="max_level_title">Max Level</string>
+    <string name="reset_level_title">Reset Level</string>
+    <string name="clear_data_title">Clear Data</string>
+    <string name="lock_screen_game_title">Lock Screen Game</string>
+    <string name="max_level_entry_tv">Change max level of Entry to</string>
+    <string name="max_level_kanji_tv">Change max level of Kanji to</string>
+    <string name="reset_level_entry_tv">Reset level of all Entries</string>
+    <string name="reset_level_kanji_tv">Reset level of all Kanjis</string>
+    <string name="clear_entry_tv">Delete your all Entries</string>
+    <string name="lock_screen_game_active_tv">Active Lock Screen game mode</string>
+    <string name="lock_screen_game_catalog_tv">Select data for game</string>
+    <string name="reset_button">RESET</string>
+    <string name="clear_button">CLEAR</string>
+
+    <string-array name="level_array">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+    </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -6,16 +6,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class QuizSettingActivity extends AppCompatActivity {
-
+public class UpgradeActivity extends AppCompatActivity {
     private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quiz_setting);
+        setContentView(R.layout.activity_upgrade);
 
-        toolbar = (Toolbar) this.findViewById(R.id.quiz_setting_toolbar);
+        toolbar = (Toolbar) this.findViewById(R.id.upgrade_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

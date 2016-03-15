@@ -7,10 +7,10 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="ytasia.dictionary.QuizSettingActivity">
+    tools:context="ytasia.dictionary.UpgradeActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/quiz_setting_toolbar_container"
+        android:id="@+id/app_setting_toolbar_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -18,7 +18,7 @@
 
         <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/quiz_setting_toolbar"
+            android:id="@+id/upgrade_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -32,9 +32,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="QUIZ SETTING"
+        android:layout_centerInParent="true"
+        android:text="Upgrade"
         android:textSize="40dp"
-        android:textStyle="bold"
-        android:layout_centerInParent="true"/>
+        android:textStyle="bold" />
 
 </RelativeLayout>
