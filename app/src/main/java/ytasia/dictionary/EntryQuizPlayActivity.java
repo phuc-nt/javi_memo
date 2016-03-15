@@ -93,6 +93,10 @@ public class EntryQuizPlayActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+    }
+
     /**
      * Match object to layout elements
      */

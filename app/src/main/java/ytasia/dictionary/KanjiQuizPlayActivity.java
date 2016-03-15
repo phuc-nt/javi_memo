@@ -91,6 +91,10 @@ public class KanjiQuizPlayActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+    }
+
     /**
      * Match object to layout elements
      */

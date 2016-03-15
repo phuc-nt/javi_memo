@@ -13,6 +13,7 @@ import dao.obj.UserObj;
 public class KanjiQuizMainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_KANJI_QUIZ_START = 101;
     public static final int RESULT_CODE_KANJI_QUIZ_FAULT = 201;
+    public static final int RESULT_CODE_KANJI_QUIZ_FINISH = 302;
 
     private Button startBt;
     private TextView highScoreTv;
@@ -98,11 +99,19 @@ public class KanjiQuizMainActivity extends AppCompatActivity {
                 // Quiz end
                 case RESULT_CODE_KANJI_QUIZ_FAULT:
                     userObj = (UserObj) data.getSerializableExtra("user_object");
-                    MainActivity.user = userObj;
+                    //MainActivity.user = userObj;
                     refreshData(data.getIntExtra("your_score", 0));
                     break;
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra("user_object", userObj);
+        setResult(RESULT_CODE_KANJI_QUIZ_FINISH, intent);
+        finish();
     }
 
     /**

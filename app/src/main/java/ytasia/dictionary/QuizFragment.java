@@ -12,10 +12,13 @@ import android.widget.TextView;
 import dao.obj.UserObj;
 
 public class QuizFragment extends Fragment {
-
+    public static final int REQUEST_CODE_ENTRY_QUIZ_SELECT = 101;
+    public static final int REQUEST_CODE_KANJI_QUIZ_SELECT = 102;
+    public static final int RESULT_CODE_ENTRY_QUIZ_FINISH = 301;
+    public static final int RESULT_CODE_KANJI_QUIZ_FINISH = 302;
     private Button entryQuizBt, kanjiQuizBt;
     private TextView entryHS, kanjiHS;
-    private UserObj ob;
+    private UserObj userObj;
 
     public QuizFragment() {
         // Required empty public constructor
@@ -35,6 +38,7 @@ public class QuizFragment extends Fragment {
         matchObjectToLayout(view);
 
         // Set data for view
+        userObj = MainActivity.user;
         setData();
 
         // on click Entry Quiz button
@@ -43,8 +47,8 @@ public class QuizFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), EntryQuizMainActivity.class);
-                intent.putExtra("user_object", MainActivity.user);
-                startActivity(intent);
+                intent.putExtra("user_object", userObj);
+                startActivityForResult(intent, REQUEST_CODE_ENTRY_QUIZ_SELECT);
             }
         });
 
@@ -54,12 +58,36 @@ public class QuizFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), KanjiQuizMainActivity.class);
-                intent.putExtra("user_object", MainActivity.user);
-                startActivity(intent);
+                intent.putExtra("user_object", userObj);
+                startActivityForResult(intent, REQUEST_CODE_KANJI_QUIZ_SELECT);
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_ENTRY_QUIZ_SELECT) {
+            switch (resultCode) {
+                // Quiz end
+                case RESULT_CODE_ENTRY_QUIZ_FINISH:
+                    userObj = (UserObj) data.getSerializableExtra("user_object");
+                    setData();
+                    break;
+            }
+        }
+
+        if (requestCode == REQUEST_CODE_KANJI_QUIZ_SELECT) {
+            switch (resultCode) {
+                // Quiz end
+                case RESULT_CODE_KANJI_QUIZ_FINISH:
+                    userObj = (UserObj) data.getSerializableExtra("user_object");
+                    setData();
+                    break;
+            }
+        }
     }
 
     /**
@@ -76,7 +104,7 @@ public class QuizFragment extends Fragment {
      * Set data for view
      */
     private void setData() {
-        entryHS.setText(Integer.toString(MainActivity.user.getEntryHighScore()));
-        kanjiHS.setText(Integer.toString(MainActivity.user.getKanjiHighScore()));
+        entryHS.setText(Integer.toString(userObj.getEntryHighScore()));
+        kanjiHS.setText(Integer.toString(userObj.getKanjiHighScore()));
     }
 }
