@@ -1,10 +1,21 @@
 package ytasia.dictionary;
 
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+
+import hotchemi.android.rate.AppRate;
+import hotchemi.android.rate.OnClickButtonListener;
 
 public class UpgradeActivity extends AppCompatActivity {
     private Toolbar toolbar;
@@ -14,7 +25,9 @@ public class UpgradeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upgrade);
 
-        toolbar = (Toolbar) this.findViewById(R.id.upgrade_toolbar);
+        // Match object to layout elements
+        matchObjectToLayout();
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -36,5 +49,12 @@ public class UpgradeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Match object to layout elements
+     */
+    private void matchObjectToLayout() {
+        toolbar = (Toolbar) this.findViewById(R.id.upgrade_toolbar);
     }
 }
