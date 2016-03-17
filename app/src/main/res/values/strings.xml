@@ -69,6 +69,7 @@
     <string name="feedback_mail_button">Send feedback</string>
     <string name="feedback_rate_app_button">Rate this app</string>
     <string name="feedback_hint_edit_text">Your feedback</string>
+    <string name="facebook_app_id">1566898820287328</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
