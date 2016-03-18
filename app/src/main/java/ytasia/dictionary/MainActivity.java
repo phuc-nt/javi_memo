@@ -15,6 +15,10 @@ import com.google.common.base.CharMatcher;
 
 import junit.framework.Assert;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -145,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void testDB() {
+    /*private void testDB() {
         TBUserHandler hd = new TBUserHandler(this);
         hd.dropAllTables();
 
@@ -184,14 +188,14 @@ public class MainActivity extends AppCompatActivity {
         List<EntryObj> ls7 = entryHd.getAll();
         Assert.assertEquals(1, ls7.size());
 
-        /*EntryObj entryObj3 = new EntryObj(0, id, "Content2-FIX", "Furigana2-FIX", "Meaning2-FIX", "Example2", 2,
+        *//*EntryObj entryObj3 = new EntryObj(0, id, "Content2-FIX", "Furigana2-FIX", "Meaning2-FIX", "Example2", 2,
                 "Source", new Date(new java.util.Date().getTime()));
         entryHd.update(entryObj3, 2);
         List<EntryObj> ls5 = entryHd.getAll();
         Assert.assertEquals(2, ls5.size());
         Assert.assertEquals(2, ls5.get(1).getEntryId());
         Assert.assertEquals(2, ls5.get(1).getLevel());
-        Assert.assertEquals("Content2-FIX", ls5.get(1).getContent());*/
+        Assert.assertEquals("Content2-FIX", ls5.get(1).getContent());*//*
 
 
         // test TBKanjiHandler
@@ -220,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
         Assert.assertEquals(ls4.get(0).getKanjiId(), ls3.get(0).getKanjiId());
         Assert.assertEquals(ls4.get(0).getEntryId(), ls2.get(0).getEntryId());
         System.out.println("DONE!");
-    }
+    }*/
 
     private void createSampleDb() {
         TBKanjiHandler kanjiHd = new TBKanjiHandler(this);
@@ -243,28 +247,43 @@ public class MainActivity extends AppCompatActivity {
         }*/
 
         // Create sample entry
-        /*SuggestDataAccess dbAccess = SuggestDataAccess.getInstance(this);
-        dbAccess.open();
-        dbAccess.close();*/
-        EntryObj ob1, ob2, ob3, ob4, ob5;
 
-        ob1 = new EntryObj(user.getUserId(), "連絡する", "れんらくする", "", "example", "source");
-        ob2 = new EntryObj(user.getUserId(), "家族", "かぞく", "", "example", "source");
-        ob3 = new EntryObj(user.getUserId(), "報告", "ほうこく", "", "example", "source");
-        ob4 = new EntryObj(user.getUserId(), "和食", "わしょく", "", "example", "source");
-        ob5 = new EntryObj(user.getUserId(), "食事する", "しょくじする", "", "example", "source");
+        EntryObj ob1, ob2, ob3, ob4, ob5, ob6, ob7, ob8, ob9, ob10;
 
-        ob1.setLevel(5);
-        ob2.setLevel(3);
-        ob3.setLevel(1);
-        ob4.setLevel(2);
-        ob5.setLevel(4);
+        ob1 = new EntryObj(this, user.getUserId(), "彼女");
+        ob2 = new EntryObj(this, user.getUserId(), "家族");
+        ob3 = new EntryObj(this, user.getUserId(), "お兄さん");
+        ob4 = new EntryObj(this, user.getUserId(), "お姉さん");
+        ob5 = new EntryObj(this, user.getUserId(), "人間");
+        ob6 = new EntryObj(this, user.getUserId(), "公園");
+        ob7 = new EntryObj(this, user.getUserId(), "財布");
+        ob8 = new EntryObj(this, user.getUserId(), "社長");
+        ob9 = new EntryObj(this, user.getUserId(), "独身");
+        ob10 = new EntryObj(this, user.getUserId(), "親切");
+
+        ob1.setLevel(1);
+        ob2.setLevel(4);
+        ob3.setLevel(2);
+        ob4.setLevel(0);
+        ob5.setLevel(0);
+        ob6.setLevel(1);
+        ob7.setLevel(0);
+        ob8.setLevel(2);
+        ob9.setLevel(2);
+        ob10.setLevel(0);
+
 
         entryHd.add(ob1, this);
         entryHd.add(ob2, this);
         entryHd.add(ob3, this);
         entryHd.add(ob4, this);
         entryHd.add(ob5, this);
+        entryHd.add(ob6, this);
+        entryHd.add(ob7, this);
+        entryHd.add(ob8, this);
+        entryHd.add(ob9, this);
+        entryHd.add(ob10, this);
+
     }
 
     private void testSuggestDb() {
@@ -272,7 +291,6 @@ public class MainActivity extends AppCompatActivity {
         dbAccess.open();
         System.out.println(Html.fromHtml(dbAccess.getSuggestMeaning("家族")));
         dbAccess.close();
-
     }
 
 }

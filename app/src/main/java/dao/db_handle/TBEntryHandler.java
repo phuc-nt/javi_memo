@@ -16,6 +16,7 @@ import dao.obj.KanjiEntryObj;
 import dao.obj.KanjiObj;
 import dao.schema.YTDictSchema;
 import util.JapaneseHandler;
+import util.YTDictValues;
 
 /**
  * Created by luongduy on 2/26/16.
@@ -28,13 +29,58 @@ public class TBEntryHandler extends ytdictDbHandler {
     }
 
     /**
-     * This method is used get a list of all User
+     * This method is used get a list of all Entry
      *
-     * @return List: This return of list of UserObj objects
+     * @return List: This return of list of EntryObj objects
      */
     public List<EntryObj> getAll() {
         List<EntryObj> list = new ArrayList<EntryObj>();
         String query = "SELECT * FROM " + YTDictSchema.TBEntry.TABLE_NAME;
+        SQLiteDatabase db = getReadableDb();
+
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                EntryObj obj = getObjFromCursor(cursor);
+                list.add(obj);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return list;
+    }
+
+    /**
+     * This method is used get a list of all Entry
+     *
+     * @return List: This return of list of EntryObj objects
+     */
+    public List<EntryObj> getAllWithout(String content) {
+        List<EntryObj> list = new ArrayList<EntryObj>();
+        String query = "SELECT * FROM " + YTDictSchema.TBEntry.TABLE_NAME +
+                " WHERE " + YTDictSchema.TBEntry.COLUMN_NAME_CONTENT + " != " + "'" + content + "'";
+        SQLiteDatabase db = getReadableDb();
+
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                EntryObj obj = getObjFromCursor(cursor);
+                list.add(obj);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return list;
+    }
+
+    /**
+     * This method is used get a list of all Entry have level < max level (for quiz)
+     *
+     * @param maxLevel
+     * @return List: This return of list of EntryObj objects
+     */
+    public List<EntryObj> getQuizData(int maxLevel) {
+        List<EntryObj> list = new ArrayList<EntryObj>();
+        String query = "SELECT * FROM " + YTDictSchema.TBEntry.TABLE_NAME +
+                " WHERE " + YTDictSchema.TBEntry.COLUMN_NAME_LEVEL + " < " + maxLevel;
         SQLiteDatabase db = getReadableDb();
 
         Cursor cursor = db.rawQuery(query, null);

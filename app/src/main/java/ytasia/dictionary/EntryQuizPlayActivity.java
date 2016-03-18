@@ -3,14 +3,17 @@ package ytasia.dictionary;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.CountDownTimer;
+import android.os.DropBoxManager;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -18,9 +21,11 @@ import java.util.concurrent.TimeUnit;
 import dao.db_handle.TBEntryHandler;
 import dao.obj.EntryObj;
 import dao.obj.UserObj;
+import util.YTDictValues;
 
 public class EntryQuizPlayActivity extends AppCompatActivity {
     public static final int RESULT_CODE_ENTRY_QUIZ_FAULT = 201;
+    public static final int RESULT_CODE_ENTRY_QUIZ_COMPLETE = 401;
 
     private Button answer1Bt, answer2Bt, answer3Bt, answer4Bt;
     private TextView scoreTv, timeTv, questionEntryTv, questionFuriganaTv;
@@ -30,6 +35,10 @@ public class EntryQuizPlayActivity extends AppCompatActivity {
     private CountDownTimer timer;
 
     private Boolean isAnswer1, isAnswer2, isAnswer3, isAnswer4;
+    private TBEntryHandler handler = new TBEntryHandler(this);
+    private EntryObj trueObj;
+    private int listSize;
+    //private int lastEntryLevel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,13 +152,19 @@ public class EntryQuizPlayActivity extends AppCompatActivity {
      * Set Quiz data
      */
     private void setQuizData() {
-        // Get random question on user database
-        TBEntryHandler entryHandler = new TBEntryHandler(this);
-        List<EntryObj> entryObjs = entryHandler.getAll();
         Random random = new Random();
-        int random1 = random.nextInt(entryObjs.size());
-        questionEntryTv.setText(entryObjs.get(random1).getContent());
-        questionFuriganaTv.setText(entryObjs.get(random1).getFurigana());
+
+        // Get random question on user database
+        List<EntryObj> quizObjs = handler.getQuizData(YTDictValues.ENTRY_MAX_LEVEL);
+        listSize = quizObjs.size();
+        //lastEntryLevel = quizObjs.get(0).getLevel();
+        Log.i("quiz size", Integer.toString(quizObjs.size()));
+
+        trueObj = quizObjs.get(random.nextInt(quizObjs.size()));
+        questionEntryTv.setText(trueObj.getContent());
+
+        List<EntryObj> answerObjs = handler.getAllWithout(trueObj.getContent());
+        Collections.shuffle(answerObjs);
 
         // Set true answer to randomly location
         int random2 = random.nextInt(4) + 1;
@@ -159,40 +174,40 @@ public class EntryQuizPlayActivity extends AppCompatActivity {
                 isAnswer2 = false;
                 isAnswer3 = false;
                 isAnswer4 = false;
-                answer1Bt.setText("TRUE");
-                answer2Bt.setText("FALSE");
-                answer3Bt.setText("FALSE");
-                answer4Bt.setText("FALSE");
+                answer1Bt.setText(trueObj.getFurigana());
+                answer2Bt.setText(answerObjs.get(1).getFurigana());
+                answer3Bt.setText(answerObjs.get(2).getFurigana());
+                answer4Bt.setText(answerObjs.get(3).getFurigana());
                 break;
             case 2:
                 isAnswer1 = false;
                 isAnswer2 = true;
                 isAnswer3 = false;
                 isAnswer4 = false;
-                answer1Bt.setText("FALSE");
-                answer2Bt.setText("TRUE");
-                answer3Bt.setText("FALSE");
-                answer4Bt.setText("FALSE");
+                answer1Bt.setText(answerObjs.get(1).getFurigana());
+                answer2Bt.setText(trueObj.getFurigana());
+                answer3Bt.setText(answerObjs.get(2).getFurigana());
+                answer4Bt.setText(answerObjs.get(3).getFurigana());
                 break;
             case 3:
                 isAnswer1 = false;
                 isAnswer2 = false;
                 isAnswer3 = true;
                 isAnswer4 = false;
-                answer1Bt.setText("FALSE");
-                answer2Bt.setText("FALSE");
-                answer3Bt.setText("TRUE");
-                answer4Bt.setText("FALSE");
+                answer1Bt.setText(answerObjs.get(1).getFurigana());
+                answer2Bt.setText(answerObjs.get(2).getFurigana());
+                answer3Bt.setText(trueObj.getFurigana());
+                answer4Bt.setText(answerObjs.get(3).getFurigana());
                 break;
             case 4:
                 isAnswer1 = false;
                 isAnswer2 = false;
                 isAnswer3 = false;
                 isAnswer4 = true;
-                answer1Bt.setText("FALSE");
-                answer2Bt.setText("FALSE");
-                answer3Bt.setText("FALSE");
-                answer4Bt.setText("TRUE");
+                answer1Bt.setText(answerObjs.get(1).getFurigana());
+                answer2Bt.setText(answerObjs.get(2).getFurigana());
+                answer3Bt.setText(answerObjs.get(3).getFurigana());
+                answer4Bt.setText(trueObj.getFurigana());
                 break;
         }
     }
@@ -204,9 +219,16 @@ public class EntryQuizPlayActivity extends AppCompatActivity {
     private void onTrue() {
         timer.cancel();
         score++;
-        scoreTv.setText("" + score);
-        setQuizData();
-        timer.start();
+        trueObj.setLevel(trueObj.getLevel() + 1);
+        handler.update(trueObj, trueObj.getEntryId());
+
+        if (listSize == 1 && trueObj.getLevel() == YTDictValues.ENTRY_MAX_LEVEL) {
+            onCompleteQuiz();
+        } else {
+            scoreTv.setText("" + score);
+            setQuizData();
+            timer.start();
+        }
     }
 
     /**
@@ -223,7 +245,7 @@ public class EntryQuizPlayActivity extends AppCompatActivity {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setCancelable(false);
         alert.setTitle(getResources().getString(R.string.lose_title));
-        alert.setMessage(getResources().getString(R.string.lose_message));
+        alert.setMessage(getResources().getString(R.string.continue_message));
         alert.setPositiveButton(getResources().getString(R.string.ok_button),
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -232,6 +254,34 @@ public class EntryQuizPlayActivity extends AppCompatActivity {
                         intent.putExtra("user_object", userObj);
                         intent.putExtra("your_score", score);
                         setResult(RESULT_CODE_ENTRY_QUIZ_FAULT, intent);
+                        finish();
+                    }
+                });
+        alert.show();
+    }
+
+    /**
+     * When user complete all entry quiz (all entry reach max value)
+     * back to EntryQuizMainActivity
+     */
+    private void onCompleteQuiz() {
+        if (score > userObj.getEntryHighScore()) {
+            userObj.setEntryHighScore(score);
+        }
+
+        // Show alert when user complete Quiz
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setCancelable(false);
+        alert.setTitle(getResources().getString(R.string.complete_title));
+        alert.setMessage(getResources().getString(R.string.continue_message));
+        alert.setPositiveButton(getResources().getString(R.string.ok_button),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent();
+                        intent.putExtra("user_object", userObj);
+                        intent.putExtra("your_score", score);
+                        setResult(RESULT_CODE_ENTRY_QUIZ_COMPLETE, intent);
                         finish();
                     }
                 });

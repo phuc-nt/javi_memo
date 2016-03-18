@@ -220,7 +220,7 @@ public class KanjiQuizPlayActivity extends AppCompatActivity {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setCancelable(false);
         alert.setTitle(getResources().getString(R.string.lose_title));
-        alert.setMessage(getResources().getString(R.string.lose_message));
+        alert.setMessage(getResources().getString(R.string.continue_message));
         alert.setPositiveButton(getResources().getString(R.string.ok_button),
                 new DialogInterface.OnClickListener() {
                     @Override

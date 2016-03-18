@@ -147,7 +147,7 @@ public class EntryViewActivity extends AppCompatActivity {
     private void setData() {
         entryContentTv.setText(ob.getContent());
         entryFuriganaTv.setText(ob.getFurigana());
-        entryMeaningTv.setText(Html.fromHtml(ob.getMeaning()));
+        entryMeaningTv.setText(ob.getMeaning());
         entryExamleTv.setText(ob.getExample());
         levelTv.setText(Integer.toString(ob.getLevel()));
     }

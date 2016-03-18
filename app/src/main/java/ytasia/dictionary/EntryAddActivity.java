@@ -1,5 +1,6 @@
 package ytasia.dictionary;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,8 +11,14 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import dao.db_handle.SuggestDataAccess;
 import dao.obj.EntryObj;
@@ -39,10 +46,7 @@ public class EntryAddActivity extends AppCompatActivity {
         entryContentTv.setText(newEntry);
 
         // Get suggest for new entry
-        SuggestDataAccess dbAccess = SuggestDataAccess.getInstance(this);
-        dbAccess.open();
-        entryMeaningEt.setText(Html.fromHtml(dbAccess.getSuggestMeaning(newEntry)));
-        dbAccess.close();
+        getSuggest(newEntry);
 
         // Set ActionBar function for toolbar
         setSupportActionBar(entryToolbar);
@@ -88,5 +92,37 @@ public class EntryAddActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void getSuggest(String entry) {
+        SuggestDataAccess dbAccess = SuggestDataAccess.getInstance(this);
+        dbAccess.open();
+        String input = dbAccess.getSuggestMeaning(entry);
+        Document doc = Jsoup.parse(input);
+
+        List<String> furi = new ArrayList<>();
+        List<String> exam = new ArrayList<>();
+        List<String> mexam = new ArrayList<>();
+
+        for (Element element : doc.select("span[class=title]")) {
+            furi.add(element.text());
+        }
+
+        for (Element element : doc.select("span[class=example]")) {
+            exam.add(element.text());
+        }
+
+        for (Element element : doc.select("span[class=mexample]")) {
+            mexam.add(element.text());
+        }
+
+        entryFuriganaEt.setText(furi.get(0));
+        StringBuffer exams = new StringBuffer();
+        for (int i = 0; i < exam.size(); i++) {
+            exams.append(exam.get(i) + "\n" + mexam.get(i) + "\n");
+        }
+        entryExampleEt.setText(exams.toString());
+
+        dbAccess.close();
     }
 }

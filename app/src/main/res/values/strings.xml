@@ -37,7 +37,9 @@
     <string name="time_title">TIME</string>
     <string name="furigana">furigana</string>
     <string name="lose_title">YOU LOSE</string>
-    <string name="lose_message">Click OK to continue</string>
+    <string name="complete_title">YOU COMPLETE YOUR OWN LIST</string>
+    <string name="request_update_list_title">PLEASE UPDATE YOUR LIST</string>
+    <string name="continue_message">Click OK to continue</string>
     <string name="ok_button">OK</string>
     <string name="max_level_title">Max Level</string>
     <string name="reset_level_title">Reset Level</string>

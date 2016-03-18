@@ -1,6 +1,8 @@
 package ytasia.dictionary;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -9,13 +11,16 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import dao.db_handle.TBEntryHandler;
 import dao.obj.EntryObj;
 import dao.obj.UserObj;
+import util.YTDictValues;
 
 public class EntryQuizMainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_ENTRY_QUIZ_START = 101;
     public static final int RESULT_CODE_ENTRY_QUIZ_FAULT = 201;
     public static final int RESULT_CODE_ENTRY_QUIZ_FINISH = 301;
+    public static final int RESULT_CODE_ENTRY_QUIZ_COMPLETE = 401;
 
     private Button startBt;
     private TextView highScoreTv;
@@ -25,6 +30,8 @@ public class EntryQuizMainActivity extends AppCompatActivity {
     private TextView levelTv;
     private UserObj userObj;
     private int quizTime;
+
+    private TBEntryHandler handler = new TBEntryHandler(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,30 +53,44 @@ public class EntryQuizMainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EntryQuizMainActivity.this, EntryQuizPlayActivity.class);
-
-                int level = Integer.parseInt(levelTv.getText().toString());
-                switch (level) {
-                    case 1:
-                        quizTime = 5;
-                        break;
-                    case 2:
-                        quizTime = 4;
-                        break;
-                    case 3:
-                        quizTime = 3;
-                        break;
-                    case 4:
-                        quizTime = 2;
-                        break;
-                    case 5:
-                        quizTime = 1;
-                        break;
+                if (handler.getQuizData(YTDictValues.ENTRY_MAX_LEVEL).size() == 0) {
+                    // Show alert when user reached max level of all entries
+                    AlertDialog.Builder alert = new AlertDialog.Builder(EntryQuizMainActivity.this);
+                    alert.setCancelable(false);
+                    alert.setTitle(getResources().getString(R.string.request_update_list_title));
+                    alert.setMessage(getResources().getString(R.string.continue_message));
+                    alert.setPositiveButton(getResources().getString(R.string.ok_button),
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            });
+                    alert.show();
+                } else {
+                    Intent intent = new Intent(EntryQuizMainActivity.this, EntryQuizPlayActivity.class);
+                    int level = Integer.parseInt(levelTv.getText().toString());
+                    switch (level) {
+                        case 1:
+                            quizTime = 5;
+                            break;
+                        case 2:
+                            quizTime = 4;
+                            break;
+                        case 3:
+                            quizTime = 3;
+                            break;
+                        case 4:
+                            quizTime = 2;
+                            break;
+                        case 5:
+                            quizTime = 1;
+                            break;
+                    }
+                    intent.putExtra("quiz_time", quizTime);
+                    intent.putExtra("user_object", userObj);
+                    startActivityForResult(intent, REQUEST_CODE_ENTRY_QUIZ_START);
                 }
-
-                intent.putExtra("quiz_time", quizTime);
-                intent.putExtra("user_object", userObj);
-                startActivityForResult(intent, REQUEST_CODE_ENTRY_QUIZ_START);
             }
         });
 
@@ -98,10 +119,13 @@ public class EntryQuizMainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_ENTRY_QUIZ_START) {
             switch (resultCode) {
-                // Quiz end
+                // Quiz fault
                 case RESULT_CODE_ENTRY_QUIZ_FAULT:
                     userObj = (UserObj) data.getSerializableExtra("user_object");
-                    //MainActivity.user = userObj;
+                    refreshData(data.getIntExtra("your_score", 0));
+                    break;// Quiz complete
+                case RESULT_CODE_ENTRY_QUIZ_COMPLETE:
+                    userObj = (UserObj) data.getSerializableExtra("user_object");
                     refreshData(data.getIntExtra("your_score", 0));
                     break;
             }
