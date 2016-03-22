@@ -28,7 +28,7 @@
         <activity android:name="com.ytasia.ytdict.view.activity.EntryQuizMainActivity" />
         <activity android:name="com.ytasia.ytdict.view.activity.KanjiQuizMainActivity" />
         <activity android:name="com.ytasia.ytdict.view.activity.EntryViewActivity" />
-        <activity android:name=".KanjiViewActivity" />
+        <activity android:name="com.ytasia.ytdict.view.activity.KanjiViewActivity" />
         <activity android:name="com.ytasia.ytdict.view.activity.EntryEditActivity" />
         <activity android:name="com.ytasia.ytdict.view.activity.EntryAddActivity" />
         <activity android:name="com.ytasia.ytdict.view.activity.AppSettingActivity" />

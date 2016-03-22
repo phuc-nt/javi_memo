@@ -33,6 +33,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.ytasia.ytdict.dao.db_handle.TBEntryHandler;
+import com.ytasia.ytdict.dao.db_handle.TBKanjiEntryHandler;
 import com.ytasia.ytdict.dao.obj.EntryObj;
 
 import com.ytasia.ytdict.service.EntryService;
@@ -103,7 +104,8 @@ public class EntryListFragment extends Fragment {
                     public void onDismiss(@NonNull final ViewGroup listView, @NonNull final int[] reverseSortedPositions) {
                         for (int position : reverseSortedPositions) {
                             // Get object user want to delete
-                            final EntryObj entryObj = listEntryOb.get(position);
+                            final EntryObj deleteObj = listEntryOb.get(position);
+
                             final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
                             alert.setTitle("Alert!!");
                             alert.setMessage("Are you sure to delete record");
@@ -112,8 +114,13 @@ public class EntryListFragment extends Fragment {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     // Delete Entry
-                                    adapter = entryService.deleteEntry(getActivity(), entryObj);
-                                    // Set new adapter to list
+                                    entryService.delete(getActivity(), deleteObj);
+
+                                    //Get new List Object
+                                    listEntryOb = entryHd.getAll();
+                                    // Set new data to adapter (customized)
+                                    adapter = new EntryService.EntryListAdapter(getActivity(), listEntryOb);
+                                    // set new adapter to ListView
                                     entryList.setAdapter(adapter);
                                 }
                             });
@@ -135,9 +142,7 @@ public class EntryListFragment extends Fragment {
         );
 
         // on click Add Button
-        addBt.setOnClickListener(new View.OnClickListener()
-
-                                 {
+        addBt.setOnClickListener(new View.OnClickListener() {
 
                                      @Override
                                      public void onClick(View arg0) {
@@ -252,9 +257,7 @@ public class EntryListFragment extends Fragment {
                     entryHd.update(newObj, newObj.getEntryId());
 
                     // Refresh ListView
-                    listEntryOb = entryHd.getAll();
-                    adapter = new EntryService.EntryListAdapter(getActivity(), listEntryOb);
-                    entryList.setAdapter(adapter);
+                    refreshListView();
                     break;
             }
         }
@@ -264,8 +267,16 @@ public class EntryListFragment extends Fragment {
                 // After add entry
                 case MainActivity.RESULT_CODE_ENTRY_ADD:
                     EntryObj entryObj = (EntryObj) data.getSerializableExtra("add_entry_object");
+
                     // Update to database
-                    addEntry(entryObj);
+                    int newEntryId = entryService.add(getActivity(), entryObj);
+                    if (newEntryId != -1) {
+                        // Refresh ListView
+                        refreshListView();
+                        Toast.makeText(getActivity(), "Add Entry Successfully", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getActivity(), "Add Entry Failed", Toast.LENGTH_LONG).show();
+                    }
 
                     // Refresh add field
                     newEntryEt.clearFocus();
@@ -292,6 +303,8 @@ public class EntryListFragment extends Fragment {
      * Set default data
      */
     private void setDefaultData() {
+        entryService = new EntryService();
+
         // Set data to adapter (customized)
         adapter = new EntryService.EntryListAdapter(getActivity(), listEntryOb);
 
@@ -299,81 +312,18 @@ public class EntryListFragment extends Fragment {
         entryList.setAdapter(adapter);
         entryList.setTextFilterEnabled(true);
 
-        // set ActionBar function to toolbar
+        // set ActionBar function to toolsbar
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         setHasOptionsMenu(true);
     }
 
     /**
-     * Delete Entry on ListView by position
-     *
-     * @param position The position of the object
-     *//*
-    public void deleteEntry(final int position) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-        alert.setTitle("Alert!!");
-        alert.setMessage("Are you sure to delete record");
-        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Get object user want to delete
-                EntryObj entryObj = listEntryOb.get(position);
-
-                // Delete all data related in this object on "KanjiEntry table"
-                *//*TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(getActivity());
-                List<Integer> list = tbKanjiEntryHandler.getAllKanjiIdByEntryId(entryObj.getEntryId());
-                for (int j = 0; j < list.size(); j++) {
-                    tbKanjiEntryHandler.delete(list.get(j), entryObj.getEntryId());
-                }*//*
-
-                // Delete on database
-                entryHd.delete(getActivity(), entryObj.getEntryId());
-
-                // notify
-                Toast.makeText(getActivity().getApplicationContext(),
-                        "REMOVE Position :" + position + "  ListItem : " + entryList.getItemAtPosition(position), Toast.LENGTH_LONG)
-                        .show();
-                dialog.dismiss();
-
-                //Get new List Object
-                listEntryOb = entryHd.getAll();
-                // Set new data to adapter (customized)
-                adapter = new EntryService.EntryListAdapter(getActivity(), listEntryOb);
-                // set new adapter to ListView
-                entryList.setAdapter(adapter);
-
-            }
-        });
-        alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                dialog.dismiss();
-            }
-        });
-
-        alert.show();
-    }*/
-
-    /**
-     * Add new Entry to database by Entry Object.
-     * Also get all Kanji on new Entry and add new Entry to database
-     *
-     * @param newEntryObj new Entry object
+     * Reset adapter
      */
-    public void addEntry(EntryObj newEntryObj) {
-        int newEntryId = entryHd.add(newEntryObj, getActivity());
-        if (newEntryId != -1) {
-            // Refresh ListView
-            listEntryOb = entryHd.getAll();
-            adapter = new EntryService.EntryListAdapter(getActivity(), listEntryOb);
-            entryList.setAdapter(adapter);
-            Toast.makeText(getActivity(), "Add Entry Successfully", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getActivity(), "Add Entry Failed", Toast.LENGTH_LONG).show();
-        }
+    public void refreshListView() {
+        listEntryOb = entryHd.getAll();
+        adapter = new EntryService.EntryListAdapter(getActivity(), listEntryOb);
+        entryList.setAdapter(adapter);
     }
 }

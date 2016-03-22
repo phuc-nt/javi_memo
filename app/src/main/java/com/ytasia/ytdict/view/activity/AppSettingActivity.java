@@ -19,6 +19,7 @@ import com.ytasia.ytdict.dao.db_handle.TBEntryHandler;
 import com.ytasia.ytdict.dao.db_handle.TBKanjiHandler;
 import com.ytasia.ytdict.dao.obj.EntryObj;
 import com.ytasia.ytdict.dao.obj.KanjiObj;
+import com.ytasia.ytdict.service.SettingService;
 import com.ytasia.ytdict.util.YTDictValues;
 
 import ytasia.dictionary.R;
@@ -28,11 +29,14 @@ public class AppSettingActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Spinner entryLevelSpinner, kanjiLevelSpinner;
     private Button resetEntryLevelBt, resetKanjiLevelBt, clearEntryBt;
+    private SettingService settingService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_setting);
+
+        settingService = new SettingService();
 
         // Match object to layout
         matchObjectToLayout();
@@ -78,7 +82,7 @@ public class AppSettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Reset level of all Entries to 0
-                resetEntryLevel();
+                settingService.resetEntryLevel(AppSettingActivity.this);
             }
         });
 
@@ -87,7 +91,7 @@ public class AppSettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Reset level of all Kanjis to 0
-                resetKanjiLevel();
+                settingService.resetKanjiLevel(AppSettingActivity.this);
             }
         });
 
@@ -95,7 +99,7 @@ public class AppSettingActivity extends AppCompatActivity {
         clearEntryBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clearEntry();
+                settingService.clearEntry(AppSettingActivity.this);
             }
         });
     }
@@ -166,101 +170,5 @@ public class AppSettingActivity extends AppCompatActivity {
             }
         }
         return index;
-    }
-
-    /**
-     * Reset level of all Entries to 0 (default)
-     */
-    private void resetEntryLevel() {
-        final TBEntryHandler entryHandler = new TBEntryHandler(this);
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Alert!!");
-        alert.setMessage("Are you sure reset level of all Entries");
-        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                List<EntryObj> entryObjs = entryHandler.getAll();
-                for (int i = 0; i < entryObjs.size(); i++) {
-                    entryObjs.get(i).setLevel(0);
-                    entryHandler.update(entryObjs.get(i), entryObjs.get(i).getEntryId());
-                }
-            }
-        });
-
-        alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        alert.show();
-    }
-
-    /**
-     * Reset level of all Kanjis to 0 (default)
-     */
-    private void resetKanjiLevel() {
-        final TBKanjiHandler kanjiHandler = new TBKanjiHandler(this);
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Alert!!");
-        alert.setMessage("Are you sure reset level of all Entries");
-        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                List<KanjiObj> kanjiObjs = kanjiHandler.getAll();
-                for (int i = 0; i < kanjiObjs.size(); i++) {
-                    kanjiObjs.get(i).setLevel(0);
-                    kanjiHandler.update(kanjiObjs.get(i), kanjiObjs.get(i).getKanjiId());
-                }
-            }
-        });
-
-        alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        alert.show();
-    }
-
-    /**
-     * Clear all user entries
-     */
-    private void clearEntry() {
-        final TBEntryHandler entryHandler = new TBEntryHandler(this);
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Alert!!");
-        alert.setMessage("Are you sure clear all Entries");
-        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                List<EntryObj> entryObjs = entryHandler.getAll();
-                for (int i = 0; i < entryObjs.size(); i++) {
-                    EntryObj obj = entryObjs.get(i);
-                    entryHandler.delete(AppSettingActivity.this, obj.getEntryId());
-                }
-            }
-        });
-
-        alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        alert.show();
     }
 }

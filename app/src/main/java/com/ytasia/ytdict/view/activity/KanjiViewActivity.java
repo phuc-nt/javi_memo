@@ -1,4 +1,4 @@
-package ytasia.dictionary;
+package com.ytasia.ytdict.view.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.ytasia.ytdict.dao.obj.KanjiObj;
+
+import ytasia.dictionary.R;
 
 public class KanjiViewActivity extends AppCompatActivity {
 

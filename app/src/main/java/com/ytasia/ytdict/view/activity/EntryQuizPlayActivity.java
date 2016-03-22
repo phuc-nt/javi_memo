@@ -130,12 +130,6 @@ public class EntryQuizPlayActivity extends AppCompatActivity {
         // Set countdown
         timer = new CountDownTimer(quizTime * 1000, 1000) { // adjust the milli seconds here
             public void onTick(long millisUntilFinished) {
-                /*timeTv.setText("" + String.format("%02d:%02d:%02d",
-                        TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
-                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
-                                TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
-                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
-                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));*/
                 timeTv.setText("" + String.format("%2d", TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)));
             }
 
@@ -154,15 +148,15 @@ public class EntryQuizPlayActivity extends AppCompatActivity {
     private void setQuizData() {
         Random random = new Random();
 
-        // Get random question on user database
+        // Get all Entries with level under 'max level'
         List<EntryObj> quizObjs = handler.getQuizData(YTDictValues.ENTRY_MAX_LEVEL);
         listSize = quizObjs.size();
-        //lastEntryLevel = quizObjs.get(0).getLevel();
-        Log.i("quiz size", Integer.toString(quizObjs.size()));
 
+        // Get random entry for quiz
         trueObj = quizObjs.get(random.nextInt(quizObjs.size()));
         questionEntryTv.setText(trueObj.getContent());
 
+        // Get all Entries except Quiz selected entry (for fault answer)
         List<EntryObj> answerObjs = handler.getAllWithout(trueObj.getContent());
         Collections.shuffle(answerObjs);
 

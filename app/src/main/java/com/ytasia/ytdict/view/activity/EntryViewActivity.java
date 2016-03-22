@@ -18,8 +18,8 @@ import com.ytasia.ytdict.dao.db_handle.TBKanjiEntryHandler;
 import com.ytasia.ytdict.dao.db_handle.TBKanjiHandler;
 import com.ytasia.ytdict.dao.obj.EntryObj;
 import com.ytasia.ytdict.dao.obj.KanjiObj;
+import com.ytasia.ytdict.service.KanjiService;
 
-import ytasia.dictionary.KanjiViewActivity;
 import ytasia.dictionary.R;
 
 public class EntryViewActivity extends AppCompatActivity {
@@ -29,6 +29,7 @@ public class EntryViewActivity extends AppCompatActivity {
     private EntryObj ob;
     private ScrollView kanjiSv;
 
+    private KanjiService kanjiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,8 +122,12 @@ public class EntryViewActivity extends AppCompatActivity {
     private void createKanjiButton() {
         LinearLayout ll = new LinearLayout(this);
         ll.setOrientation(LinearLayout.HORIZONTAL);
-        TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(this);
-        List<Integer> list = tbKanjiEntryHandler.getAllKanjiIdByEntryId(ob.getEntryId());
+
+        // Get all Kanji ID with Entry ID
+        kanjiService = new KanjiService();
+        List<Integer> list = kanjiService.getAllKanjiIdByEntryId(this, ob.getEntryId());
+
+        // Create Kanji button
         for (int j = 0; j < list.size(); j++) {
             final KanjiObj kanjiObj = new TBKanjiHandler(this).getById(list.get(j));
             Button bt = new Button(this);
@@ -139,7 +144,8 @@ public class EntryViewActivity extends AppCompatActivity {
                 }
             });
         }
-        // add kanji buttons to view
+
+        // Add kanji buttons to view
         kanjiSv.addView(ll);
     }
 

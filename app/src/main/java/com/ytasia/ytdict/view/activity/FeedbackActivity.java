@@ -83,7 +83,6 @@ public class FeedbackActivity extends AppCompatActivity {
      * Show rating app request
      */
     private void showRateDialog() {
-        // String context = getBaseContext().getPackageName();
         String context = "jp.co.translimit.brainwars";
         Uri uri = Uri.parse("market://details?id=" + context);
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
@@ -96,21 +95,11 @@ public class FeedbackActivity extends AppCompatActivity {
             startActivity(new Intent(Intent.ACTION_VIEW,
                     Uri.parse("http://play.google.com/store/apps/details?id=" + context)));
         }
-
-        /*AlertDialog.Builder builder = new AlertDialog.Builder(context)
-                .setTitle("Rate application")
-                .setMessage("Please, rate the app at PlayMarket")
-                .setPositiveButton("RATE", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
-                .setNegativeButton("CANCEL", null);
-        builder.show();*/
     }
 
-
+    /**
+     * Send feedback by email
+     */
     private void sendFeedback() {
         String message = fbMess.getText().toString();
         String to = "phucnt0@gmail.com";

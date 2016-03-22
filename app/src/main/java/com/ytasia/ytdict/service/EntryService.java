@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ytasia.ytdict.dao.db_handle.TBEntryHandler;
+import com.ytasia.ytdict.dao.db_handle.TBKanjiEntryHandler;
 import com.ytasia.ytdict.dao.obj.EntryObj;
 
 import java.util.List;
@@ -65,15 +66,29 @@ public class EntryService {
      * @param obj
      * @return adapter after delete
      */
-    public EntryListAdapter deleteEntry(final Context context, final EntryObj obj) {
+    public void delete(Context context, EntryObj obj) {
+        entryHd = new TBEntryHandler(context);
 
+        // Delete all data related in this object on "KanjiEntry table"
+        TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(context);
+        List<Integer> list = tbKanjiEntryHandler.getAllKanjiIdByEntryId(obj.getEntryId());
+        for (int j = 0; j < list.size(); j++) {
+            tbKanjiEntryHandler.delete(list.get(j), obj.getEntryId());
+        }
         // Delete on database
         entryHd.delete(context, obj.getEntryId());
+    }
 
-        //Get new List Object
-        listEntryOb = entryHd.getAll();
-
-        // Set new data to adapter (customized)
-        return new EntryService.EntryListAdapter(context, listEntryOb);
+    /**
+     * Add new Entry to database by Entry Object.
+     * Also get all Kanji on new Entry and add new Entry to database
+     *
+     * @param context
+     * @param obj
+     * @return ID of new entry
+     */
+    public int add(Context context, EntryObj obj){
+        entryHd = new TBEntryHandler(context);
+        return entryHd.add(obj, context);
     }
 }
