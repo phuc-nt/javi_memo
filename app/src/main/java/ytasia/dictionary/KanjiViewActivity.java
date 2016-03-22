@@ -7,11 +7,9 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
-import dao.obj.KanjiObj;
+import com.ytasia.ytdict.dao.obj.KanjiObj;
 
 public class KanjiViewActivity extends AppCompatActivity {
 

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".EntryListFragment">
+    tools:context="com.ytasia.ytdict.view.fragment.EntryListFragment">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/kanji_list_fragment_toolbar_container"
