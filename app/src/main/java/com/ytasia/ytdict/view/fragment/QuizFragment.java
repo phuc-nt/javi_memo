@@ -1,5 +1,6 @@
 package com.ytasia.ytdict.view.fragment;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import com.ytasia.ytdict.dao.obj.UserObj;
 import com.ytasia.ytdict.view.activity.EntryQuizMainActivity;
 import com.ytasia.ytdict.view.activity.KanjiQuizMainActivity;
 import com.ytasia.ytdict.view.activity.MainActivity;
+
 import ytasia.dictionary.R;
 
 public class QuizFragment extends Fragment {
@@ -111,5 +113,6 @@ public class QuizFragment extends Fragment {
     private void setData() {
         entryHS.setText(Integer.toString(userObj.getEntryHighScore()));
         kanjiHS.setText(Integer.toString(userObj.getKanjiHighScore()));
+        //ObjectAnimator.ofFloat(entryQuizBt, "rotation", 0, 45).start();
     }
 }

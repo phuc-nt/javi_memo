@@ -13,38 +13,43 @@
         android:id="@+id/kanji_quiz_main_high_score_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/kanji_quiz_main_high_score_tv"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="63dp"
         android:text="@string/high_score_title"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/kanji_quiz_main_high_score_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/kanji_quiz_main_high_score_title"
+        android:layout_above="@+id/kanji_quiz_main_your_score_title"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
         android:text="0"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30dp" />
 
     <TextView
         android:id="@+id/kanji_quiz_main_your_score_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/kanji_quiz_main_high_score_tv"
+        android:layout_above="@+id/kanji_quiz_main_your_score_tv"
         android:layout_centerHorizontal="true"
         android:text="@string/your_score_title"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/kanji_quiz_main_your_score_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/kanji_quiz_main_your_score_title"
+        android:layout_above="@+id/kanji_quiz_main_start_button"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
         android:text="0"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30dp" />
 
     <Button
         android:id="@+id/kanji_quiz_main_start_button"
@@ -52,7 +57,11 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="@string/start_button" />
+        android:background="@drawable/button_background"
+        android:padding="20dp"
+        android:text="@string/start_button"
+        android:textColor="@color/colorPrimary2"
+        android:textSize="35dp" />
 
     <TextView
         android:id="@+id/kanji_quiz_main_level_title"
@@ -60,7 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/kanji_quiz_main_start_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="40dp"
         android:text="@string/level_title"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -71,7 +80,9 @@
         android:layout_below="@+id/kanji_quiz_main_level_title"
         android:layout_centerHorizontal="true"
         android:text="0"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30dp" />
 
     <SeekBar
         android:id="@+id/kanji_quiz_main_level_sb"
@@ -79,6 +90,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/kanji_quiz_main_level_tv"
         android:layout_centerHorizontal="true"
+        android:background="@drawable/seekbar_background"
         android:max="4"
-        android:progress="0" />
+        android:progress="0"
+        android:thumb="@drawable/seekbar_thumb" />
 </RelativeLayout>

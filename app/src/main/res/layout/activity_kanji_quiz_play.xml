@@ -9,83 +9,127 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.ytasia.ytdict.view.activity.KanjiQuizPlayActivity">
 
-    <Button
-        android:id="@+id/kanji_quiz_answer_4"
-        android:layout_width="wrap_content"
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"
-        android:text="Answer 4" />
+        android:layout_above="@+id/kanji_quiz_play_question_kanji_tv"
+        android:layout_centerHorizontal="true">
 
-    <Button
-        android:id="@+id/kanji_quiz_answer_3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/kanji_quiz_answer_4"
-        android:layout_centerHorizontal="true"
-        android:text="Answer 3" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
 
-    <Button
-        android:id="@+id/kanji_quiz_answer_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/kanji_quiz_answer_3"
-        android:layout_centerHorizontal="true"
-        android:text="Answer 2 (false)" />
+            <TextView
+                android:id="@+id/kanji_quiz_play_your_score_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:gravity="center_horizontal"
+                android:text="@string/score_title"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <Button
-        android:id="@+id/kanji_quiz_answer_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/kanji_quiz_answer_2"
-        android:layout_centerHorizontal="true"
-        android:text="Answer 1 (true)" />
+            <TextView
+                android:id="@+id/kanji_quiz_play_time_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:gravity="center_horizontal"
+                android:text="@string/time_title"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </TableRow>
 
-    <TextView
-        android:id="@+id/kanji_quiz_play_your_score_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:text="@string/your_score_title"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
 
-    <TextView
-        android:id="@+id/kanji_quiz_play_your_score_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/kanji_quiz_play_your_score_title"
-        android:layout_centerHorizontal="true"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+            <TextView
+                android:id="@+id/kanji_quiz_play_your_score_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:gravity="center_horizontal"
+                android:text="0"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/colorPrimary"
+                android:textSize="25dp" />
 
-    <TextView
-        android:id="@+id/kanji_quiz_play_time_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/kanji_quiz_play_your_score_tv"
-        android:layout_centerHorizontal="true"
-        android:text="@string/time_title"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/kanji_quiz_play_time_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/kanji_quiz_play_time_title"
-        android:layout_centerHorizontal="true"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+            <TextView
+                android:id="@+id/kanji_quiz_play_time_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:gravity="center_horizontal"
+                android:text="0"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/colorPrimary"
+                android:textSize="25dp" />
+        </TableRow>
+    </TableLayout>
 
     <TextView
         android:id="@+id/kanji_quiz_play_question_kanji_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/kanji_quiz_play_time_tv"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="55dp"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="40dp"
         android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/colorPrimary"
+        android:textSize="50dp" />
+
+    <Button
+        android:id="@+id/kanji_quiz_answer_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/kanji_quiz_play_question_kanji_tv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_background"
+        android:padding="10dp"
+        android:text="Answer 1 (true)"
+        android:textColor="@color/colorPrimary2"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/kanji_quiz_answer_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/kanji_quiz_answer_1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_background"
+        android:padding="10dp"
+        android:text="Answer 2 (false)"
+        android:textColor="@color/colorPrimary2"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/kanji_quiz_answer_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/kanji_quiz_answer_2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_background"
+        android:padding="10dp"
+        android:text="Answer 3"
+        android:textColor="@color/colorPrimary2"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/kanji_quiz_answer_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/kanji_quiz_answer_3"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_background"
+        android:padding="10dp"
+        android:text="Answer 4"
+        android:textColor="@color/colorPrimary2"
+        android:textSize="20dp" />
 </RelativeLayout>

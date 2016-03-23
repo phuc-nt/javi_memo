@@ -32,6 +32,7 @@
     <string name="level_menu_item">Level</string>
     <string name="high_score_title">HIGH SCORE</string>
     <string name="your_score_title">YOUR SCORE</string>
+    <string name="score_title">SCORE</string>
     <string name="level_title">LEVEL</string>
     <string name="start_button">START</string>
     <string name="time_title">TIME</string>

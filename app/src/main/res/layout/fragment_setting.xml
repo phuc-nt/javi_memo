@@ -12,26 +12,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/upgrade_setting_button" />
+        android:layout_margin="10dp"
+        android:background="@drawable/button_background"
+        android:text="@string/upgrade_setting_button"
+        android:textColor="@color/colorPrimary" />
 
     <Button
         android:id="@+id/app_setting_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/app_setting_button" />
+        android:layout_margin="10dp"
+        android:background="@drawable/button_background"
+        android:text="@string/app_setting_button"
+        android:textColor="@color/colorPrimary" />
 
     <Button
         android:id="@+id/feedback_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/feedback_button" />
+        android:layout_margin="10dp"
+        android:background="@drawable/button_background"
+        android:text="@string/feedback_button"
+        android:textColor="@color/colorPrimary" />
 
     <Button
         android:id="@+id/logout_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/logout_button" />
+        android:layout_margin="10dp"
+        android:background="@drawable/button_background"
+        android:text="@string/logout_button"
+        android:textColor="@color/colorPrimary2" />
 </LinearLayout>
