@@ -17,7 +17,7 @@ import com.ytasia.ytdict.dao.schema.YTDictSchema;
  *
  * @author luongduy
  */
-public class TBUserHandler extends ytdictDbHandler {
+public class TBUserHandler extends YTDictDbHandler {
     public TBUserHandler(Context context) {
         super(context);
     }

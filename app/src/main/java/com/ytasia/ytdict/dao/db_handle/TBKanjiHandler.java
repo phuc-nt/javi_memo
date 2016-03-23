@@ -15,7 +15,7 @@ import com.ytasia.ytdict.dao.schema.YTDictSchema;
 /**
  * Created by luongduy on 3/2/16.
  */
-public class TBKanjiHandler extends ytdictDbHandler {
+public class TBKanjiHandler extends YTDictDbHandler {
     public TBKanjiHandler(Context context) {
         super(context);
     }

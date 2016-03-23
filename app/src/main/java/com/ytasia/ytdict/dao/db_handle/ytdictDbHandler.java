@@ -9,11 +9,11 @@ import com.ytasia.ytdict.dao.schema.YTDictSchema;
 /**
  * Created by luongduy on 2/25/16.
  */
-public class ytdictDbHandler extends SQLiteOpenHelper{
+public class YTDictDbHandler extends SQLiteOpenHelper{
     public static final String DATABASE_NAME = "ytdict";
     public static final int DATABASE_VERSION = 1;
 
-    public ytdictDbHandler(Context context) {
+    public YTDictDbHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
     @Override

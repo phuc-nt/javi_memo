@@ -20,7 +20,7 @@ import com.ytasia.ytdict.dao.schema.YTDictSchema;
 /**
  * Created by luongduy on 2/26/16.
  */
-public class TBEntryHandler extends ytdictDbHandler {
+public class TBEntryHandler extends YTDictDbHandler {
     private Context context;
 
     public TBEntryHandler(Context context) {

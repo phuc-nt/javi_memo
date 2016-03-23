@@ -43,11 +43,11 @@ public class EntryObj implements Serializable {
         this.createdDate = new Date(new java.util.Date().getTime());
     }
 
-    public EntryObj(Context context,int userId, String content) {
+    public EntryObj(Context context, int userId, String content) {
         this.entryId = 0;
         this.userId = userId;
         this.content = content;
-        getSuggest(context,content);
+        getSuggest(context, content);
         this.level = 0;
         this.source = "source";
         this.createdDate = new Date(new java.util.Date().getTime());
@@ -129,6 +129,8 @@ public class EntryObj implements Serializable {
         this.createdDate = createdDate;
     }
 
+
+    // Get suggest for sample data (create on MainActivity)
     private void getSuggest(Context context, String entry) {
         SuggestDataAccess dbAccess = SuggestDataAccess.getInstance(context);
         dbAccess.open();
