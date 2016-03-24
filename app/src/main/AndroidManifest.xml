@@ -18,30 +18,30 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name="com.ytasia.ytdict.view.activity.MainActivity">
+        <activity android:name="com.ytasia.dict.view.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.ytasia.ytdict.view.activity.EntryQuizMainActivity" />
-        <activity android:name="com.ytasia.ytdict.view.activity.KanjiQuizMainActivity" />
-        <activity android:name="com.ytasia.ytdict.view.activity.EntryViewActivity" />
-        <activity android:name="com.ytasia.ytdict.view.activity.KanjiViewActivity" />
-        <activity android:name="com.ytasia.ytdict.view.activity.EntryEditActivity" />
-        <activity android:name="com.ytasia.ytdict.view.activity.EntryAddActivity" />
-        <activity android:name="com.ytasia.ytdict.view.activity.AppSettingActivity" />
-        <activity android:name="com.ytasia.ytdict.view.activity.FeedbackActivity" />
+        <activity android:name="com.ytasia.dict.view.activity.EntryQuizMainActivity" />
+        <activity android:name="com.ytasia.dict.view.activity.KanjiQuizMainActivity" />
+        <activity android:name="com.ytasia.dict.view.activity.EntryViewActivity" />
+        <activity android:name="com.ytasia.dict.view.activity.KanjiViewActivity" />
+        <activity android:name="com.ytasia.dict.view.activity.EntryEditActivity" />
+        <activity android:name="com.ytasia.dict.view.activity.EntryAddActivity" />
+        <activity android:name="com.ytasia.dict.view.activity.AppSettingActivity" />
+        <activity android:name="com.ytasia.dict.view.activity.FeedbackActivity" />
 
 
         <activity android:name=".LoginActivity">
 
         </activity>
         <activity android:name=".RegistrationActivity" />
-        <activity android:name="com.ytasia.ytdict.view.activity.EntryQuizPlayActivity" />
-        <activity android:name="com.ytasia.ytdict.view.activity.KanjiQuizPlayActivity" />
-        <activity android:name="com.ytasia.ytdict.view.activity.UpgradeActivity"></activity>
+        <activity android:name="com.ytasia.dict.view.activity.EntryQuizPlayActivity" />
+        <activity android:name="com.ytasia.dict.view.activity.KanjiQuizPlayActivity" />
+        <activity android:name="com.ytasia.dict.view.activity.UpgradeActivity"></activity>
 
         <meta-data
             android:name="com.google.android.gms.version"

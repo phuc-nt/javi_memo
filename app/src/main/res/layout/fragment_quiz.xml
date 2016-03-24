@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ytasia.ytdict.view.fragment.QuizFragment">
+    tools:context="com.ytasia.dict.view.fragment.QuizFragment">
 
     <TextView
         android:id="@+id/record_label"

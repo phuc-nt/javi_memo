@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.ytasia.ytdict.view.activity.EntryViewActivity">
+    tools:context="com.ytasia.dict.view.activity.EntryViewActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/entry_toolbar_container"

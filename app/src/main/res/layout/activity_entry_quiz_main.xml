@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.ytasia.ytdict.view.activity.EntryQuizMainActivity">
+    tools:context="com.ytasia.dict.view.activity.EntryQuizMainActivity">
 
     <TextView
         android:id="@+id/entry_quiz_main_high_score_title"

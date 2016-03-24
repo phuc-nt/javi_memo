@@ -14,7 +14,7 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.ytasia.ytdict.view.activity.MainActivity;
+import com.ytasia.dict.view.activity.MainActivity;
 
 
 public class LoginActivity extends AppCompatActivity {
