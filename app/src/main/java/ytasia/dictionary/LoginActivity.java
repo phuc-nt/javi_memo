@@ -1,10 +1,9 @@
 package ytasia.dictionary;
 
-import android.app.ProgressDialog;
+import android.app.Application;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -24,47 +23,41 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
+
+import util.YTDictValues;
+
 public class LoginActivity extends AppCompatActivity implements
-        GoogleApiClient.OnConnectionFailedListener,
+        GoogleApiClient.OnConnectionFailedListener,GoogleApiClient.ConnectionCallbacks,
         View.OnClickListener  {
 
-    private Button signinBt;
-    private LoginButton loginButton;
-    private CallbackManager callbackManager;
-    private GoogleApiClient mGoogleApiClient;
-    private ProgressDialog mProgressDialog;
+    private Button Guest_SigninBt;
+    private LoginButton Face_loginButton;
     private static final int RC_SIGN_IN = 9001;
-    private String mEmail;
-    private String mFullName;
-    private String gUserid;
-    private int a =0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
-        callbackManager = CallbackManager.Factory.create();
+        YTDictValues.callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
-        signinBt = (Button) findViewById(R.id.login_sign_in_button);
-        loginButton = (LoginButton) findViewById(R.id.login_button);
-        //Login with Facebook
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-
+        //FacebookLogin();
+        Face_loginButton = (LoginButton) findViewById(R.id.login_button);
+        Face_loginButton.registerCallback(YTDictValues.callbackManager, new FacebookCallback<LoginResult>() {
             // if Login Success
             @Override
             public void onSuccess(final LoginResult loginResult) {
-                AccessToken tok;
-                tok = AccessToken.getCurrentAccessToken();
-                //send Userid to MainActivity
+                YTDictValues.gUserid = AccessToken.getCurrentAccessToken().getUserId();
+                //send to MainActivity
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra("Userid", tok.getUserId());
                 startActivity(intent);
             }
+
             // If Login Cancel
             @Override
             public void onCancel() {
                 Toast.makeText(LoginActivity.this, "Login attempt canceled.", Toast.LENGTH_LONG).show();
             }
+
             // if Login Error
             @Override
             public void onError(FacebookException error) {
@@ -75,61 +68,89 @@ public class LoginActivity extends AppCompatActivity implements
         });
 
         // Login with Guest User
-       signinBt.setOnClickListener(new View.OnClickListener() {
+       Guest_SigninBt = (Button) findViewById(R.id.login_sign_in_button);
+       Guest_SigninBt.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
+               YTDictValues.guestid = "Guest_123";
                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-               intent.putExtra("Userid","Guest");
                startActivity(intent);
            }
        });
+
         // [START configure_signin]
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        findViewById(R.id.sign_in_button).setOnClickListener(this);
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        GoogleSignInOptions gso = new GoogleSignInOptions
+                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
+        YTDictValues.mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .addOnConnectionFailedListener(this)
                 .build();
 
+        findViewById(R.id.sign_in_button).setOnClickListener(this);
+        //SignInButton Setting
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setScopes(gso.getScopeArray());
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //Check Logged Facebook
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if (accessToken != null) {
+            AccessToken tok;
+            tok = AccessToken.getCurrentAccessToken();
+            YTDictValues.fUserid = tok.getUserId();
+            //send to MainActivity
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+        //Check google logged
+        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(YTDictValues.mGoogleApiClient);
+        if (opr.isDone()) {
+            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+            // and the GoogleSignInResult will be available instantly.
+            GoogleSignInResult result = opr.get();
+            handleSignInResult(result);
+        }
+
     }
     @Override
    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        YTDictValues.callbackManager.onActivityResult(requestCode, resultCode, data);
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
         }
     }
-    private void signIn() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+    //Sigin google display
+   private void signIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(YTDictValues.mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
+   }
     // [START handleSignInResult]
     private void handleSignInResult(GoogleSignInResult result) {
-        Log.d("log", "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             // Get account information
-            mFullName = acct.getDisplayName();
-            mEmail = acct.getEmail();
-            gUserid = acct.getId();
+            YTDictValues.gFullName = acct.getDisplayName();
+            YTDictValues.gEmail = acct.getEmail();
+            YTDictValues.gUserid = acct.getId();
+            YTDictValues.isLogin = true;
             // Send Email/Name/Userid to MainActivity
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            intent.putExtra("Email",mEmail);
-            intent.putExtra("Name",mFullName);
-            intent.putExtra("gUserid",gUserid);
             startActivity(intent);
         } else {
-            Toast.makeText(LoginActivity.this, "Login attempt failed.", Toast.LENGTH_LONG).show();
+           // Toast.makeText(LoginActivity.this, "Login attempt failed.", Toast.LENGTH_LONG).show();
         }
     }
     @Override
@@ -141,8 +162,12 @@ public class LoginActivity extends AppCompatActivity implements
         }
     }
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.d("Log", "onConnectionFailed:" + connectionResult);
+    public void onConnectionFailed(ConnectionResult connectionResult) { }
+    @Override
+    public void onConnected(Bundle bundle) { }
+    @Override
+    public void onConnectionSuspended(int i) {
     }
+
 
 }
