@@ -110,7 +110,7 @@ public class EntryListFragment extends Fragment {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     // Delete Entry
-                                    entryService.delete(getActivity(), deleteObj);
+                                    entryService.delete(getActivity(), deleteObj.getEntryId());
 
                                     //Get new List Object
                                     listEntryOb = entryHd.getAll();
@@ -265,14 +265,14 @@ public class EntryListFragment extends Fragment {
                     EntryObj entryObj = (EntryObj) data.getSerializableExtra("add_entry_object");
 
                     // Update to database
-                    int newEntryId = entryService.add(getActivity(), entryObj);
-                    if (newEntryId != -1) {
+                    entryService.add(getActivity(), entryObj);
+                    /*if (newEntryId != -1) {
                         // Refresh ListView
                         refreshListView();
                         Toast.makeText(getActivity(), "Add Entry Successfully", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(getActivity(), "Add Entry Failed", Toast.LENGTH_LONG).show();
-                    }
+                    }*/
 
                     // Refresh add field
                     newEntryEt.clearFocus();

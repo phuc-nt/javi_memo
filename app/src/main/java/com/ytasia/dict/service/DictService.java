@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.ytasia.dict.service;
 
@@ -21,9 +21,9 @@ import com.ytasia.dict.util.DictCache;
  *
  */
 public class DictService {
-	private static String httpUrl = "http://192.168.20.37:8080/MemdictServer";
+	private static String httpUrl = "http://ytdict.yz-japan.tokyo/";
 	public String getLoginInfo(String user,String pwd) throws IOException{
-		
+
 		URL obj = new URL(httpUrl);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -33,7 +33,7 @@ public class DictService {
 		con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
 		String urlParameters = "username="+user+"&uuid="+pwd+"&type=f&f=a";
-		
+
 		// Send post request
 		con.setDoOutput(true);
 		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
@@ -50,16 +50,16 @@ public class DictService {
 		//SAVE TO CACHE
 		DictCache.server_ddp=dbInfo;
 		DictCache.username=user;
-		DictCache.uuid=uuid;	
+		DictCache.uuid=uuid;
 		if(uuid!=null&&uuid.equals(pwd)){
 			System.out.println("Register DDP");
-			DictCache.isRegister=true;	
+			DictCache.isRegister=true;
 			DBBasic.getInstance().registerDB(user, pwd);
 		}
-			
+
 		System.out.println("server_ddp="+DictCache.server_ddp);
 		return uuid;
 	}
-	
+
 
 }

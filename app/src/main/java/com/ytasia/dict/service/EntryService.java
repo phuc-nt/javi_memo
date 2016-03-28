@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.ytasia.dict.dao.db_handle.TBEntryHandler;
 import com.ytasia.dict.dao.db_handle.TBKanjiEntryHandler;
 import com.ytasia.dict.dao.obj.EntryObj;
+import com.ytasia.dict.ddp.DBBasic;
+import com.ytasia.dict.util.DictCache;
 
 import java.util.List;
 
@@ -60,20 +62,20 @@ public class EntryService {
      * Delete Entry on ListView by position
      *
      * @param context
-     * @param obj
+     * @param id
      * @return adapter after delete
      */
-    public void delete(Context context, EntryObj obj) {
+    public void delete(Context context, String id) {
         entryHd = new TBEntryHandler(context);
 
         // Delete all data related in this object on "KanjiEntry table"
-        TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(context);
-        List<Integer> list = tbKanjiEntryHandler.getAllKanjiIdByEntryId(obj.getEntryId());
+        /*TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(context);
+        List<Integer> list = tbKanjiEntryHandler.getAllKanjiIdByEntryId(id);
         for (int j = 0; j < list.size(); j++) {
-            tbKanjiEntryHandler.delete(list.get(j), obj.getEntryId());
-        }
+            tbKanjiEntryHandler.delete(list.get(j), id);
+        }*/
         // Delete on database
-        entryHd.delete(context, obj.getEntryId());
+        entryHd.delete(context, id);
     }
 
     /**
@@ -84,8 +86,17 @@ public class EntryService {
      * @param obj
      * @return ID of new entry
      */
-    public int add(Context context, EntryObj obj){
-        entryHd = new TBEntryHandler(context);
-        return entryHd.add(obj, context);
+    public void add(Context context, EntryObj obj) {
+        DBBasic db = DBBasic.getInstance();
+        db.insertEntry(obj);
+    }
+
+    /**
+     * @param obj
+     * @param id
+     */
+    public void update(EntryObj obj, String id) {
+        entryHd = new TBEntryHandler(DictCache.appContext);
+        entryHd.update(obj, id);
     }
 }

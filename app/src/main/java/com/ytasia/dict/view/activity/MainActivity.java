@@ -9,7 +9,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.Log;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,9 @@ import com.ytasia.dict.dao.db_handle.TBKanjiHandler;
 import com.ytasia.dict.dao.db_handle.TBUserHandler;
 import com.ytasia.dict.dao.obj.EntryObj;
 import com.ytasia.dict.dao.obj.UserObj;
+import com.ytasia.dict.ddp.DBBasic;
+import com.ytasia.dict.service.DictService;
+import com.ytasia.dict.util.DictCache;
 import com.ytasia.dict.view.fragment.EntryListFragment;
 import com.ytasia.dict.view.fragment.KanjiListFragment;
 import com.ytasia.dict.view.fragment.QuizFragment;
@@ -217,6 +222,9 @@ public class MainActivity extends AppCompatActivity {
     }*/
 
     private void createSampleDb() {
+        DictCache.appContext = this.getApplicationContext();
+       // DBBasic db = DBBasic.getInstance();
+
         TBKanjiHandler kanjiHd = new TBKanjiHandler(this);
         TBEntryHandler entryHd = new TBEntryHandler(this);
         TBUserHandler hd = new TBUserHandler(this);
@@ -225,11 +233,54 @@ public class MainActivity extends AppCompatActivity {
         entryHd.dropAllTables();
         hd.dropAllTables();
 
-        // Create sample user
-        UserObj obj1 = new UserObj("phucnt@yz-japan.tokyo", "1234");
-        hd.add(obj1);
-        // Set sample current user
-        user = obj1;
+        final String userName = "phucnt@yz-japan.tokyo";
+        final String pass = "phucnt";
+        String userId;
+
+        MainActivity.user = new UserObj(0, userName, pass);
+
+        // connect to server
+        final Object ob = new Object();
+        final String[] ret = new String[6];
+        final boolean[] locked = {false};
+        new Thread() {
+            public void run() {
+
+                try {
+                    DictCache.username = userName;
+                    synchronized (ob) {
+                        locked[0] = true;
+                        ret[0] = login(userName, pass);
+                        ob.notify();
+                    }
+                    Log.v("Login button onclick", ret[0]);
+
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                    synchronized (ob) {
+                        ob.notify();
+                    }
+                }
+            }
+
+        }.start();
+
+        synchronized (ob) {
+            try {
+                ob.wait();
+                if (ret[0] != null) {
+                    //pass = ret[0];
+                }
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+        Log.i("User", DictCache.username);
+        Log.i("UUID", DictCache.uuid);
+        Log.i("DBinfo", DictCache.server_ddp);
 
         // Create sample kanji
         /*for (int i = 1; i <= 5; i++) {
@@ -240,16 +291,16 @@ public class MainActivity extends AppCompatActivity {
 
         EntryObj ob1, ob2, ob3, ob4, ob5, ob6, ob7, ob8, ob9, ob10;
 
-        ob1 = new EntryObj(this, user.getUserId(), "彼女");
-        ob2 = new EntryObj(this, user.getUserId(), "家族");
-        ob3 = new EntryObj(this, user.getUserId(), "お兄さん");
-        ob4 = new EntryObj(this, user.getUserId(), "お姉さん");
-        ob5 = new EntryObj(this, user.getUserId(), "人間");
-        ob6 = new EntryObj(this, user.getUserId(), "公園");
-        ob7 = new EntryObj(this, user.getUserId(), "財布");
-        ob8 = new EntryObj(this, user.getUserId(), "社長");
-        ob9 = new EntryObj(this, user.getUserId(), "独身");
-        ob10 = new EntryObj(this, user.getUserId(), "親切");
+        ob1 = new EntryObj(this, userName, "彼女");
+        ob2 = new EntryObj(this, userName, "家族");
+        ob3 = new EntryObj(this, userName, "お兄さん");
+        ob4 = new EntryObj(this, userName, "お姉さん");
+        ob5 = new EntryObj(this, userName, "人間");
+        ob6 = new EntryObj(this, userName, "公園");
+        ob7 = new EntryObj(this, userName, "財布");
+        ob8 = new EntryObj(this, userName, "社長");
+        ob9 = new EntryObj(this, userName, "独身");
+        ob10 = new EntryObj(this, userName, "親切");
 
         ob1.setLevel(1);
         ob2.setLevel(4);
@@ -262,8 +313,14 @@ public class MainActivity extends AppCompatActivity {
         ob9.setLevel(2);
         ob10.setLevel(0);
 
+        DBBasic db = DBBasic.getInstance();
+        db.insertEntry(ob2);
+        db.insertEntry(ob3);
+        db.insertEntry(ob4);
+        db.insertEntry(ob5);
 
-        entryHd.add(ob1, this);
+
+        /*entryHd.add(ob1, this);
         entryHd.add(ob2, this);
         entryHd.add(ob3, this);
         entryHd.add(ob4, this);
@@ -272,9 +329,16 @@ public class MainActivity extends AppCompatActivity {
         entryHd.add(ob7, this);
         entryHd.add(ob8, this);
         entryHd.add(ob9, this);
-        entryHd.add(ob10, this);
+        entryHd.add(ob10, this);*/
+    }
+
+
+    private String login(String name, String pwd) throws IOException {
+        DictService ds = new DictService();
+        return ds.getLoginInfo(name, pwd);
 
     }
+
 
     private void testSuggestDb() {
         SuggestDataAccess dbAccess = SuggestDataAccess.getInstance(this);

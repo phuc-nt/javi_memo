@@ -19,8 +19,8 @@ public class UserObj implements Serializable {
 
     }
 
-    public UserObj(String email, String password) {
-        this.userId = 0;
+    public UserObj(int userId, String email, String password) {
+        this.userId = userId;
         this.email = email;
         this.password = password;
         this.registeredDate = new Date(new java.util.Date().getTime());

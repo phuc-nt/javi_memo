@@ -17,8 +17,8 @@ import java.util.List;
  * Created by luongduy on 2/25/16.
  */
 public class EntryObj implements Serializable {
-    private int entryId;
-    private int userId;
+    private String entryId;
+    private String userId;
     private String content;
     private String furigana;
     private String meaning;
@@ -31,8 +31,8 @@ public class EntryObj implements Serializable {
 
     }
 
-    public EntryObj(int userId, String content, String furigana, String meaning, String example, String source) {
-        this.entryId = 0;
+    public EntryObj(String userId, String content, String furigana, String meaning, String example, String source) {
+        this.entryId = "";
         this.userId = userId;
         this.content = content;
         this.furigana = furigana;
@@ -43,8 +43,8 @@ public class EntryObj implements Serializable {
         this.createdDate = new Date(new java.util.Date().getTime());
     }
 
-    public EntryObj(Context context, int userId, String content) {
-        this.entryId = 0;
+    public EntryObj(Context context, String userId, String content) {
+        this.entryId = "";
         this.userId = userId;
         this.content = content;
         getSuggest(context, content);
@@ -57,19 +57,19 @@ public class EntryObj implements Serializable {
         return content;
     }
 
-    public int getEntryId() {
+    public String getEntryId() {
         return entryId;
     }
 
-    public void setEntryId(int entryId) {
+    public void setEntryId(String entryId) {
         this.entryId = entryId;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

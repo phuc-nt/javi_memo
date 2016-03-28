@@ -130,7 +130,7 @@ public class TBEntryHandler extends YTDictDbHandler {
         return intId;
     }
 
-    public void update(EntryObj obj, int id) {
+    public void update(EntryObj obj, String id) {
         SQLiteDatabase db = getWritableDb();
         ContentValues values = generateContentValues(obj);
         // Updating Row
@@ -138,15 +138,15 @@ public class TBEntryHandler extends YTDictDbHandler {
         db.close(); // Closing database connection
     }
 
-    public void delete(Context context, int id) {
+    public void delete(Context context, String id) {
         SQLiteDatabase db = getWritableDb();
 
         // Delete all data related in this object on "KanjiEntry table"
-        TBKanjiEntryHandler kanjiEntryHandler = new TBKanjiEntryHandler(context);
+        /*TBKanjiEntryHandler kanjiEntryHandler = new TBKanjiEntryHandler(context);
         List<Integer> list = kanjiEntryHandler.getAllKanjiIdByEntryId(id);
         for (int j = 0; j < list.size(); j++) {
             kanjiEntryHandler.delete(list.get(j), id);
-        }
+        }*/
 
         // Deleting Row
         db.delete(YTDictSchema.TBEntry.TABLE_NAME, YTDictSchema.TBEntry.COLUMN_NAME_ENTRY_ID + "=" + id, null);
@@ -161,9 +161,9 @@ public class TBEntryHandler extends YTDictDbHandler {
         EntryObj obj = new EntryObj();
         int index;
         index = cursor.getColumnIndex(YTDictSchema.TBEntry.COLUMN_NAME_ENTRY_ID);
-        obj.setEntryId(cursor.getInt(index));
+        obj.setEntryId(cursor.getString(index));
         index = cursor.getColumnIndex(YTDictSchema.TBEntry.COLUMN_NAME_USER_ID);
-        obj.setUserId(cursor.getInt(index));
+        obj.setUserId(cursor.getString(index));
         index = cursor.getColumnIndex(YTDictSchema.TBEntry.COLUMN_NAME_FURIGANA);
         obj.setFurigana(cursor.getString(index));
         index = cursor.getColumnIndex(YTDictSchema.TBEntry.COLUMN_NAME_CONTENT);
