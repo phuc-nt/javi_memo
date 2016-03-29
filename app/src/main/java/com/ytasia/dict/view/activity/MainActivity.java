@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ import com.ytasia.dict.view.fragment.KanjiListFragment;
 import com.ytasia.dict.view.fragment.QuizFragment;
 import com.ytasia.dict.view.fragment.SettingFragment;
 
+import util.YTDictValues;
 import ytasia.dictionary.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,6 +49,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if(YTDictValues.fUserid!=null)
+            Log.i("Facebook id", YTDictValues.fUserid);
+        if(YTDictValues.gUserid!=null)
+            Log.i("Google id", YTDictValues.gUserid);
 
         //getKanji(kanji);
         createSampleDb();
