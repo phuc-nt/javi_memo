@@ -69,11 +69,11 @@ public class EntryService {
         entryHd = new TBEntryHandler(context);
 
         // Delete all data related in this object on "KanjiEntry table"
-        /*TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(context);
+        TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(context);
         List<Integer> list = tbKanjiEntryHandler.getAllKanjiIdByEntryId(id);
         for (int j = 0; j < list.size(); j++) {
             tbKanjiEntryHandler.delete(list.get(j), id);
-        }*/
+        }
         // Delete on database
         entryHd.delete(context, id);
     }
@@ -82,11 +82,10 @@ public class EntryService {
      * Add new Entry to database by Entry Object.
      * Also get all Kanji on new Entry and add new Entry to database
      *
-     * @param context
      * @param obj
      * @return ID of new entry
      */
-    public void add(Context context, EntryObj obj) {
+    public void add(EntryObj obj) {
         DBBasic db = DBBasic.getInstance();
         db.insertEntry(obj);
     }

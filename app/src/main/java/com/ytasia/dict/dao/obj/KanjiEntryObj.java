@@ -5,12 +5,12 @@ package com.ytasia.dict.dao.obj;
  */
 public class KanjiEntryObj {
     private int kanjiId;
-    private int entryId;
+    private String entryId;
 
     public KanjiEntryObj () {
 
     }
-    public KanjiEntryObj(int kanjiId, int entryId) {
+    public KanjiEntryObj(int kanjiId, String entryId) {
         this.kanjiId = kanjiId;
         this.entryId = entryId;
     }
@@ -23,11 +23,11 @@ public class KanjiEntryObj {
         this.kanjiId = kanjiId;
     }
 
-    public int getEntryId() {
+    public String getEntryId() {
         return entryId;
     }
 
-    public void setEntryId(int entryId) {
+    public void setEntryId(String entryId) {
         this.entryId = entryId;
     }
 }

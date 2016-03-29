@@ -23,6 +23,8 @@ import com.ytasia.dict.dao.obj.EntryObj;
 import com.ytasia.dict.dao.obj.UserObj;
 import com.ytasia.dict.ddp.DBBasic;
 import com.ytasia.dict.service.DictService;
+import com.ytasia.dict.service.EntryService;
+import com.ytasia.dict.service.KanjiEntryService;
 import com.ytasia.dict.util.DictCache;
 import com.ytasia.dict.view.fragment.EntryListFragment;
 import com.ytasia.dict.view.fragment.KanjiListFragment;
@@ -223,18 +225,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void createSampleDb() {
         DictCache.appContext = this.getApplicationContext();
-       // DBBasic db = DBBasic.getInstance();
+        // DBBasic db = DBBasic.createInstance();
 
         TBKanjiHandler kanjiHd = new TBKanjiHandler(this);
         TBEntryHandler entryHd = new TBEntryHandler(this);
         TBUserHandler hd = new TBUserHandler(this);
+
+        EntryService entryService = new EntryService();
 
         kanjiHd.dropAllTables();
         entryHd.dropAllTables();
         hd.dropAllTables();
 
         final String userName = "phucnt@yz-japan.tokyo";
-        final String pass = "phucnt";
+        final String pass = "phucnt123";
         String userId;
 
         MainActivity.user = new UserObj(0, userName, pass);
@@ -278,10 +282,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        Log.i("User", DictCache.username);
-        Log.i("UUID", DictCache.uuid);
-        Log.i("DBinfo", DictCache.server_ddp);
-
         // Create sample kanji
         /*for (int i = 1; i <= 5; i++) {
             kanjiHd.add(new KanjiObj(i, (char) ('食' + i), "音読み" + i, "訓読み" + i, "hán việt" + i, "意味" + i, "Associated" + i, i));
@@ -293,31 +293,34 @@ public class MainActivity extends AppCompatActivity {
 
         ob1 = new EntryObj(this, userName, "彼女");
         ob2 = new EntryObj(this, userName, "家族");
-        ob3 = new EntryObj(this, userName, "お兄さん");
+       /* ob3 = new EntryObj(this, userName, "お兄さん");
         ob4 = new EntryObj(this, userName, "お姉さん");
         ob5 = new EntryObj(this, userName, "人間");
         ob6 = new EntryObj(this, userName, "公園");
         ob7 = new EntryObj(this, userName, "財布");
         ob8 = new EntryObj(this, userName, "社長");
         ob9 = new EntryObj(this, userName, "独身");
-        ob10 = new EntryObj(this, userName, "親切");
+        ob10 = new EntryObj(this, userName, "親切");*/
 
         ob1.setLevel(1);
         ob2.setLevel(4);
-        ob3.setLevel(2);
+        /*ob3.setLevel(2);
         ob4.setLevel(0);
         ob5.setLevel(0);
         ob6.setLevel(1);
         ob7.setLevel(0);
         ob8.setLevel(2);
         ob9.setLevel(2);
-        ob10.setLevel(0);
+        ob10.setLevel(0);*/
 
-        DBBasic db = DBBasic.getInstance();
-        db.insertEntry(ob2);
-        db.insertEntry(ob3);
-        db.insertEntry(ob4);
-        db.insertEntry(ob5);
+        entryService.add(ob2);
+
+        //KanjiEntryService service = new KanjiEntryService();
+        //service.add("1", "entry1");
+        //Runtime.getRuntime().
+        //System.in.read();
+        //service.add("2", "entry2");
+        //service.add("3", "entry3");
 
 
         /*entryHd.add(ob1, this);
@@ -335,8 +338,13 @@ public class MainActivity extends AppCompatActivity {
 
     private String login(String name, String pwd) throws IOException {
         DictService ds = new DictService();
-        return ds.getLoginInfo(name, pwd);
-
+        String uuid = "";
+        try {
+            uuid = ds.getLoginInfo(name, pwd);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return uuid;
     }
 
 

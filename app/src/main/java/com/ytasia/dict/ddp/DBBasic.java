@@ -35,7 +35,7 @@ public class DBBasic implements MeteorCallback {
     private static final String TBKANJI_NAME = "tbKanji";
     private static final String TBENTRY_NAME = "tbEntry";
     private static final String TBKANJIENTRY_NAME = "tbKanjiEntry";
-    private static Meteor meteor = null;
+    private Meteor meteor = null;
     private static DBBasic instance;
 
     private static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
@@ -49,33 +49,22 @@ public class DBBasic implements MeteorCallback {
     }
 
     public static DBBasic getInstance() {
-        if (instance == null) {
+        /*if (instance == null) {
             instance = new DBBasic();
             instance.init();
         }
-        return instance;
+        return instance;*/
+
+        DBBasic db = new DBBasic();
+        db.init();
+        return db;
     }
 
-    public void init() {// localhost:3000
-
-        //if (!MeteorSingleton.hasInstance()) //
-        // MeteorSingleton.createInstance(context,
-        // "ws://192.168.1.25:3000/websocket");
-        //MeteorSingleton.createInstance(DictCache.appContext, DictCache.server_ddp);
-
+    public void init() {
         meteor = new Meteor(DictCache.appContext, DictCache.server_ddp);
         Log.i("DictCache.server_ddp", DictCache.server_ddp);
-        //
-        // // register the callback that will handle events and receive messages
-        //
 
-        meteor.setCallback(this);
-        // // establish the connection
-        // if (!meteor.isConnected())
-        // meteor.reconnect();
-
-        //MeteorSingleton.getInstance().setCallback(getInstance());
-        //onConnect(true);
+        meteor.addCallback(this);
 
     }
 
@@ -122,6 +111,24 @@ public class DBBasic implements MeteorCallback {
             @Override
             public void onError(String arg0, String arg1, String arg2) {
                 // TODO Auto-generated method stub
+
+            }
+        });
+    }
+
+    public void insertKanjiEntry(String kanjiId, String entryId) {
+        Map<String, Object> values = new HashMap<>();
+        values.put("kanjiId", kanjiId);
+        values.put("entryId", entryId);
+        meteor.insert(TBKANJIENTRY_NAME, values, new ResultListener() {
+            @Override
+            public void onSuccess(String s) {
+                subscribeAll();
+                Log.i("Insert kanjientry to Server", "Success");
+            }
+
+            @Override
+            public void onError(String s, String s1, String s2) {
 
             }
         });
@@ -233,11 +240,13 @@ public class DBBasic implements MeteorCallback {
     }
 
     @Override
+    public void onDisconnect() {
+
+    }
+
+    @Override
     public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
-        Log.v("onDataAdded", "table name: " + collectionName);
-        Log.v("onDataAdded", "data: " + newValuesJson);
-
-
+        Log.i("Collection name ", collectionName);
         switch (collectionName) {
             case TBENTRY_NAME:
                 EntryObj newEntry = gson.fromJson(newValuesJson, EntryObj.class);
@@ -247,6 +256,9 @@ public class DBBasic implements MeteorCallback {
             case TBKANJI_NAME:
                 break;
             case TBKANJIENTRY_NAME:
+                Log.i("KanjiEntry Json", newValuesJson);
+                KanjiEntryObj newOb = gson.fromJson(newValuesJson, KanjiEntryObj.class);
+                kanjiEntryHandler.add(newOb);
                 break;
         }
 
@@ -283,12 +295,6 @@ public class DBBasic implements MeteorCallback {
 
     @Override
     public void onException(Exception e) {
-    }
-
-    @Override
-    public void onDisconnect(int arg0, String arg1) {
-        // TODO Auto-generated method stub
-        // meteor.disconnect();
     }
 
 }

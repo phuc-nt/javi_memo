@@ -119,7 +119,7 @@ public class EntryViewActivity extends AppCompatActivity {
      * Create all Kanji buttons belongs to Entry
      */
     private void createKanjiButton() {
-        /*LinearLayout ll = new LinearLayout(this);
+        LinearLayout ll = new LinearLayout(this);
         ll.setOrientation(LinearLayout.HORIZONTAL);
 
         // Get all Kanji ID with Entry ID
@@ -145,7 +145,7 @@ public class EntryViewActivity extends AppCompatActivity {
         }
 
         // Add kanji buttons to view
-        kanjiSv.addView(ll);*/
+        kanjiSv.addView(ll);
     }
 
     /**

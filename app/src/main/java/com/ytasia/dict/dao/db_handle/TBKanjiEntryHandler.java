@@ -40,10 +40,10 @@ public class TBKanjiEntryHandler extends YTDictDbHandler {
         return list;
     }
 
-    public List<Integer> getAllKanjiIdByEntryId(int entryId) {
+    public List<Integer> getAllKanjiIdByEntryId(String entryId) {
         List<Integer> list = new ArrayList<>();
         String query = "SELECT * FROM " + YTDictSchema.TBKanjiEntry.TABLE_NAME
-                + " WHERE " + YTDictSchema.TBKanjiEntry.COLUMN_NAME_ENTRY_ID + " = " + entryId;
+                + " WHERE " + YTDictSchema.TBKanjiEntry.COLUMN_NAME_ENTRY_ID + " = '" + entryId + "'";
         SQLiteDatabase db = getReadableDb();
 
         Cursor cursor = db.rawQuery(query, null);
@@ -56,9 +56,9 @@ public class TBKanjiEntryHandler extends YTDictDbHandler {
         return list;
     }
 
-    public void delete(int kanjiId, int entryId) {
+    public void delete(int kanjiId, String entryId) {
         String query = "DELETE FROM " + YTDictSchema.TBKanjiEntry.TABLE_NAME
-                + " WHERE " + YTDictSchema.TBKanjiEntry.COLUMN_NAME_ENTRY_ID + " = " + entryId
+                + " WHERE " + YTDictSchema.TBKanjiEntry.COLUMN_NAME_ENTRY_ID + " = '" + entryId + "'"
                 + " AND " + YTDictSchema.TBKanjiEntry.COLUMN_NAME_KANJI_ID + " = " + kanjiId;
         SQLiteDatabase db = getReadableDb();
         db.execSQL(query);
@@ -107,7 +107,7 @@ public class TBKanjiEntryHandler extends YTDictDbHandler {
         index = cursor.getColumnIndex(YTDictSchema.TBKanjiEntry.COLUMN_NAME_KANJI_ID);
         obj.setKanjiId(cursor.getInt(index));
         index = cursor.getColumnIndex(YTDictSchema.TBKanjiEntry.COLUMN_NAME_ENTRY_ID);
-        obj.setEntryId(cursor.getInt(index));
+        obj.setEntryId(cursor.getString(index));
         return obj;
     }
 

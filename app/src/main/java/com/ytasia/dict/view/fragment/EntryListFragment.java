@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,6 +34,7 @@ import com.ytasia.dict.dao.db_handle.TBEntryHandler;
 import com.ytasia.dict.dao.obj.EntryObj;
 
 import com.ytasia.dict.service.EntryService;
+import com.ytasia.dict.service.KanjiService;
 import com.ytasia.dict.view.activity.EntryAddActivity;
 import com.ytasia.dict.view.activity.EntryViewActivity;
 import com.ytasia.dict.view.activity.MainActivity;
@@ -235,6 +237,11 @@ public class EntryListFragment extends Fragment {
                 // set sorted adapter to ListView
                 entryList.setAdapter(adapter);
                 break;
+
+            // Refresh Entry ListView
+            case R.id.toolbar_refresh:
+                refreshListView();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -264,15 +271,9 @@ public class EntryListFragment extends Fragment {
                 case MainActivity.RESULT_CODE_ENTRY_ADD:
                     EntryObj entryObj = (EntryObj) data.getSerializableExtra("add_entry_object");
 
-                    // Update to database
-                    entryService.add(getActivity(), entryObj);
-                    /*if (newEntryId != -1) {
-                        // Refresh ListView
-                        refreshListView();
-                        Toast.makeText(getActivity(), "Add Entry Successfully", Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(getActivity(), "Add Entry Failed", Toast.LENGTH_LONG).show();
-                    }*/
+                    // Update new entry
+                    entryService.add(entryObj);
+                    refreshListView();
 
                     // Refresh add field
                     newEntryEt.clearFocus();

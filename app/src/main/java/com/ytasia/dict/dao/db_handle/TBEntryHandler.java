@@ -4,7 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
+import com.ytasia.dict.ddp.DBBasic;
+import com.ytasia.dict.service.KanjiEntryService;
 import com.ytasia.dict.util.JapaneseHandler;
 
 import java.text.SimpleDateFormat;
@@ -99,10 +102,10 @@ public class TBEntryHandler extends YTDictDbHandler {
      * @param id The Id of the object
      * @return EntryObj This return the object that has entryId of id
      */
-    public EntryObj getById(int id) {
+    public EntryObj getById(String id) {
         SQLiteDatabase db = getReadableDb();
         String query = "SELECT * FROM " + YTDictSchema.TBEntry.TABLE_NAME +
-                " WHERE " + YTDictSchema.TBEntry.COLUMN_NAME_ENTRY_ID + "=" + id;
+                " WHERE " + YTDictSchema.TBEntry.COLUMN_NAME_ENTRY_ID + "= '" + id + "'";
         Cursor cursor = db.rawQuery(query, null);
         if (cursor != null) cursor.moveToFirst();
         else return null;
@@ -118,13 +121,17 @@ public class TBEntryHandler extends YTDictDbHandler {
     public int add(EntryObj obj, Context context) {
         SQLiteDatabase db = getWritableDb();
         ContentValues values = generateContentValues(obj);
+
         // Inserting Row
         Long id = db.insert(YTDictSchema.TBEntry.TABLE_NAME, null, values);
         Integer intId = id.intValue();
         db.close(); // Closing database connection
 
         if (intId != -1) {
-            getAndAddKanjiFromNewEntry(context, obj.getContent(), intId);
+            getAndAddKanjiFromNewEntry(context, obj.getContent(), obj.getEntryId());
+            Log.i("Add to SQLite", "success");
+        } else {
+            Log.i("Add to SQLite", "failed");
         }
 
         return intId;
@@ -142,11 +149,11 @@ public class TBEntryHandler extends YTDictDbHandler {
         SQLiteDatabase db = getWritableDb();
 
         // Delete all data related in this object on "KanjiEntry table"
-        /*TBKanjiEntryHandler kanjiEntryHandler = new TBKanjiEntryHandler(context);
+        TBKanjiEntryHandler kanjiEntryHandler = new TBKanjiEntryHandler(context);
         List<Integer> list = kanjiEntryHandler.getAllKanjiIdByEntryId(id);
         for (int j = 0; j < list.size(); j++) {
             kanjiEntryHandler.delete(list.get(j), id);
-        }*/
+        }
 
         // Deleting Row
         db.delete(YTDictSchema.TBEntry.TABLE_NAME, YTDictSchema.TBEntry.COLUMN_NAME_ENTRY_ID + "=" + id, null);
@@ -186,7 +193,7 @@ public class TBEntryHandler extends YTDictDbHandler {
      */
     private ContentValues generateContentValues(EntryObj obj) {
         ContentValues values = new ContentValues();
-        //values.put(YTDictSchema.TBEntry.COLUMN_NAME_ENTRY_ID, obj.getEntryId());
+        values.put(YTDictSchema.TBEntry.COLUMN_NAME_ENTRY_ID, obj.getEntryId());
         values.put(YTDictSchema.TBEntry.COLUMN_NAME_USER_ID, obj.getUserId());
         values.put(YTDictSchema.TBEntry.COLUMN_NAME_CONTENT, obj.getContent());
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.JAPAN);
@@ -199,7 +206,7 @@ public class TBEntryHandler extends YTDictDbHandler {
         return values;
     }
 
-    private void getAndAddKanjiFromNewEntry(Context context, String newEntryContent, int newEntryId) {
+    private void getAndAddKanjiFromNewEntry(Context context, String newEntryContent, String newEntryId) {
         // Get all Kanji available on new Entry
         JapaneseHandler jpHd = new JapaneseHandler();
         String kanji = jpHd.getAllKanji(newEntryContent);
@@ -222,13 +229,28 @@ public class TBEntryHandler extends YTDictDbHandler {
             // Create new Entry-Kanji constrain and add to 'KanjiEntry Table'
             if (newKanjiId != -1) {
                 KanjiEntryObj kanjiEntryObj = new KanjiEntryObj(newKanjiId, newEntryId);
-                TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(context);
-                tbKanjiEntryHandler.add(kanjiEntryObj);
+
+                //DBBasic dbBasic = DBBasic.createInstance();
+                //dbBasic.insertKanjiEntry(Integer.toString(kanjiEntryObj.getKanjiId()), kanjiEntryObj.getEntryId());
+
+                KanjiEntryService service = new KanjiEntryService();
+                service.add(Integer.toString(kanjiEntryObj.getKanjiId()), kanjiEntryObj.getEntryId());
+
+                //TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(context);
+                //tbKanjiEntryHandler.add(kanjiEntryObj);
             } else {
                 KanjiObj o = kanjiHandler.getByCharater(kanjiObj.getCharacter());
                 KanjiEntryObj kanjiEntryObj = new KanjiEntryObj(o.getKanjiId(), newEntryId);
-                TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(context);
-                tbKanjiEntryHandler.add(kanjiEntryObj);
+
+
+                //DBBasic dbBasic = DBBasic.createInstance();
+                //dbBasic.insertKanjiEntry(Integer.toString(kanjiEntryObj.getKanjiId()), kanjiEntryObj.getEntryId());
+
+                KanjiEntryService service = new KanjiEntryService();
+                service.add(Integer.toString(kanjiEntryObj.getKanjiId()), kanjiEntryObj.getEntryId());
+
+                //TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(context);
+                //tbKanjiEntryHandler.add(kanjiEntryObj);
             }
         }
     }

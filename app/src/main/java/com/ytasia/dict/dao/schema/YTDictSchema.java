@@ -64,7 +64,7 @@ public final class YTDictSchema {
                         TBEntry.COLUMN_NAME_LEVEL + " TINYINT" + COMMA_SEP +
                         TBEntry.COLUMN_NAME_SOURCE + " VARCHAR(32)" + COMMA_SEP +
                         TBEntry.COLUMN_NAME_CREATED_DATE + " DATE" + COMMA_SEP +
-                        "UNIQUE (" + TBEntry.COLUMN_NAME_CONTENT + "));";
+                        "UNIQUE (" + TBEntry.COLUMN_NAME_CONTENT + "))WITHOUT ROWID;";
 
         public static final String SQL_DELETE_ENTRIES =
                 "DROP TABLE IF EXISTS " + TBEntry.TABLE_NAME;
