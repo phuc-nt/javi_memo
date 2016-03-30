@@ -18,6 +18,7 @@ import java.util.List;
 
 import com.ytasia.dict.dao.db_handle.SuggestDataAccess;
 import com.ytasia.dict.dao.obj.EntryObj;
+import com.ytasia.dict.util.DictCache;
 
 import ytasia.dictionary.R;
 
@@ -78,7 +79,7 @@ public class EntryAddActivity extends AppCompatActivity {
             String newEntryExample = entryExampleEt.getText().toString();
 
             // Create new object with new data
-            EntryObj newObj = new EntryObj(MainActivity.user.getUserId(), newEntryContent, newEntryFurigana, newEntryMeaning, newEntryExample, null);
+            EntryObj newObj = new EntryObj(DictCache.username, newEntryContent, newEntryFurigana, newEntryMeaning, newEntryExample, null);
 
             // Put Object to EntryListFragment
             Intent myIntent = getIntent();

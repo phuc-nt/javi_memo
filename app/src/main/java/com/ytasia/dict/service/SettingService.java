@@ -96,7 +96,7 @@ public class SettingService {
                 List<EntryObj> entryObjs = entryHandler.getAll();
                 for (int i = 0; i < entryObjs.size(); i++) {
                     EntryObj obj = entryObjs.get(i);
-                    entryHandler.delete(context, obj.getEntryId());
+                    entryHandler.delete(obj.getEntryId());
                 }
             }
         });

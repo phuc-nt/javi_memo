@@ -13,5 +13,6 @@ public class SuggestDataOpenHelper extends SQLiteAssetHelper {
 
     public SuggestDataOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+
     }
 }

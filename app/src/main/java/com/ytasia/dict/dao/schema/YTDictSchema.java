@@ -25,7 +25,7 @@ public final class YTDictSchema {
         public static final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + TBUser.TABLE_NAME + " (" +
                         //TBUser._ID + " INTEGER PRIMARY KEY," +
-                        TBUser.COLUMN_NAME_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT" + COMMA_SEP +
+                        TBUser.COLUMN_NAME_USER_ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
                         TBUser.COLUMN_NAME_EMAIL + " VARCHAR(64) UNIQUE NOT NULL" + COMMA_SEP +
                         TBUser.COLUMN_NAME_PASSWORD + " VARCHAR(128) NOT NULL" + COMMA_SEP +
                         TBUser.COLUMN_NAME_REGISTERED_DATE + " DATE" + COMMA_SEP +
@@ -55,7 +55,7 @@ public final class YTDictSchema {
         public static final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + TBEntry.TABLE_NAME + " (" +
                         //TBUser._ID + " INTEGER PRIMARY KEY," +
-                        TBEntry.COLUMN_NAME_ENTRY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT" + COMMA_SEP +
+                        TBEntry.COLUMN_NAME_ENTRY_ID + " VARCHAR(256) PRIMARY KEY" + COMMA_SEP +
                         TBEntry.COLUMN_NAME_USER_ID + " INT NOT NULL" + COMMA_SEP +
                         TBEntry.COLUMN_NAME_CONTENT + " VARCHAR(256) NOT NULL" + COMMA_SEP +
                         TBEntry.COLUMN_NAME_MEANING + " VARCHAR(256)" + COMMA_SEP +
@@ -64,11 +64,7 @@ public final class YTDictSchema {
                         TBEntry.COLUMN_NAME_LEVEL + " TINYINT" + COMMA_SEP +
                         TBEntry.COLUMN_NAME_SOURCE + " VARCHAR(32)" + COMMA_SEP +
                         TBEntry.COLUMN_NAME_CREATED_DATE + " DATE" + COMMA_SEP +
-                        //"PRIMARY KEY (" + TBEntry.COLUMN_NAME_ENTRY_ID + ")" + COMMA_SEP +
-                        "UNIQUE (" + TBEntry.COLUMN_NAME_CONTENT + ")" + COMMA_SEP +
-                        "CONSTRAINT tbEntry_ibfk_1 FOREIGN KEY (" + TBEntry.COLUMN_NAME_USER_ID +
-                        ") REFERENCES " + TBUser.TABLE_NAME + "(" + TBUser.COLUMN_NAME_USER_ID + ")" +
-                        ");";
+                        "UNIQUE (" + TBEntry.COLUMN_NAME_CONTENT + "));";
 
         public static final String SQL_DELETE_ENTRIES =
                 "DROP TABLE IF EXISTS " + TBEntry.TABLE_NAME;
@@ -89,7 +85,7 @@ public final class YTDictSchema {
         public static final String COMMA_SEP = ",";
         public static final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + TBKanji.TABLE_NAME + " (" +
-                        TBKanji.COLUMN_NAME_KANJI_ID + " INTEGER PRIMARY KEY AUTOINCREMENT" + COMMA_SEP +
+                        TBKanji.COLUMN_NAME_KANJI_ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
                         TBKanji.COLUMN_NAME_CHARACTER + " VARCHAR(1) NOT NULL" + COMMA_SEP +
                         TBKanji.COLUMN_NAME_ONYOMI + " VARCHAR(64) NOT NULL" + COMMA_SEP +
                         TBKanji.COLUMN_NAME_KUNYOMI + " VARCHAR(64)" + COMMA_SEP +
@@ -109,10 +105,12 @@ public final class YTDictSchema {
         public static final String TABLE_NAME = "tbKanjiEntry";
         public static final String COLUMN_NAME_KANJI_ID = "kanjiId";
         public static final String COLUMN_NAME_ENTRY_ID = "entryId";
+        public static final String COLUMN_NAME_SERVER_ID = "serverId";
 
         public static final String COMMA_SEP = ",";
         public static final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + TBKanjiEntry.TABLE_NAME + " (" +
+                        TBKanjiEntry.COLUMN_NAME_SERVER_ID + " VARCHAR(64)" + COMMA_SEP +
                         TBKanjiEntry.COLUMN_NAME_KANJI_ID + " INTEGER" + COMMA_SEP +
                         TBKanjiEntry.COLUMN_NAME_ENTRY_ID + " INTEGER" + COMMA_SEP +
                         "PRIMARY KEY (" + TBKanjiEntry.COLUMN_NAME_KANJI_ID + COMMA_SEP +

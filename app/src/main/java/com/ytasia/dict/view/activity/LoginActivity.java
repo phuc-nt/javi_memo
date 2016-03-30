@@ -23,8 +23,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
+import com.ytasia.dict.util.YTDictValues;
 
-import util.YTDictValues;
 import ytasia.dictionary.R;
 
 public class LoginActivity extends AppCompatActivity implements
@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity implements
             // if Login Success
             @Override
             public void onSuccess(final LoginResult loginResult) {
-                YTDictValues.gUserid = AccessToken.getCurrentAccessToken().getUserId();
+                YTDictValues.fUserid = AccessToken.getCurrentAccessToken().getUserId();
                 //send to MainActivity
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);

@@ -12,13 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.ytasia.dict.dao.db_handle.TBEntryHandler;
+import com.ytasia.dict.dao.db_handle.TBKanjiEntryHandler;
+import com.ytasia.dict.dao.obj.EntryObj;
+import com.ytasia.dict.dao.obj.KanjiEntryObj;
+import com.ytasia.dict.util.YTDictValues;
 import com.ytasia.dict.view.activity.AppSettingActivity;
 import com.ytasia.dict.view.activity.FeedbackActivity;
 
 import com.ytasia.dict.view.activity.LoginActivity;
+
 import ytasia.dictionary.R;
 
-import com.ytasia.dict.view.activity.UpgradeActivity;
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
@@ -27,8 +32,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
-import util.YTDictValues;
 
+import java.util.List;
 
 public class SettingFragment extends Fragment {
 
@@ -70,8 +75,21 @@ public class SettingFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), UpgradeActivity.class);
-                startActivity(intent);
+                /*Intent intent = new Intent(getActivity(), UpgradeActivity.class);
+                startActivity(intent);*/
+                TBEntryHandler entryHandler = new TBEntryHandler(getActivity());
+                TBKanjiEntryHandler kanjiEntryHandler = new TBKanjiEntryHandler(getActivity());
+
+                List<EntryObj> entries = entryHandler.getAll();
+                List<KanjiEntryObj> kanjiEntries = kanjiEntryHandler.getAll();
+
+                for (int i = 0; i < entries.size(); i++) {
+                    Log.i("Check Entry " + i, entries.get(i).getEntryId());
+                }
+
+                for (int i = 0; i < kanjiEntries.size(); i++) {
+                    Log.i("Check Entry-Kanji " + i, kanjiEntries.get(i).getServerId());
+                }
             }
         });
 
@@ -117,6 +135,7 @@ public class SettingFragment extends Fragment {
         FacebookSdk.sdkInitialize(getContext());
         if (AccessToken.getCurrentAccessToken() != null) {
             LoginManager.getInstance().logOut();
+            YTDictValues.fUserid = null;
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             startActivity(intent);
         }

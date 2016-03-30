@@ -81,7 +81,7 @@ public class EntryEditActivity extends AppCompatActivity {
         }
 
         if (id == R.id.toolbar_done_button) {
-            //java.sql.Date now = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+            //java.sql.Date now = new java.sql.Date(Calendar.createInstance().getTime().getTime());
 
             //Set new value to Object
             obj.setFurigana(entryFuriganaTv.getText().toString());

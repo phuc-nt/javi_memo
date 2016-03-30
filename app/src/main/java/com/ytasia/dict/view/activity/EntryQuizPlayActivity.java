@@ -170,17 +170,17 @@ public class EntryQuizPlayActivity extends AppCompatActivity {
                 answer1Bt.setText(trueObj.getFurigana());
                 answer2Bt.setText(answerObjs.get(1).getFurigana());
                 answer3Bt.setText(answerObjs.get(2).getFurigana());
-                answer4Bt.setText(answerObjs.get(3).getFurigana());
+                answer4Bt.setText(answerObjs.get(0).getFurigana());
                 break;
             case 2:
                 isAnswer1 = false;
                 isAnswer2 = true;
                 isAnswer3 = false;
                 isAnswer4 = false;
+                answer4Bt.setText(answerObjs.get(0).getFurigana());
                 answer1Bt.setText(answerObjs.get(1).getFurigana());
                 answer2Bt.setText(trueObj.getFurigana());
                 answer3Bt.setText(answerObjs.get(2).getFurigana());
-                answer4Bt.setText(answerObjs.get(3).getFurigana());
                 break;
             case 3:
                 isAnswer1 = false;
@@ -190,7 +190,7 @@ public class EntryQuizPlayActivity extends AppCompatActivity {
                 answer1Bt.setText(answerObjs.get(1).getFurigana());
                 answer2Bt.setText(answerObjs.get(2).getFurigana());
                 answer3Bt.setText(trueObj.getFurigana());
-                answer4Bt.setText(answerObjs.get(3).getFurigana());
+                answer4Bt.setText(answerObjs.get(0).getFurigana());
                 break;
             case 4:
                 isAnswer1 = false;
@@ -199,7 +199,7 @@ public class EntryQuizPlayActivity extends AppCompatActivity {
                 isAnswer4 = true;
                 answer1Bt.setText(answerObjs.get(1).getFurigana());
                 answer2Bt.setText(answerObjs.get(2).getFurigana());
-                answer3Bt.setText(answerObjs.get(3).getFurigana());
+                answer3Bt.setText(answerObjs.get(0).getFurigana());
                 answer4Bt.setText(trueObj.getFurigana());
                 break;
         }

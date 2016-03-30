@@ -58,8 +58,13 @@ public class KanjiService {
      * @param entryId
      * @return List<Integer>
      */
-    public List<Integer> getAllKanjiIdByEntryId(Context context, int entryId) {
+    public List<Integer> getAllKanjiIdByEntryId(Context context, String entryId) {
         TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(context);
         return tbKanjiEntryHandler.getAllKanjiIdByEntryId(entryId);
+    }
+
+    public List<String> getAllServerIdByEntryId(Context context, String entryId) {
+        TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(context);
+        return tbKanjiEntryHandler.getAllServerIdByEntryId(entryId);
     }
 }

@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.ytasia.dict.dao.db_handle.TBEntryHandler;
 import com.ytasia.dict.dao.db_handle.TBKanjiEntryHandler;
 import com.ytasia.dict.dao.obj.EntryObj;
+import com.ytasia.dict.ddp.DBBasic;
+import com.ytasia.dict.util.DictCache;
 
 import java.util.List;
 
@@ -60,32 +62,43 @@ public class EntryService {
      * Delete Entry on ListView by position
      *
      * @param context
-     * @param obj
+     * @param id
      * @return adapter after delete
      */
-    public void delete(Context context, EntryObj obj) {
-        entryHd = new TBEntryHandler(context);
+    public void delete(Context context, String id) {
+        DBBasic db = DBBasic.getInstance();
 
-        // Delete all data related in this object on "KanjiEntry table"
-        TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(context);
-        List<Integer> list = tbKanjiEntryHandler.getAllKanjiIdByEntryId(obj.getEntryId());
-        for (int j = 0; j < list.size(); j++) {
-            tbKanjiEntryHandler.delete(list.get(j), obj.getEntryId());
+        TBKanjiEntryHandler kanjiEntryHandler = new TBKanjiEntryHandler(context);
+        List<String> entriesId = kanjiEntryHandler.getAllServerIdByEntryId(id);
+
+        for (int i = 0; i < entriesId.size(); i++) {
+            db.deleteKanjiEntry(entriesId.get(i));
         }
+
+        db.deleteEntry(id);
+        /*entryHd = new TBEntryHandler(context);
+
         // Delete on database
-        entryHd.delete(context, obj.getEntryId());
+        entryHd.delete(id);*/
     }
 
     /**
      * Add new Entry to database by Entry Object.
      * Also get all Kanji on new Entry and add new Entry to database
      *
-     * @param context
      * @param obj
      * @return ID of new entry
      */
-    public int add(Context context, EntryObj obj){
-        entryHd = new TBEntryHandler(context);
-        return entryHd.add(obj, context);
+    public void add(EntryObj obj) {
+        DBBasic db = DBBasic.getInstance();
+        db.insertEntry(obj);
+    }
+
+    /**
+     * @param obj
+     */
+    public void update(EntryObj obj) {
+        DBBasic db = DBBasic.getInstance();
+        db.updateEntry(obj);
     }
 }
