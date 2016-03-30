@@ -18,4 +18,5 @@ public class DictCache {
     public static Context appContext;
     public static String acc_type = "f";
     public static HashMap<String, String> hmSubscrible = new HashMap<>();
+    public static int sqliteVerion;
 }

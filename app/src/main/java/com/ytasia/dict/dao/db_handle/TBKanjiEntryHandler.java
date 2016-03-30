@@ -104,6 +104,8 @@ public class TBKanjiEntryHandler extends YTDictDbHandler {
     private KanjiEntryObj getObjFromCursor(Cursor cursor) {
         KanjiEntryObj obj = new KanjiEntryObj();
         int index;
+        index = cursor.getColumnIndex(YTDictSchema.TBKanjiEntry.COLUMN_NAME_SERVER_ID);
+        obj.setServerId(cursor.getString(index));
         index = cursor.getColumnIndex(YTDictSchema.TBKanjiEntry.COLUMN_NAME_KANJI_ID);
         obj.setKanjiId(cursor.getInt(index));
         index = cursor.getColumnIndex(YTDictSchema.TBKanjiEntry.COLUMN_NAME_ENTRY_ID);
@@ -116,6 +118,7 @@ public class TBKanjiEntryHandler extends YTDictDbHandler {
      */
     private ContentValues generateContentValues(KanjiEntryObj obj) {
         ContentValues values = new ContentValues();
+        values.put(YTDictSchema.TBKanjiEntry.COLUMN_NAME_SERVER_ID, obj.getServerId());
         values.put(YTDictSchema.TBKanjiEntry.COLUMN_NAME_ENTRY_ID, obj.getEntryId());
         values.put(YTDictSchema.TBKanjiEntry.COLUMN_NAME_KANJI_ID, obj.getKanjiId());
         return values;

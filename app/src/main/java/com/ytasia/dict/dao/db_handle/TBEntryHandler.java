@@ -141,7 +141,7 @@ public class TBEntryHandler extends YTDictDbHandler {
         SQLiteDatabase db = getWritableDb();
         ContentValues values = generateContentValues(obj);
         // Updating Row
-        db.update(YTDictSchema.TBEntry.TABLE_NAME, values, YTDictSchema.TBEntry.COLUMN_NAME_ENTRY_ID + "=" + id, null);
+        db.update(YTDictSchema.TBEntry.TABLE_NAME, values, YTDictSchema.TBEntry.COLUMN_NAME_ENTRY_ID + "= '" + id + "'", null);
         db.close(); // Closing database connection
     }
 

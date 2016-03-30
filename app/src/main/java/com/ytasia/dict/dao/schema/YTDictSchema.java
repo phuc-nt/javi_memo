@@ -64,7 +64,7 @@ public final class YTDictSchema {
                         TBEntry.COLUMN_NAME_LEVEL + " TINYINT" + COMMA_SEP +
                         TBEntry.COLUMN_NAME_SOURCE + " VARCHAR(32)" + COMMA_SEP +
                         TBEntry.COLUMN_NAME_CREATED_DATE + " DATE" + COMMA_SEP +
-                        "UNIQUE (" + TBEntry.COLUMN_NAME_CONTENT + "))WITHOUT ROWID;";
+                        "UNIQUE (" + TBEntry.COLUMN_NAME_CONTENT + "));";
 
         public static final String SQL_DELETE_ENTRIES =
                 "DROP TABLE IF EXISTS " + TBEntry.TABLE_NAME;
@@ -105,10 +105,12 @@ public final class YTDictSchema {
         public static final String TABLE_NAME = "tbKanjiEntry";
         public static final String COLUMN_NAME_KANJI_ID = "kanjiId";
         public static final String COLUMN_NAME_ENTRY_ID = "entryId";
+        public static final String COLUMN_NAME_SERVER_ID = "serverId";
 
         public static final String COMMA_SEP = ",";
         public static final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + TBKanjiEntry.TABLE_NAME + " (" +
+                        TBKanjiEntry.COLUMN_NAME_SERVER_ID + " VARCHAR(64)" + COMMA_SEP +
                         TBKanjiEntry.COLUMN_NAME_KANJI_ID + " INTEGER" + COMMA_SEP +
                         TBKanjiEntry.COLUMN_NAME_ENTRY_ID + " INTEGER" + COMMA_SEP +
                         "PRIMARY KEY (" + TBKanjiEntry.COLUMN_NAME_KANJI_ID + COMMA_SEP +

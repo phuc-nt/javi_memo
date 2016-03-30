@@ -11,13 +11,14 @@ import com.ytasia.dict.dao.schema.YTDictSchema;
  */
 public class YTDictDbHandler extends SQLiteOpenHelper{
     public static final String DATABASE_NAME = "ytdict";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 4;
 
     public YTDictDbHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.setVersion(4);
         db.execSQL(YTDictSchema.TBUser.SQL_CREATE_ENTRIES);
         db.execSQL(YTDictSchema.TBEntry.SQL_CREATE_ENTRIES);
         db.execSQL(YTDictSchema.TBKanji.SQL_CREATE_ENTRIES);

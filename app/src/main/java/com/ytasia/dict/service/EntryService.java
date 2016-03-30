@@ -92,10 +92,9 @@ public class EntryService {
 
     /**
      * @param obj
-     * @param id
      */
-    public void update(EntryObj obj, String id) {
-        entryHd = new TBEntryHandler(DictCache.appContext);
-        entryHd.update(obj, id);
+    public void update(EntryObj obj) {
+        DBBasic db = DBBasic.getInstance();
+        db.updateEntry(obj);
     }
 }

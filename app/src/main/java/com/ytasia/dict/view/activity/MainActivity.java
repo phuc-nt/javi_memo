@@ -56,7 +56,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //getKanji(kanji);
+
+
         createSampleDb();
+
         //testDB();
         //testSuggestDb();
 
@@ -312,6 +315,7 @@ public class MainActivity extends AppCompatActivity {
         ob8.setLevel(2);
         ob9.setLevel(2);
         ob10.setLevel(0);*/
+
 
         entryService.add(ob2);
 

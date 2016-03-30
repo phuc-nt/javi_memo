@@ -256,8 +256,10 @@ public class EntryListFragment extends Fragment {
                 case MainActivity.RESULT_CODE_ENTRY_EDIT:
                     // Get new entry object from EntryViewActivity
                     EntryObj newObj = (EntryObj) data.getSerializableExtra("edit_entry_object");
-                    // Update to database
-                    entryHd.update(newObj, newObj.getEntryId());
+
+                    Log.i("Edited Entry Id ", newObj.getEntryId());
+                    // Update to server
+                    entryService.update(newObj);
 
                     // Refresh ListView
                     refreshListView();

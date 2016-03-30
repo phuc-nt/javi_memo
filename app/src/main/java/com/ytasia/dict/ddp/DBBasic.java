@@ -5,6 +5,7 @@ package com.ytasia.dict.ddp;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 import com.google.gson.Gson;
@@ -36,7 +37,7 @@ public class DBBasic implements MeteorCallback {
     private static final String TBENTRY_NAME = "tbEntry";
     private static final String TBKANJIENTRY_NAME = "tbKanjiEntry";
     private Meteor meteor = null;
-    private static DBBasic instance;
+    //private static DBBasic instance;
 
     private static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 
@@ -63,9 +64,8 @@ public class DBBasic implements MeteorCallback {
     public void init() {
         meteor = new Meteor(DictCache.appContext, DictCache.server_ddp);
         Log.i("DictCache.server_ddp", DictCache.server_ddp);
-
         meteor.addCallback(this);
-
+        meteor.connect();
     }
 
     private void subscribeAll() {
@@ -75,6 +75,24 @@ public class DBBasic implements MeteorCallback {
         user[1] = DictCache.username;
         meteor.subscribe(TBENTRY_NAME, user);
         meteor.subscribe(TBKANJIENTRY_NAME, user);
+    }
+
+    private void subscribe(String tbName) {
+        String sub = null;
+        if (TBKANJI_NAME.equals(tbName)) {
+            sub = meteor.subscribe(TBKANJI_NAME);
+
+        } else {
+
+            String[] user = new String[2];
+            user[0] = DictCache.acc_type;
+            user[1] = DictCache.username;
+            if ((TBENTRY_NAME.equals(tbName) || TBKANJIENTRY_NAME.equals(tbName)))
+                sub = meteor.subscribe(tbName, user);
+        }
+        if (sub != null)
+            DictCache.hmSubscrible.put(tbName, sub);
+        Log.v("subscribe", "pull all from server");
     }
 
     public void update() {
@@ -123,8 +141,10 @@ public class DBBasic implements MeteorCallback {
         meteor.insert(TBKANJIENTRY_NAME, values, new ResultListener() {
             @Override
             public void onSuccess(String s) {
-                subscribeAll();
+                //subscribeAll();
                 Log.i("Insert kanjientry to Server", "Success");
+                subscribe(TBKANJIENTRY_NAME);
+                //subscribeAll();
             }
 
             @Override
@@ -147,8 +167,39 @@ public class DBBasic implements MeteorCallback {
         meteor.insert(TBENTRY_NAME, values, new ResultListener() {
             @Override
             public void onSuccess(String s) {
-                subscribeAll();
+                //subscribeAll();
                 Log.i("Insert entry", "Success");
+                subscribe(TBENTRY_NAME);
+                //subscribeAll();
+            }
+
+            @Override
+            public void onError(String s, String s1, String s2) {
+                Log.e("DDBasic", s + s1 + s2);
+
+            }
+        });
+
+    }
+
+    public void updateEntry(EntryObj entry) {
+        Map<String, Object> query = new HashMap<>();
+        query.put("_id", entry.getEntryId());
+
+        Map<String, Object> values = new HashMap<>();
+        values.put("userId", entry.getUserId());
+        values.put("content", entry.getContent());
+        values.put("furigana", entry.getFurigana());
+        values.put("meaning", entry.getMeaning());
+        values.put("example", entry.getExample());
+        values.put("level", entry.getLevel());
+        values.put("source", entry.getSource());
+        values.put("createdDate", entry.getCreatedDate());
+        meteor.update(TBENTRY_NAME, query, values, null, new ResultListener() {
+            @Override
+            public void onSuccess(String s) {
+                Log.i("Update entry", "Success");
+                subscribe(TBENTRY_NAME);
             }
 
             @Override
@@ -223,8 +274,10 @@ public class DBBasic implements MeteorCallback {
         // MeteorSingleton.getInstance().update(TBKANJI_NAME, query, values);
     }
 
-    public void delete() {
+    public void disConnect() {
 
+        if (meteor != null && meteor.isConnected())
+            meteor.disconnect();
     }
 
     private void checkConnect() {
@@ -244,40 +297,48 @@ public class DBBasic implements MeteorCallback {
 
     }
 
+
     @Override
     public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
-        Log.i("Collection name ", collectionName);
+        //Log.i("Collection name ", collectionName);
+        Log.i("onDataAdded", collectionName + " /n" + documentID + " /n" + newValuesJson);
         switch (collectionName) {
             case TBENTRY_NAME:
                 EntryObj newEntry = gson.fromJson(newValuesJson, EntryObj.class);
                 newEntry.setEntryId(documentID);
                 entryHandler.add(newEntry, DictCache.appContext);
+                Log.i("New EntryOcject", entryHandler.getAll().get(0).getEntryId());
                 break;
             case TBKANJI_NAME:
                 break;
             case TBKANJIENTRY_NAME:
-                Log.i("KanjiEntry Json", newValuesJson);
                 KanjiEntryObj newOb = gson.fromJson(newValuesJson, KanjiEntryObj.class);
+                newOb.setServerId(documentID);
                 kanjiEntryHandler.add(newOb);
+                Log.i("New KanjiEntryObject", kanjiEntryHandler.getAll().get(0).getServerId());
                 break;
         }
+        disConnect();
 
     }
 
     @Override
     public void onDataChanged(String collectionName, String documentID, String updatedValuesJson,
                               String removedValuesJson) {
+        Log.i("onDataChanged", collectionName + " /n" + documentID + " /n" + updatedValuesJson);
         switch (collectionName) {
             case TBENTRY_NAME:
-                EntryObj newEntry = gson.fromJson(updatedValuesJson, EntryObj.class);
+                Log.i("Entry Updated", updatedValuesJson);
+                /*EntryObj newEntry = gson.fromJson(updatedValuesJson, EntryObj.class);
                 newEntry.setEntryId(documentID);
-                entryHandler.update(newEntry, documentID);
+                entryHandler.update(newEntry, documentID);*/
                 break;
             case TBKANJI_NAME:
                 break;
             case TBKANJIENTRY_NAME:
                 break;
         }
+        disConnect();
     }
 
     @Override
@@ -291,6 +352,7 @@ public class DBBasic implements MeteorCallback {
             case TBKANJIENTRY_NAME:
                 break;
         }
+        disConnect();
     }
 
     @Override

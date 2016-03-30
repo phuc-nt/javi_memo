@@ -53,7 +53,7 @@ public class EntryQuizMainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                if (handler.getQuizData(YTDictValues.ENTRY_MAX_LEVEL).size() == 0) {
+                if (handler.getQuizData(YTDictValues.ENTRY_MAX_LEVEL).size() == 0 || handler.getAll().size() < 4) {
                     // Show alert when user reached max level of all entries
                     AlertDialog.Builder alert = new AlertDialog.Builder(EntryQuizMainActivity.this);
                     alert.setCancelable(false);
