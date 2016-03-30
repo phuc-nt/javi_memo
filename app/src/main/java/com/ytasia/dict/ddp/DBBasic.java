@@ -154,6 +154,21 @@ public class DBBasic implements MeteorCallback {
         });
     }
 
+    public void deleteKanjiEntry(String id) {
+        meteor.remove(TBKANJIENTRY_NAME, id, new ResultListener() {
+            @Override
+            public void onSuccess(String s) {
+                Log.i("Delete kanji-entry", "Success");
+                subscribe(TBKANJIENTRY_NAME);
+            }
+
+            @Override
+            public void onError(String s, String s1, String s2) {
+
+            }
+        });
+    }
+
     public void insertEntry(EntryObj entry) {
         Map<String, Object> values = new HashMap<>();
         values.put("userId", "f" + entry.getUserId());
@@ -179,7 +194,6 @@ public class DBBasic implements MeteorCallback {
 
             }
         });
-
     }
 
     public void updateEntry(EntryObj entry) {
@@ -207,8 +221,23 @@ public class DBBasic implements MeteorCallback {
 
             }
         });
-
     }
+
+    public void deleteEntry(String entryId) {
+        meteor.remove(TBENTRY_NAME, entryId, new ResultListener() {
+            @Override
+            public void onSuccess(String s) {
+                Log.i("Delete entry", "Success");
+                subscribe(TBENTRY_NAME);
+            }
+
+            @Override
+            public void onError(String s, String s1, String s2) {
+
+            }
+        });
+    }
+
 
     public void insertKanji(String kanji, String onyomi, String kunyomi, String hanviet, String meaning, String level) {
         Map<String, Object> values = new HashMap<String, Object>();
@@ -228,35 +257,6 @@ public class DBBasic implements MeteorCallback {
         str[4] = meaning;
         str[5] = level;
         meteor.insert(TBKANJI_NAME, values);
-        //checkConnect();
-//		MeteorSingleton.getInstance().insert(TBKANJI_NAME, values,new ResultListener() {
-//
-//			@Override
-//			public void onSuccess(String arg0) {
-//				// TODO Auto-generated method stub
-//				Log.v("insertKanji", arg0);
-//			}
-//
-//			@Override
-//			public void onError(String arg0, String arg1, String arg2) {
-//				// TODO Auto-generated method stub
-//				Log.e("insertKanji", arg0 + "-" + arg1 + "-" + arg2);
-//			}
-//		});
-        /*MeteorSingleton.getInstance().call("insertKanji", str, new ResultListener() {
-
-			@Override
-			public void onSuccess(String arg0) {
-				// TODO Auto-generated method stub
-				Log.v("insertKanji", arg0);
-			}
-
-			@Override
-			public void onError(String arg0, String arg1, String arg2) {
-				// TODO Auto-generated method stub
-				Log.e("insertKanji", arg0 + "-" + arg1 + "-" + arg2);
-			}
-		});*/
     }
 
     public void updateKanji(String kanji, String onyomi, String kunyomi, String hanviet, String meaning, int level) {
@@ -301,13 +301,12 @@ public class DBBasic implements MeteorCallback {
     @Override
     public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
         //Log.i("Collection name ", collectionName);
-        Log.i("onDataAdded", collectionName + " /n" + documentID + " /n" + newValuesJson);
+        Log.i("onDataAdded", collectionName + "\n" + documentID + "\n" + newValuesJson);
         switch (collectionName) {
             case TBENTRY_NAME:
                 EntryObj newEntry = gson.fromJson(newValuesJson, EntryObj.class);
                 newEntry.setEntryId(documentID);
                 entryHandler.add(newEntry, DictCache.appContext);
-                Log.i("New EntryOcject", entryHandler.getAll().get(0).getEntryId());
                 break;
             case TBKANJI_NAME:
                 break;
@@ -315,7 +314,6 @@ public class DBBasic implements MeteorCallback {
                 KanjiEntryObj newOb = gson.fromJson(newValuesJson, KanjiEntryObj.class);
                 newOb.setServerId(documentID);
                 kanjiEntryHandler.add(newOb);
-                Log.i("New KanjiEntryObject", kanjiEntryHandler.getAll().get(0).getServerId());
                 break;
         }
         disConnect();
@@ -325,7 +323,7 @@ public class DBBasic implements MeteorCallback {
     @Override
     public void onDataChanged(String collectionName, String documentID, String updatedValuesJson,
                               String removedValuesJson) {
-        Log.i("onDataChanged", collectionName + " /n" + documentID + " /n" + updatedValuesJson);
+        Log.i("onDataChanged", collectionName + "\n" + documentID + "\n" + updatedValuesJson);
         switch (collectionName) {
             case TBENTRY_NAME:
                 Log.i("Entry Updated", updatedValuesJson);
@@ -343,9 +341,10 @@ public class DBBasic implements MeteorCallback {
 
     @Override
     public void onDataRemoved(String collectionName, String documentID) {
+        Log.i("onDataRemoved", collectionName + "\n" + documentID);
         switch (collectionName) {
             case TBENTRY_NAME:
-                entryHandler.delete(DictCache.appContext, documentID);
+                entryHandler.delete(documentID);
                 break;
             case TBKANJI_NAME:
                 break;

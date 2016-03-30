@@ -66,16 +66,20 @@ public class EntryService {
      * @return adapter after delete
      */
     public void delete(Context context, String id) {
-        entryHd = new TBEntryHandler(context);
+        DBBasic db = DBBasic.getInstance();
 
-        // Delete all data related in this object on "KanjiEntry table"
-        TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(context);
-        List<Integer> list = tbKanjiEntryHandler.getAllKanjiIdByEntryId(id);
-        for (int j = 0; j < list.size(); j++) {
-            tbKanjiEntryHandler.delete(list.get(j), id);
+        TBKanjiEntryHandler kanjiEntryHandler = new TBKanjiEntryHandler(context);
+        List<String> entriesId = kanjiEntryHandler.getAllServerIdByEntryId(id);
+
+        for (int i = 0; i < entriesId.size(); i++) {
+            db.deleteKanjiEntry(entriesId.get(i));
         }
+
+        db.deleteEntry(id);
+        /*entryHd = new TBEntryHandler(context);
+
         // Delete on database
-        entryHd.delete(context, id);
+        entryHd.delete(id);*/
     }
 
     /**
