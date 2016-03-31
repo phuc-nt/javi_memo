@@ -5,8 +5,6 @@ package com.ytasia.dict.ddp;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,13 +13,8 @@ import com.ytasia.dict.dao.db_handle.TBKanjiEntryHandler;
 import com.ytasia.dict.dao.db_handle.TBKanjiHandler;
 import com.ytasia.dict.dao.obj.EntryObj;
 import com.ytasia.dict.dao.obj.KanjiEntryObj;
-import com.ytasia.dict.dao.schema.YTDictSchema;
-import com.ytasia.dict.service.EntryService;
-import com.ytasia.dict.service.KanjiService;
-import com.ytasia.dict.util.DictCache;
+import com.ytasia.dict.util.YTDictValues;
 
-import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
 
 import im.delight.android.ddp.Meteor;
@@ -41,9 +34,9 @@ public class DBBasic implements MeteorCallback {
 
     private static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 
-    private static TBEntryHandler entryHandler = new TBEntryHandler(DictCache.appContext);
-    private static TBKanjiHandler kanjiHandler = new TBKanjiHandler(DictCache.appContext);
-    private static TBKanjiEntryHandler kanjiEntryHandler = new TBKanjiEntryHandler(DictCache.appContext);
+    private static TBEntryHandler entryHandler = new TBEntryHandler(YTDictValues.appContext);
+    private static TBKanjiHandler kanjiHandler = new TBKanjiHandler(YTDictValues.appContext);
+    private static TBKanjiEntryHandler kanjiEntryHandler = new TBKanjiEntryHandler(YTDictValues.appContext);
 
     protected DBBasic() {
         super();
@@ -62,17 +55,17 @@ public class DBBasic implements MeteorCallback {
     }
 
     public void init() {
-        meteor = new Meteor(DictCache.appContext, DictCache.server_ddp);
-        Log.i("DictCache.server_ddp", DictCache.server_ddp);
+        meteor = new Meteor(YTDictValues.appContext, YTDictValues.server_ddp);
+        Log.i("YTDictValues.server_ddp", YTDictValues.server_ddp);
         meteor.addCallback(this);
         meteor.connect();
     }
 
-    private void subscribeAll() {
+    public void subscribeAll() {
         meteor.subscribe(TBKANJI_NAME);
         String[] user = new String[2];
-        user[0] = DictCache.acc_type;
-        user[1] = DictCache.username;
+        user[0] = YTDictValues.acc_type;
+        user[1] = YTDictValues.username;
         meteor.subscribe(TBENTRY_NAME, user);
         meteor.subscribe(TBKANJIENTRY_NAME, user);
     }
@@ -85,13 +78,13 @@ public class DBBasic implements MeteorCallback {
         } else {
 
             String[] user = new String[2];
-            user[0] = DictCache.acc_type;
-            user[1] = DictCache.username;
+            user[0] = YTDictValues.acc_type;
+            user[1] = YTDictValues.username;
             if ((TBENTRY_NAME.equals(tbName) || TBKANJIENTRY_NAME.equals(tbName)))
                 sub = meteor.subscribe(tbName, user);
         }
         if (sub != null)
-            DictCache.hmSubscrible.put(tbName, sub);
+            YTDictValues.hmSubscrible.put(tbName, sub);
         Log.v("subscribe", "pull all from server");
     }
 
@@ -106,7 +99,7 @@ public class DBBasic implements MeteorCallback {
             @Override
             public void onSuccess(String arg0) {
                 // TODO Auto-generated method stub
-                DictCache.isRegister = false;
+                YTDictValues.isRegister = false;
             }
 
             @Override
@@ -123,7 +116,7 @@ public class DBBasic implements MeteorCallback {
             @Override
             public void onSuccess(String arg0) {
                 // TODO Auto-generated method stub
-                //DictCache.isRegister=false;
+                //YTDictValues.isRegister=false;
             }
 
             @Override
@@ -171,7 +164,14 @@ public class DBBasic implements MeteorCallback {
 
     public void insertEntry(EntryObj entry) {
         Map<String, Object> values = new HashMap<>();
-        values.put("userId", "f" + entry.getUserId());
+
+        if (YTDictValues.fUserid != null) {
+            values.put("userId", "f" + entry.getUserId());
+        } else if (YTDictValues.gUserid != null) {
+            values.put("userId", "g" + entry.getUserId());
+        } else {
+            values.put("userId", "_" + entry.getUserId());
+        }
         values.put("content", entry.getContent());
         values.put("furigana", entry.getFurigana());
         values.put("meaning", entry.getMeaning());
@@ -201,6 +201,7 @@ public class DBBasic implements MeteorCallback {
         query.put("_id", entry.getEntryId());
 
         Map<String, Object> values = new HashMap<>();
+
         values.put("userId", entry.getUserId());
         values.put("content", entry.getContent());
         values.put("furigana", entry.getFurigana());
@@ -306,7 +307,7 @@ public class DBBasic implements MeteorCallback {
             case TBENTRY_NAME:
                 EntryObj newEntry = gson.fromJson(newValuesJson, EntryObj.class);
                 newEntry.setEntryId(documentID);
-                entryHandler.add(newEntry, DictCache.appContext);
+                entryHandler.add(newEntry, YTDictValues.appContext);
                 break;
             case TBKANJI_NAME:
                 break;

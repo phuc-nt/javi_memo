@@ -21,9 +21,9 @@ import com.ytasia.dict.dao.db_handle.TBKanjiHandler;
 import com.ytasia.dict.dao.db_handle.TBUserHandler;
 import com.ytasia.dict.dao.obj.EntryObj;
 import com.ytasia.dict.dao.obj.UserObj;
+import com.ytasia.dict.ddp.DBBasic;
 import com.ytasia.dict.service.DictService;
 import com.ytasia.dict.service.EntryService;
-import com.ytasia.dict.util.DictCache;
 import com.ytasia.dict.util.YTDictValues;
 import com.ytasia.dict.view.fragment.EntryListFragment;
 import com.ytasia.dict.view.fragment.KanjiListFragment;
@@ -54,12 +54,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DictCache.appContext = MainActivity.this;
+        // set app context is MainActivity
+        YTDictValues.appContext = MainActivity.this;
 
-        if (YTDictValues.fUserid != null)
-            Log.i("Facebook id", YTDictValues.fUserid);
-        if (YTDictValues.gUserid != null)
-            Log.i("Google id", YTDictValues.gUserid);
+        // Authentication to server
+        authenToServer();
+
+        // Get data from Server by User
+        //getDataFromServerByUser(YTDictValues.username, YTDictValues.acc_type);
 
         //getKanji(kanji);
 
@@ -69,8 +71,6 @@ public class MainActivity extends AppCompatActivity {
         //testDB();
         //testSuggestDb();
 
-        //Authentication to server
-        authenToServer();
 
         int fragmentPosition = 0;
 
@@ -158,11 +158,36 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Authenticate to server by User info after Login
+     */
     private void authenToServer() {
-        final String userName = "phucnt@yz-japan.tokyo";
-        final String pass = "phucnt123";
+        final String name;
+        final String type;
+        final String pass;
 
-        MainActivity.user = new UserObj(0, userName, pass);
+        TBUserHandler hd = new TBUserHandler(this);
+        hd.dropAllTables();
+
+        if (YTDictValues.fUserid != null) { // facebook user
+            YTDictValues.username = YTDictValues.fUserid;
+            YTDictValues.acc_type = "f";
+            Log.i("Facebook id", YTDictValues.username);
+        } else if (YTDictValues.gUserid != null) { // google user
+            YTDictValues.username = YTDictValues.gUserid;
+            YTDictValues.acc_type = "g";
+            Log.i("Google id", YTDictValues.username);
+        } else {
+            YTDictValues.username = "guest";
+            Log.i("Guest id", YTDictValues.username);
+        }
+
+        name = YTDictValues.username;
+        type = YTDictValues.acc_type;
+        pass = "123";
+
+        MainActivity.user = new UserObj(0, name, pass);
+
         // connect to server
         final Object ob = new Object();
         final String[] ret = new String[6];
@@ -171,10 +196,10 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
 
                 try {
-                    DictCache.username = userName;
+                    YTDictValues.username = name;
                     synchronized (ob) {
                         locked[0] = true;
-                        ret[0] = login(userName, pass);
+                        ret[0] = login(name, pass, type);
                         ob.notify();
                     }
                     Log.v("Login button onclick", ret[0]);
@@ -201,6 +226,17 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Get data from Server by User
+     *
+     * @param user
+     * @param type
+     */
+    private void getDataFromServerByUser(String user, String type) {
+        DBBasic db = DBBasic.getInstance();
+        db.subscribeAll();
     }
 
     /*private void testDB() {
@@ -281,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
     }*/
 
     private void createSampleDb() {
-        DictCache.appContext = this.getApplicationContext();
+        YTDictValues.appContext = this.getApplicationContext();
         // DBBasic db = DBBasic.createInstance();
 
         TBKanjiHandler kanjiHd = new TBKanjiHandler(this);
@@ -300,51 +336,6 @@ public class MainActivity extends AppCompatActivity {
 
         MainActivity.user = new UserObj(0, userName, pass);
 
-        // connect to server
-        final Object ob = new Object();
-        final String[] ret = new String[6];
-        final boolean[] locked = {false};
-        new Thread() {
-            public void run() {
-
-                try {
-                    DictCache.username = userName;
-                    synchronized (ob) {
-                        locked[0] = true;
-                        ret[0] = login(userName, pass);
-                        ob.notify();
-                    }
-                    Log.v("Login button onclick", ret[0]);
-
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                    synchronized (ob) {
-                        ob.notify();
-                    }
-                }
-            }
-
-        }.start();
-
-        synchronized (ob) {
-            try {
-                ob.wait();
-                if (ret[0] != null) {
-                    //pass = ret[0];
-                }
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-
-        // Create sample kanji
-        /*for (int i = 1; i <= 5; i++) {
-            kanjiHd.add(new KanjiObj(i, (char) ('食' + i), "音読み" + i, "訓読み" + i, "hán việt" + i, "意味" + i, "Associated" + i, i));
-        }*/
-
-        // Create sample entry
 
         EntryObj ob1, ob2, ob3, ob4, ob5, ob6, ob7, ob8, ob9, ob10;
 
@@ -394,11 +385,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private String login(String name, String pwd) throws IOException {
+    private String login(String name, String pwd, String type) throws IOException {
         DictService ds = new DictService();
         String uuid = "";
         try {
-            uuid = ds.getLoginInfo(name, pwd);
+            uuid = ds.getLoginInfo(name, pwd, type);
         } catch (Exception e) {
             e.printStackTrace();
         }

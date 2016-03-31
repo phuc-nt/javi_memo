@@ -11,7 +11,6 @@ import com.ytasia.dict.dao.db_handle.TBEntryHandler;
 import com.ytasia.dict.dao.db_handle.TBKanjiEntryHandler;
 import com.ytasia.dict.dao.obj.EntryObj;
 import com.ytasia.dict.ddp.DBBasic;
-import com.ytasia.dict.util.DictCache;
 
 import java.util.List;
 
