@@ -14,6 +14,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.ytasia.dict.dao.db_handle.SuggestDataAccess;
 import com.ytasia.dict.dao.db_handle.TBEntryHandler;
@@ -184,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
 
         name = YTDictValues.username;
         type = YTDictValues.acc_type;
-        pass = "123";
+        pass = UUID.randomUUID().toString();
 
         MainActivity.user = new UserObj(0, name, pass);
 
