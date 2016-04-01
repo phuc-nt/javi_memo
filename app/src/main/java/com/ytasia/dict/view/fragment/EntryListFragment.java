@@ -114,12 +114,8 @@ public class EntryListFragment extends Fragment {
                                     // Delete Entry
                                     entryService.delete(getActivity(), deleteObj.getEntryId());
 
-                                    //Get new List Object
-                                    listEntryOb = entryHd.getAll();
-                                    // Set new data to adapter (customized)
-                                    adapter = new EntryService.EntryListAdapter(getActivity(), listEntryOb);
-                                    // set new adapter to ListView
-                                    entryList.setAdapter(adapter);
+                                    // Refresh ListView
+                                    refreshListView();
                                 }
                             });
                             alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -250,22 +246,6 @@ public class EntryListFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == MainActivity.REQUEST_CODE_ENTRY_EDIT) {
-            switch (resultCode) {
-                // After edit entry
-                case MainActivity.RESULT_CODE_ENTRY_EDIT:
-                    // Get new entry object from EntryViewActivity
-                    EntryObj newObj = (EntryObj) data.getSerializableExtra("edit_entry_object");
-
-                    Log.i("Edited Entry Id ", newObj.getEntryId());
-                    // Update to server
-                    entryService.update(newObj);
-
-                    // Refresh ListView
-                    refreshListView();
-                    break;
-            }
-        }
 
         if (requestCode == MainActivity.REQUEST_CODE_ENTRY_ADD) {
             switch (resultCode) {
@@ -275,7 +255,6 @@ public class EntryListFragment extends Fragment {
 
                     // Update new entry
                     entryService.add(entryObj);
-                    refreshListView();
 
                     // Refresh add field
                     newEntryEt.clearFocus();
@@ -284,6 +263,21 @@ public class EntryListFragment extends Fragment {
                     break;
             }
         }
+
+        if (requestCode == MainActivity.REQUEST_CODE_ENTRY_EDIT) {
+            switch (resultCode) {
+                // After edit entry
+                case MainActivity.RESULT_CODE_ENTRY_EDIT:
+                    // Get new entry object from EntryViewActivity
+                    EntryObj newObj = (EntryObj) data.getSerializableExtra("edit_entry_object");
+
+                    // Update to server
+                    entryService.update(newObj);
+                    break;
+            }
+        }
+
+        refreshListView();
     }
 
     /**

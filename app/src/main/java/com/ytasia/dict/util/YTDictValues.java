@@ -5,6 +5,7 @@ import android.content.Context;
 import com.facebook.CallbackManager;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -23,7 +24,6 @@ public class YTDictValues {
     public static String fUserid;
     public static String guestid;
 
-
     public static String username = "";
     public static String uuid = "";
     public static boolean isRegister;
@@ -32,4 +32,6 @@ public class YTDictValues {
     public static String acc_type = "f";
     public static HashMap<String, String> hmSubscrible = new HashMap<>();
 
+    public static ArrayList<String> entriesContent = new ArrayList<>();
+    public static ArrayList<String> kanjiEntryIds = new ArrayList<>();
 }

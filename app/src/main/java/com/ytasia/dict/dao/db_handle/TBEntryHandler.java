@@ -148,13 +148,6 @@ public class TBEntryHandler extends YTDictDbHandler {
     public void delete(String id) {
         SQLiteDatabase db = getWritableDb();
 
-        // Delete all data related in this object on "KanjiEntry table"
-        TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(context);
-        List<String> list = tbKanjiEntryHandler.getAllServerIdByEntryId(id);
-        for (int j = 0; j < list.size(); j++) {
-            tbKanjiEntryHandler.delete(list.get(j));
-        }
-
         // Deleting Row
         db.delete(YTDictSchema.TBEntry.TABLE_NAME, YTDictSchema.TBEntry.COLUMN_NAME_ENTRY_ID + "= '" + id + "'", null);
         db.close(); // Closing database connection

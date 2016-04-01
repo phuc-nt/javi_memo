@@ -115,12 +115,21 @@ public class EntryAddActivity extends AppCompatActivity {
             mexam.add(element.text());
         }
 
-        entryFuriganaEt.setText(furi.get(0));
-        StringBuffer exams = new StringBuffer();
-        for (int i = 0; i < exam.size(); i++) {
-            exams.append(exam.get(i) + "\n" + mexam.get(i) + "\n");
+        if (!furi.isEmpty()) {
+            entryFuriganaEt.setText(furi.get(0));
+        } else {
+            entryFuriganaEt.setText("");
         }
-        entryExampleEt.setText(exams.toString());
+
+        if (!exam.isEmpty()) {
+            StringBuffer exams = new StringBuffer();
+            for (int i = 0; i < exam.size(); i++) {
+                exams.append(exam.get(i) + "\n" + mexam.get(i) + "\n");
+            }
+            entryExampleEt.setText(exams.toString());
+        } else {
+            entryExampleEt.setText("");
+        }
 
         dbAccess.close();
     }

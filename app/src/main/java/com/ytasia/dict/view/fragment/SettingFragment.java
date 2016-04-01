@@ -14,6 +14,7 @@ import android.widget.Button;
 
 import com.ytasia.dict.dao.db_handle.TBEntryHandler;
 import com.ytasia.dict.dao.db_handle.TBKanjiEntryHandler;
+import com.ytasia.dict.dao.db_handle.TBUserHandler;
 import com.ytasia.dict.dao.obj.EntryObj;
 import com.ytasia.dict.dao.obj.KanjiEntryObj;
 import com.ytasia.dict.util.YTDictValues;
@@ -75,9 +76,15 @@ public class SettingFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
+
+                TBUserHandler hd = new TBUserHandler(getActivity());
+                hd.dropAllTables();
+
                 /*Intent intent = new Intent(getActivity(), UpgradeActivity.class);
                 startActivity(intent);*/
-                TBEntryHandler entryHandler = new TBEntryHandler(getActivity());
+
+
+                /*TBEntryHandler entryHandler = new TBEntryHandler(getActivity());
                 TBKanjiEntryHandler kanjiEntryHandler = new TBKanjiEntryHandler(getActivity());
 
                 List<EntryObj> entries = entryHandler.getAll();
@@ -89,7 +96,7 @@ public class SettingFragment extends Fragment {
 
                 for (int i = 0; i < kanjiEntries.size(); i++) {
                     Log.i("Check Entry-Kanji " + i, kanjiEntries.get(i).getServerId());
-                }
+                }*/
             }
         });
 

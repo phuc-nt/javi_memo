@@ -18,9 +18,11 @@ import java.util.UUID;
 
 import com.ytasia.dict.dao.db_handle.SuggestDataAccess;
 import com.ytasia.dict.dao.db_handle.TBEntryHandler;
+import com.ytasia.dict.dao.db_handle.TBKanjiEntryHandler;
 import com.ytasia.dict.dao.db_handle.TBKanjiHandler;
 import com.ytasia.dict.dao.db_handle.TBUserHandler;
 import com.ytasia.dict.dao.obj.EntryObj;
+import com.ytasia.dict.dao.obj.KanjiEntryObj;
 import com.ytasia.dict.dao.obj.UserObj;
 import com.ytasia.dict.ddp.DBBasic;
 import com.ytasia.dict.service.DictService;
@@ -57,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
 
         // set app context is MainActivity
         YTDictValues.appContext = MainActivity.this;
+
+        // set data for YTDictValues
+        setYTDictValues();
 
         // Authentication to server
         authenToServer();
@@ -167,9 +172,6 @@ public class MainActivity extends AppCompatActivity {
         final String type;
         final String pass;
 
-        TBUserHandler hd = new TBUserHandler(this);
-        hd.dropAllTables();
-
         if (YTDictValues.fUserid != null) { // facebook user
             YTDictValues.username = YTDictValues.fUserid;
             YTDictValues.acc_type = "f";
@@ -200,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
                     YTDictValues.username = name;
                     synchronized (ob) {
                         locked[0] = true;
-                        ret[0] = login(name, pass, type);
+                        ret[0] = getLoginInfo(name, pass, type);
                         ob.notify();
                     }
                     Log.v("Login button onclick", ret[0]);
@@ -225,6 +227,49 @@ public class MainActivity extends AppCompatActivity {
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Get login info from server
+     *
+     * @param name
+     * @param pwd
+     * @param type
+     * @return
+     * @throws IOException
+     */
+    private String getLoginInfo(String name, String pwd, String type) throws IOException {
+        DictService ds = new DictService();
+        String uuid = "";
+        try {
+            uuid = ds.getLoginInfo(name, pwd, type);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return uuid;
+    }
+
+
+    /**
+     * Set data for [entriesContent] and [kanjiEntryIds]
+     * on util.YTDictValues
+     */
+    private void setYTDictValues() {
+        TBEntryHandler entryHandler = new TBEntryHandler(this);
+        List<EntryObj> entryObjs = entryHandler.getAll();
+        if (!entryObjs.isEmpty()) {
+            for (int i = 0; i < entryObjs.size(); i++) {
+                YTDictValues.entriesContent.add(i, entryObjs.get(i).getContent());
+            }
+        }
+
+        TBKanjiEntryHandler kanjiEntryHandler = new TBKanjiEntryHandler(this);
+        List<KanjiEntryObj> kanjiEntryObjs = kanjiEntryHandler.getAll();
+        if (!kanjiEntryObjs.isEmpty()) {
+            for (int i = 0; i < kanjiEntryObjs.size(); i++) {
+                YTDictValues.kanjiEntryIds.add(i, kanjiEntryObjs.get(i).getServerId());
             }
         }
     }
@@ -383,18 +428,6 @@ public class MainActivity extends AppCompatActivity {
         entryHd.add(ob8, this);
         entryHd.add(ob9, this);
         entryHd.add(ob10, this);*/
-    }
-
-
-    private String login(String name, String pwd, String type) throws IOException {
-        DictService ds = new DictService();
-        String uuid = "";
-        try {
-            uuid = ds.getLoginInfo(name, pwd, type);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return uuid;
     }
 
 

@@ -14,6 +14,7 @@ import com.ytasia.dict.dao.db_handle.TBKanjiHandler;
 import com.ytasia.dict.dao.obj.EntryObj;
 import com.ytasia.dict.dao.obj.KanjiEntryObj;
 import com.ytasia.dict.util.YTDictValues;
+import com.ytasia.dict.view.fragment.EntryListFragment;
 
 import android.util.Log;
 
@@ -147,12 +148,12 @@ public class DBBasic implements MeteorCallback {
         });
     }
 
-    public void deleteKanjiEntry(String id) {
+    public void deleteKanjiEntry(final String id) {
         meteor.remove(TBKANJIENTRY_NAME, id, new ResultListener() {
             @Override
             public void onSuccess(String s) {
                 Log.i("Delete kanji-entry", "Success");
-                subscribe(TBKANJIENTRY_NAME);
+                kanjiEntryHandler.delete(id);
             }
 
             @Override
@@ -182,7 +183,8 @@ public class DBBasic implements MeteorCallback {
         meteor.insert(TBENTRY_NAME, values, new ResultListener() {
             @Override
             public void onSuccess(String s) {
-                Log.i("Insert entry", "Success");
+                Log.i("Insert entry", "Success : " + s);
+
                 subscribe(TBENTRY_NAME);
             }
 
@@ -194,7 +196,7 @@ public class DBBasic implements MeteorCallback {
         });
     }
 
-    public void updateEntry(EntryObj entry) {
+    public void updateEntry(final EntryObj entry) {
         Map<String, Object> query = new HashMap<>();
         query.put("_id", entry.getEntryId());
 
@@ -212,7 +214,7 @@ public class DBBasic implements MeteorCallback {
             @Override
             public void onSuccess(String s) {
                 Log.i("Update entry", "Success");
-                subscribe(TBENTRY_NAME);
+                entryHandler.update(entry, entry.getEntryId());
             }
 
             @Override
@@ -222,12 +224,12 @@ public class DBBasic implements MeteorCallback {
         });
     }
 
-    public void deleteEntry(String entryId) {
+    public void deleteEntry(final String entryId) {
         meteor.remove(TBENTRY_NAME, entryId, new ResultListener() {
             @Override
             public void onSuccess(String s) {
                 Log.i("Delete entry", "Success");
-                subscribe(TBENTRY_NAME);
+                entryHandler.delete(entryId);
             }
 
             @Override
@@ -305,14 +307,22 @@ public class DBBasic implements MeteorCallback {
             case TBENTRY_NAME:
                 EntryObj newEntry = gson.fromJson(newValuesJson, EntryObj.class);
                 newEntry.setEntryId(documentID);
-                entryHandler.add(newEntry, YTDictValues.appContext);
+
+                if (!YTDictValues.entriesContent.contains(newEntry.getContent())) {
+                    entryHandler.add(newEntry, YTDictValues.appContext);
+                    YTDictValues.entriesContent.add(newEntry.getContent());
+                }
                 break;
             case TBKANJI_NAME:
                 break;
             case TBKANJIENTRY_NAME:
                 KanjiEntryObj newOb = gson.fromJson(newValuesJson, KanjiEntryObj.class);
                 newOb.setServerId(documentID);
-                kanjiEntryHandler.add(newOb);
+
+                if (!YTDictValues.kanjiEntryIds.contains(newOb.getServerId())) {
+                    kanjiEntryHandler.add(newOb);
+                    YTDictValues.kanjiEntryIds.add(newOb.getServerId());
+                }
                 break;
         }
         disConnect();
@@ -326,9 +336,7 @@ public class DBBasic implements MeteorCallback {
         switch (collectionName) {
             case TBENTRY_NAME:
                 Log.i("Entry Updated", updatedValuesJson);
-                /*EntryObj newEntry = gson.fromJson(updatedValuesJson, EntryObj.class);
-                newEntry.setEntryId(documentID);
-                entryHandler.update(newEntry, documentID);*/
+
                 break;
             case TBKANJI_NAME:
                 break;
