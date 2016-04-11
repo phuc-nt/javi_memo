@@ -60,11 +60,11 @@ public class MainActivity extends AppCompatActivity {
         // set app context is MainActivity
         YTDictValues.appContext = MainActivity.this;
 
-        // set data for YTDictValues
-        setYTDictValues();
-
         // Authentication to server
         authenToServer();
+
+        // set data for YTDictValues
+        setYTDictValues();
 
         // Get data from Server by User
         //getDataFromServerByUser(YTDictValues.username, YTDictValues.acc_type);

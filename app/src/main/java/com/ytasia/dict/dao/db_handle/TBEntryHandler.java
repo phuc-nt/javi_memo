@@ -19,6 +19,7 @@ import com.ytasia.dict.dao.obj.EntryObj;
 import com.ytasia.dict.dao.obj.KanjiEntryObj;
 import com.ytasia.dict.dao.obj.KanjiObj;
 import com.ytasia.dict.dao.schema.YTDictSchema;
+import com.ytasia.dict.util.YTDictValues;
 
 /**
  * Created by luongduy on 2/26/16.
@@ -36,8 +37,16 @@ public class TBEntryHandler extends YTDictDbHandler {
      * @return List: This return of list of EntryObj objects
      */
     public List<EntryObj> getAll() {
+        String user = YTDictValues.username;
+        if (YTDictValues.fUserid != null) { // facebook user
+            user = "f" + user;
+        } else if (YTDictValues.gUserid != null) { // google user
+            user = "g" + user;
+        }
+
         List<EntryObj> list = new ArrayList<EntryObj>();
-        String query = "SELECT * FROM " + YTDictSchema.TBEntry.TABLE_NAME;
+        String query = "SELECT * FROM " + YTDictSchema.TBEntry.TABLE_NAME
+                + " WHERE " + YTDictSchema.TBEntry.COLUMN_NAME_USER_ID + " = '" + user + "'";
         SQLiteDatabase db = getReadableDb();
 
         Cursor cursor = db.rawQuery(query, null);

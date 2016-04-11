@@ -181,6 +181,7 @@ public class EntryListFragment extends Fragment {
                     entryList.clearTextFilter();
                 } else {
                     entryList.setFilterText(newText.toString());
+                    //adapter.getFilter().filter(newText);
                 }
                 return true;
             }

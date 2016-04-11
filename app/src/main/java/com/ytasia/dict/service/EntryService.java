@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.ytasia.dict.dao.db_handle.TBEntryHandler;
@@ -12,6 +13,7 @@ import com.ytasia.dict.dao.db_handle.TBKanjiEntryHandler;
 import com.ytasia.dict.dao.obj.EntryObj;
 import com.ytasia.dict.ddp.DBBasic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ytasia.dictionary.R;
@@ -28,7 +30,7 @@ public class EntryService {
     /**
      * Customized Adapter for Entry List Object
      */
-    public static class EntryListAdapter extends ArrayAdapter<EntryObj> {
+    public static class EntryListAdapter extends ArrayAdapter<EntryObj> implements Filterable{
         private final Context context;
         private final List<EntryObj> values;
 
@@ -56,6 +58,7 @@ public class EntryService {
             return itemView;
         }
     }
+
 
     /**
      * Delete Entry on ListView by position

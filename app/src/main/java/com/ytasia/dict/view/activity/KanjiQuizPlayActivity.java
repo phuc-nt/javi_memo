@@ -10,18 +10,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import com.facebook.internal.CollectionMapper;
+import com.ytasia.dict.dao.db_handle.TBKanjiEntryHandler;
 import com.ytasia.dict.dao.db_handle.TBKanjiHandler;
 import com.ytasia.dict.dao.obj.KanjiObj;
 import com.ytasia.dict.dao.obj.UserObj;
+import com.ytasia.dict.util.YTDictValues;
 
 import ytasia.dictionary.R;
 
 public class KanjiQuizPlayActivity extends AppCompatActivity {
     public static final int RESULT_CODE_KANJI_QUIZ_FAULT = 201;
+    public static final int RESULT_CODE_KANJI_QUIZ_COMPLETE = 401;
 
     private Button answer1Bt, answer2Bt, answer3Bt, answer4Bt;
     private TextView scoreTv, timeTv, questionKanjiTv;
@@ -29,7 +35,11 @@ public class KanjiQuizPlayActivity extends AppCompatActivity {
     private int quizTime;
     private int score = 0;
     private CountDownTimer timer;
+
     private Boolean isAnswer1, isAnswer2, isAnswer3, isAnswer4;
+    private TBKanjiHandler handler = new TBKanjiHandler(this);
+    private KanjiObj trueObj;
+    private int listSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,12 +152,19 @@ public class KanjiQuizPlayActivity extends AppCompatActivity {
      * Set Quiz data
      */
     private void setQuizData() {
-        // Get random question on user database
-        TBKanjiHandler kanjiHandler = new TBKanjiHandler(this);
-        List<KanjiObj> kanjiObjs = kanjiHandler.getAll();
         Random random = new Random();
-        int randomInt = random.nextInt(kanjiObjs.size());
-        questionKanjiTv.setText(Character.toString(kanjiObjs.get(randomInt).getCharacter()));
+
+        // Get all Entries with level under 'max level'
+        List<KanjiObj> quizObjs = handler.getQuizData(YTDictValues.KANJI_MAX_LEVEL);
+        listSize = quizObjs.size();
+
+        //Get random kanji for quiz
+        trueObj = quizObjs.get(random.nextInt(listSize));
+        questionKanjiTv.setText(Character.toString(trueObj.getCharacter()));
+
+        // Get all Kanjis except Quiz selected entry (for fault answer)
+        List<KanjiObj> answerObjs = handler.getAllWithout(Character.toString(trueObj.getCharacter()));
+        Collections.shuffle(answerObjs);
 
         // Set true answer to randomly location
         int random2 = random.nextInt(4) + 1;
@@ -203,9 +220,16 @@ public class KanjiQuizPlayActivity extends AppCompatActivity {
     private void onTrue() {
         timer.cancel();
         score++;
-        scoreTv.setText("" + score);
-        setQuizData();
-        timer.start();
+        trueObj.setLevel(trueObj.getLevel() + 1);
+        handler.update(trueObj, trueObj.getKanjiId());
+
+        if (listSize == 1 && trueObj.getLevel() == YTDictValues.KANJI_MAX_LEVEL) {
+            onCompleteQuiz();
+        } else {
+            scoreTv.setText("" + score);
+            setQuizData();
+            timer.start();
+        }
     }
 
     /**
@@ -231,6 +255,34 @@ public class KanjiQuizPlayActivity extends AppCompatActivity {
                         intent.putExtra("user_object", userObj);
                         intent.putExtra("your_score", score);
                         setResult(RESULT_CODE_KANJI_QUIZ_FAULT, intent);
+                        finish();
+                    }
+                });
+        alert.show();
+    }
+
+    /**
+     * When user complete all kanji quiz (all kanjis reach max value)
+     * back to KanjiQuizMainActivity
+     */
+    private void onCompleteQuiz() {
+        if (score > userObj.getEntryHighScore()) {
+            userObj.setEntryHighScore(score);
+        }
+
+        // Show alert when user complete Quiz
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setCancelable(false);
+        alert.setTitle(getResources().getString(R.string.complete_title));
+        alert.setMessage(getResources().getString(R.string.continue_message));
+        alert.setPositiveButton(getResources().getString(R.string.ok_button),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent();
+                        intent.putExtra("user_object", userObj);
+                        intent.putExtra("your_score", score);
+                        setResult(RESULT_CODE_KANJI_QUIZ_COMPLETE, intent);
                         finish();
                     }
                 });

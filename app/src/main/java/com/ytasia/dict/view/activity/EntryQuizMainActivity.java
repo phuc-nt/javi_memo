@@ -11,8 +11,16 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.ytasia.dict.dao.db_handle.TBEntryHandler;
+import com.ytasia.dict.dao.obj.EntryObj;
 import com.ytasia.dict.dao.obj.UserObj;
+import com.ytasia.dict.service.EntryService;
 import com.ytasia.dict.util.YTDictValues;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import ytasia.dictionary.R;
 
@@ -30,7 +38,9 @@ public class EntryQuizMainActivity extends AppCompatActivity {
     private TextView levelTv;
     private UserObj userObj;
     private int quizTime;
+    private Map<String, String> changedEntry = new HashMap<>();
 
+    private EntryService service = new EntryService();
     private TBEntryHandler handler = new TBEntryHandler(this);
 
     @Override
@@ -121,10 +131,18 @@ public class EntryQuizMainActivity extends AppCompatActivity {
             switch (resultCode) {
                 // Quiz fault
                 case RESULT_CODE_ENTRY_QUIZ_FAULT:
+                    // Update level to server
+                    changedEntry = (Map<String, String>) data.getSerializableExtra("changed_entries");
+                    updateLevel(changedEntry);
+
                     userObj = (UserObj) data.getSerializableExtra("user_object");
                     refreshData(data.getIntExtra("your_score", 0));
                     break;// Quiz complete
                 case RESULT_CODE_ENTRY_QUIZ_COMPLETE:
+                    // Update level to server
+                    changedEntry = (Map<String, String>) data.getSerializableExtra("changed_entries");
+                    updateLevel(changedEntry);
+
                     userObj = (UserObj) data.getSerializableExtra("user_object");
                     refreshData(data.getIntExtra("your_score", 0));
                     break;
@@ -171,5 +189,20 @@ public class EntryQuizMainActivity extends AppCompatActivity {
         yourScoreTv.setEnabled(true);
         yourScoreTv.setText(Integer.toString(yourScore));
         highScoreTv.setText(Integer.toString(userObj.getEntryHighScore()));
+    }
+
+    /**
+     * Update entries to server
+     *
+     * @param map
+     */
+    private void updateLevel(Map<String, String> map) {
+        List<String> ids = new ArrayList<>(map.keySet());
+        for (int i = 0; i < ids.size(); i++) {
+            String id = ids.get(i);
+            EntryObj ob = handler.getById(id);
+            ob.setLevel(Integer.parseInt(map.get(id)));
+            service.update(ob);
+        }
     }
 }

@@ -16,6 +16,7 @@ public class KanjiQuizMainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_KANJI_QUIZ_START = 101;
     public static final int RESULT_CODE_KANJI_QUIZ_FAULT = 201;
     public static final int RESULT_CODE_KANJI_QUIZ_FINISH = 302;
+    public static final int RESULT_CODE_KANJI_QUIZ_COMPLETE = 401;
 
     private Button startBt;
     private TextView highScoreTv;
@@ -101,7 +102,10 @@ public class KanjiQuizMainActivity extends AppCompatActivity {
                 // Quiz end
                 case RESULT_CODE_KANJI_QUIZ_FAULT:
                     userObj = (UserObj) data.getSerializableExtra("user_object");
-                    //MainActivity.user = userObj;
+                    refreshData(data.getIntExtra("your_score", 0));
+                    break;
+                case RESULT_CODE_KANJI_QUIZ_COMPLETE:
+                    userObj = (UserObj) data.getSerializableExtra("user_object");
                     refreshData(data.getIntExtra("your_score", 0));
                     break;
             }

@@ -76,6 +76,51 @@ public class TBKanjiHandler extends YTDictDbHandler {
     }
 
     /**
+     * This method is used get a list of all Kanji have level < max level (for quiz)
+     *
+     * @param maxLevel
+     * @return List: This return of list of KanjiObj objects
+     */
+    public List<KanjiObj> getQuizData(int maxLevel) {
+        List<KanjiObj> list = new ArrayList<KanjiObj>();
+        String query = "SELECT * FROM " + YTDictSchema.TBKanji.TABLE_NAME +
+                " WHERE " + YTDictSchema.TBKanji.COLUMN_NAME_LEVEL + " < " + maxLevel;
+        SQLiteDatabase db = getReadableDb();
+
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                KanjiObj obj = getObjFromCursor(cursor);
+                list.add(obj);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return list;
+    }
+
+    /**
+     * This method is used get a list of all Entry
+     *
+     * @return List: This return of list of EntryObj objects
+     */
+    public List<KanjiObj> getAllWithout(String content) {
+        List<KanjiObj> list = new ArrayList<KanjiObj>();
+        String query = "SELECT * FROM " + YTDictSchema.TBKanji.TABLE_NAME +
+                " WHERE " + YTDictSchema.TBKanji.COLUMN_NAME_CHARACTER + " != " + "'" + content + "'";
+        SQLiteDatabase db = getReadableDb();
+
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                KanjiObj obj = getObjFromCursor(cursor);
+                list.add(obj);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return list;
+    }
+
+    /**
      * add an KanjiObj to Kanji table
      *
      * @param obj The KanjiObj

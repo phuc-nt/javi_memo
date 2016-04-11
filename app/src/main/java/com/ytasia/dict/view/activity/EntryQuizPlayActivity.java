@@ -10,8 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -37,6 +41,7 @@ public class EntryQuizPlayActivity extends AppCompatActivity {
     private TBEntryHandler handler = new TBEntryHandler(this);
     private EntryObj trueObj;
     private int listSize;
+    private Map<String, String> changedEntry = new HashMap<>();
     //private int lastEntryLevel;
 
     @Override
@@ -152,7 +157,7 @@ public class EntryQuizPlayActivity extends AppCompatActivity {
         listSize = quizObjs.size();
 
         // Get random entry for quiz
-        trueObj = quizObjs.get(random.nextInt(quizObjs.size()));
+        trueObj = quizObjs.get(random.nextInt(listSize));
         questionEntryTv.setText(trueObj.getContent());
 
         // Get all Entries except Quiz selected entry (for fault answer)
@@ -212,8 +217,25 @@ public class EntryQuizPlayActivity extends AppCompatActivity {
     private void onTrue() {
         timer.cancel();
         score++;
-        trueObj.setLevel(trueObj.getLevel() + 1);
-        handler.update(trueObj, trueObj.getEntryId());
+        int level = trueObj.getLevel() + 1;
+        trueObj.setLevel(level);
+        String id = trueObj.getEntryId();
+
+        if (!changedEntry.containsKey(id)) {
+            changedEntry.put(id, Integer.toString(level));
+        } else {
+            changedEntry.remove(id);
+            changedEntry.put(id, Integer.toString(level));
+        }
+
+
+       /* if (!changedIds.contains(changedEntry)) {
+            changedIds.add(changedEntry);
+            changedObjs.add(trueObj);
+        } else {
+
+        }*/
+        //handler.update(trueObj, trueObj.getEntryId());
 
         if (listSize == 1 && trueObj.getLevel() == YTDictValues.ENTRY_MAX_LEVEL) {
             onCompleteQuiz();
@@ -246,6 +268,7 @@ public class EntryQuizPlayActivity extends AppCompatActivity {
                         Intent intent = new Intent();
                         intent.putExtra("user_object", userObj);
                         intent.putExtra("your_score", score);
+                        intent.putExtra("changed_entries", (Serializable) changedEntry);
                         setResult(RESULT_CODE_ENTRY_QUIZ_FAULT, intent);
                         finish();
                     }
@@ -274,6 +297,7 @@ public class EntryQuizPlayActivity extends AppCompatActivity {
                         Intent intent = new Intent();
                         intent.putExtra("user_object", userObj);
                         intent.putExtra("your_score", score);
+                        intent.putExtra("changed_entries", (Serializable) changedEntry);
                         setResult(RESULT_CODE_ENTRY_QUIZ_COMPLETE, intent);
                         finish();
                     }
