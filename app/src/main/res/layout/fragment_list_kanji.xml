@@ -27,7 +27,8 @@
     <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
         android:id="@+id/kanji_list_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:paddingBottom="40dp"/>
 
 
 </LinearLayout>
