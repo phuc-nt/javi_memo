@@ -1,5 +1,7 @@
 package com.ytasia.dict.view.fragment;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -100,7 +102,7 @@ public class EntryListFragment extends Fragment {
                 new OnDismissCallback() {
                     @Override
                     public void onDismiss(@NonNull final ViewGroup listView, @NonNull final int[] reverseSortedPositions) {
-                        for (int position : reverseSortedPositions) {
+                        for (final int position : reverseSortedPositions) {
                             // Get object user want to delete
                             final EntryObj deleteObj = listEntryOb.get(position);
 
@@ -159,20 +161,21 @@ public class EntryListFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.tool_bar_main_menu, menu);
+        //SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
 
         // Match object to layout elements
         MenuItem searchItem = menu.findItem(R.id.toolbar_search);
 
         // Search function
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setIconifiedByDefault(false);
+        searchView.setIconifiedByDefault(true);
+        searchView.setSubmitButtonEnabled(false);
+        //searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-                searchView.clearFocus();
-                return true;
+                return false;
             }
 
             @Override
@@ -182,6 +185,9 @@ public class EntryListFragment extends Fragment {
                 } else {
                     entryList.setFilterText(newText.toString());
                     //adapter.getFilter().filter(newText);
+                    /*entryList.setSelectionAfterHeaderView();
+                    adapter = (EntryService.EntryListAdapter) entryList.getAdapter();
+                    adapter.getFilter().filter(newText);*/
                 }
                 return true;
             }

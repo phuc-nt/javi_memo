@@ -232,27 +232,14 @@ public class TBEntryHandler extends YTDictDbHandler {
             if (newKanjiId != -1) {
                 KanjiEntryObj kanjiEntryObj = new KanjiEntryObj(newKanjiId, newEntryId);
 
-                //DBBasic dbBasic = DBBasic.createInstance();
-                //dbBasic.insertKanjiEntry(Integer.toString(kanjiEntryObj.getKanjiId()), kanjiEntryObj.getEntryId());
-
                 KanjiEntryService service = new KanjiEntryService();
                 service.add(Integer.toString(kanjiEntryObj.getKanjiId()), kanjiEntryObj.getEntryId());
-
-                //TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(context);
-                //tbKanjiEntryHandler.add(kanjiEntryObj);
             } else {
                 KanjiObj o = kanjiHandler.getByCharater(kanjiObj.getCharacter());
                 KanjiEntryObj kanjiEntryObj = new KanjiEntryObj(o.getKanjiId(), newEntryId);
 
-
-                //DBBasic dbBasic = DBBasic.createInstance();
-                //dbBasic.insertKanjiEntry(Integer.toString(kanjiEntryObj.getKanjiId()), kanjiEntryObj.getEntryId());
-
                 KanjiEntryService service = new KanjiEntryService();
                 service.add(Integer.toString(kanjiEntryObj.getKanjiId()), kanjiEntryObj.getEntryId());
-
-                //TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(context);
-                //tbKanjiEntryHandler.add(kanjiEntryObj);
             }
         }
     }

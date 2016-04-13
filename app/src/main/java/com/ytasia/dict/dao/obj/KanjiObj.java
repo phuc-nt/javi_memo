@@ -50,7 +50,7 @@ public class KanjiObj implements Serializable {
         this.hanviet = "No Suggestion";
         this.meaning = "No Suggestion";
         this.associated = "No Suggestion";
-        this.level = 1;
+        this.level = 0;
     }
 
     public KanjiObj() {

@@ -135,10 +135,8 @@ public class DBBasic implements MeteorCallback {
         meteor.insert(TBKANJIENTRY_NAME, values, new ResultListener() {
             @Override
             public void onSuccess(String s) {
-                //subscribeAll();
-                Log.i("Insert kanjientry to Server", "Success");
+                Log.i("Insert Kanji-Entry to Server", "Success");
                 subscribe(TBKANJIENTRY_NAME);
-                //subscribeAll();
             }
 
             @Override
@@ -154,6 +152,7 @@ public class DBBasic implements MeteorCallback {
             public void onSuccess(String s) {
                 Log.i("Delete kanji-entry", "Success");
                 kanjiEntryHandler.delete(id);
+                YTDictValues.kanjiEntryIds.remove(id);
             }
 
             @Override
@@ -163,7 +162,7 @@ public class DBBasic implements MeteorCallback {
         });
     }
 
-    public void insertEntry(EntryObj entry) {
+    public void insertEntry(final EntryObj entry) {
         Map<String, Object> values = new HashMap<>();
 
         if (YTDictValues.fUserid != null) {
@@ -184,7 +183,6 @@ public class DBBasic implements MeteorCallback {
             @Override
             public void onSuccess(String s) {
                 Log.i("Insert entry", "Success : " + s);
-
                 subscribe(TBENTRY_NAME);
             }
 
@@ -229,7 +227,9 @@ public class DBBasic implements MeteorCallback {
             @Override
             public void onSuccess(String s) {
                 Log.i("Delete entry", "Success");
+                String deleteEntry = entryHandler.getById(entryId).getContent();
                 entryHandler.delete(entryId);
+                YTDictValues.entriesContent.remove(deleteEntry);
             }
 
             @Override

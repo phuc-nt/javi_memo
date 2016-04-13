@@ -71,17 +71,13 @@ public class EntryService {
         DBBasic db = DBBasic.getInstance();
 
         TBKanjiEntryHandler kanjiEntryHandler = new TBKanjiEntryHandler(context);
-        List<String> entriesId = kanjiEntryHandler.getAllServerIdByEntryId(id);
+        List<String> serverIds = kanjiEntryHandler.getAllServerIdByEntryId(id);
 
-        for (int i = 0; i < entriesId.size(); i++) {
-            db.deleteKanjiEntry(entriesId.get(i));
+        for (int i = 0; i < serverIds.size(); i++) {
+            db.deleteKanjiEntry(serverIds.get(i));
         }
 
         db.deleteEntry(id);
-        /*entryHd = new TBEntryHandler(context);
-
-        // Delete on database
-        entryHd.delete(id);*/
     }
 
     /**
