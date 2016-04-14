@@ -146,6 +146,7 @@ public class EntryListFragment extends Fragment {
                                          if (!newEntryEt.getText().toString().equalsIgnoreCase("")) {
                                              String newEntry = newEntryEt.getText().toString();
                                              String newEntry2 = newEntry.replaceAll("\\s", "");
+
                                              if (!YTDictValues.entriesContent.contains(newEntry2)) {
                                                  Intent intent = new Intent(getActivity(), EntryAddActivity.class);
                                                  intent.putExtra("new_entry_name", newEntry2);
@@ -165,7 +166,6 @@ public class EntryListFragment extends Fragment {
 
                                                  alert.show();
                                              }
-
                                          } else {
                                              newEntryEt.setError("Please insert some text");
                                          }
@@ -204,11 +204,11 @@ public class EntryListFragment extends Fragment {
                     entryList.clearTextFilter();
                 } else {
                     entryList.setFilterText(newText.toString());
-                    //adapter.getFilter().filter(newText);
                     /*entryList.setSelectionAfterHeaderView();
                     adapter = (EntryService.EntryListAdapter) entryList.getAdapter();
                     adapter.getFilter().filter(newText);*/
                 }
+                adapter.getFilter().filter(newText);
                 return true;
             }
         });

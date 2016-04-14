@@ -1,6 +1,8 @@
 package com.ytasia.dict.view.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,7 +10,9 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.ytasia.dict.dao.db_handle.TBKanjiHandler;
 import com.ytasia.dict.dao.obj.UserObj;
+import com.ytasia.dict.util.YTDictValues;
 
 import ytasia.dictionary.R;
 
@@ -26,6 +30,8 @@ public class KanjiQuizMainActivity extends AppCompatActivity {
     private TextView levelTv;
     private UserObj userObj;
     private int quizTime;
+
+    private TBKanjiHandler handler = new TBKanjiHandler(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,30 +53,45 @@ public class KanjiQuizMainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(KanjiQuizMainActivity.this, KanjiQuizPlayActivity.class);
+                if (handler.getQuizData(YTDictValues.KANJI_MAX_LEVEL).size() == 0 || handler.getAll().size() < 4) {
+                    // Show alert when user reached max level of all entries
+                    AlertDialog.Builder alert = new AlertDialog.Builder(KanjiQuizMainActivity.this);
+                    alert.setCancelable(false);
+                    alert.setTitle(getResources().getString(R.string.request_update_list_title));
+                    alert.setMessage(getResources().getString(R.string.continue_message));
+                    alert.setPositiveButton(getResources().getString(R.string.ok_button),
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            });
+                    alert.show();
+                } else {
+                    Intent intent = new Intent(KanjiQuizMainActivity.this, KanjiQuizPlayActivity.class);
+                    int level = Integer.parseInt(levelTv.getText().toString());
+                    switch (level) {
+                        case 1:
+                            quizTime = 5;
+                            break;
+                        case 2:
+                            quizTime = 4;
+                            break;
+                        case 3:
+                            quizTime = 3;
+                            break;
+                        case 4:
+                            quizTime = 2;
+                            break;
+                        case 5:
+                            quizTime = 1;
+                            break;
+                    }
 
-                int level = Integer.parseInt(levelTv.getText().toString());
-                switch (level) {
-                    case 1:
-                        quizTime = 5;
-                        break;
-                    case 2:
-                        quizTime = 4;
-                        break;
-                    case 3:
-                        quizTime = 3;
-                        break;
-                    case 4:
-                        quizTime = 2;
-                        break;
-                    case 5:
-                        quizTime = 1;
-                        break;
+                    intent.putExtra("quiz_time", quizTime);
+                    intent.putExtra("user_object", userObj);
+                    startActivityForResult(intent, REQUEST_CODE_KANJI_QUIZ_START);
                 }
-
-                intent.putExtra("quiz_time", quizTime);
-                intent.putExtra("user_object", userObj);
-                startActivityForResult(intent, REQUEST_CODE_KANJI_QUIZ_START);
             }
         });
 
