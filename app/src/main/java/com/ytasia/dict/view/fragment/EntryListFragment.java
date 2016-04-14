@@ -37,6 +37,7 @@ import com.ytasia.dict.dao.obj.EntryObj;
 
 import com.ytasia.dict.service.EntryService;
 import com.ytasia.dict.service.KanjiService;
+import com.ytasia.dict.util.YTDictValues;
 import com.ytasia.dict.view.activity.EntryAddActivity;
 import com.ytasia.dict.view.activity.EntryViewActivity;
 import com.ytasia.dict.view.activity.MainActivity;
@@ -143,9 +144,28 @@ public class EntryListFragment extends Fragment {
                                      @Override
                                      public void onClick(View arg0) {
                                          if (!newEntryEt.getText().toString().equalsIgnoreCase("")) {
-                                             Intent intent = new Intent(getActivity(), EntryAddActivity.class);
-                                             intent.putExtra("new_entry_name", newEntryEt.getText().toString());
-                                             startActivityForResult(intent, MainActivity.REQUEST_CODE_ENTRY_ADD);
+                                             String newEntry = newEntryEt.getText().toString();
+                                             String newEntry2 = newEntry.replaceAll("\\s", "");
+                                             if (!YTDictValues.entriesContent.contains(newEntry2)) {
+                                                 Intent intent = new Intent(getActivity(), EntryAddActivity.class);
+                                                 intent.putExtra("new_entry_name", newEntry2);
+                                                 startActivityForResult(intent, MainActivity.REQUEST_CODE_ENTRY_ADD);
+                                             } else {
+                                                 final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                                                 alert.setTitle("Alert!!");
+                                                 alert.setMessage(newEntry2 + " already in your list");
+                                                 alert.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+
+                                                     @Override
+                                                     public void onClick(DialogInterface dialog, int which) {
+
+                                                         dialog.dismiss();
+                                                     }
+                                                 });
+
+                                                 alert.show();
+                                             }
+
                                          } else {
                                              newEntryEt.setError("Please insert some text");
                                          }
