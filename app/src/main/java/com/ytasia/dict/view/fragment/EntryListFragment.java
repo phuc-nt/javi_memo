@@ -37,6 +37,7 @@ import java.util.List;
 import com.ytasia.dict.dao.db_handle.TBEntryHandler;
 import com.ytasia.dict.dao.obj.EntryObj;
 
+import com.ytasia.dict.ddp.DBBasic;
 import com.ytasia.dict.service.EntryService;
 import com.ytasia.dict.service.KanjiService;
 import com.ytasia.dict.util.YTDictValues;
@@ -70,6 +71,9 @@ public class EntryListFragment extends Fragment implements RefreshInterface {
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
+        YTDictValues.refreshInterface = EntryListFragment.this;
+        DBBasic db = DBBasic.getInstance();
+        db.subscribeAll();
     }
 
     @Override

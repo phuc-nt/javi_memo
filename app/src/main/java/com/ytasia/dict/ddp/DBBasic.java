@@ -71,7 +71,7 @@ public class DBBasic implements MeteorCallback {
         meteor.subscribe(TBKANJIENTRY_NAME, user);
     }
 
-    private void subscribe(String tbName) {
+    public void subscribe(String tbName) {
         String sub = null;
         if (TBKANJI_NAME.equals(tbName)) {
             sub = meteor.subscribe(TBKANJI_NAME);
