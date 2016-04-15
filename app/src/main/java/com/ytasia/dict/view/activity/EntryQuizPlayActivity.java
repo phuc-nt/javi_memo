@@ -42,7 +42,7 @@ public class EntryQuizPlayActivity extends AppCompatActivity {
     private EntryObj trueObj;
     private int listSize;
     private Map<String, String> changedEntry = new HashMap<>();
-    //private int lastEntryLevel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -228,14 +228,7 @@ public class EntryQuizPlayActivity extends AppCompatActivity {
             changedEntry.put(id, Integer.toString(level));
         }
 
-
-       /* if (!changedIds.contains(changedEntry)) {
-            changedIds.add(changedEntry);
-            changedObjs.add(trueObj);
-        } else {
-
-        }*/
-        //handler.update(trueObj, trueObj.getEntryId());
+        handler.update(trueObj, trueObj.getEntryId());
 
         if (listSize == 1 && trueObj.getLevel() == YTDictValues.ENTRY_MAX_LEVEL) {
             onCompleteQuiz();
