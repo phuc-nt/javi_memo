@@ -203,12 +203,8 @@ public class EntryListFragment extends Fragment {
                 if (TextUtils.isEmpty(newText)) {
                     entryList.clearTextFilter();
                 } else {
-                    entryList.setFilterText(newText.toString());
-                    /*entryList.setSelectionAfterHeaderView();
-                    adapter = (EntryService.EntryListAdapter) entryList.getAdapter();
-                    adapter.getFilter().filter(newText);*/
+                    adapter.getFilter().filter(newText);
                 }
-                adapter.getFilter().filter(newText);
                 return true;
             }
         });

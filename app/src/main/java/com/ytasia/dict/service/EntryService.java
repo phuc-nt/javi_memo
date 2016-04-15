@@ -1,10 +1,13 @@
 package com.ytasia.dict.service;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
@@ -30,15 +33,35 @@ public class EntryService {
     /**
      * Customized Adapter for Entry List Object
      */
-    public static class EntryListAdapter extends ArrayAdapter<EntryObj> implements Filterable{
-        private final Context context;
-        private final List<EntryObj> values;
+    public static class EntryListAdapter extends BaseAdapter implements Filterable {
+        private Context context;
+        private List<EntryObj> values;
+        private List<EntryObj> filteredValues;
+        private Typeface typeface;
+        private EntryFilter entryFilter;
 
         // Constructor
         public EntryListAdapter(Context context, List<EntryObj> values) {
-            super(context, -1, values);
             this.context = context;
             this.values = values;
+            this.filteredValues = values;
+
+            getFilter();
+        }
+
+        @Override
+        public int getCount() {
+            return filteredValues.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return filteredValues.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
         }
 
         @Override
@@ -56,6 +79,45 @@ public class EntryService {
             entryLevel.setText(Integer.toString(values.get(position).getLevel()));
 
             return itemView;
+        }
+
+        @Override
+        public Filter getFilter() {
+            if (entryFilter == null) {
+                entryFilter = new EntryFilter();
+            }
+            return entryFilter;
+        }
+
+        private class EntryFilter extends Filter {
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults filterResults = new FilterResults();
+                if (constraint != null && constraint.length() > 0) {
+                    List<EntryObj> tempList = new ArrayList<>();
+
+                    for (EntryObj obj : values) {
+                        if (obj.getContent().contains(constraint.toString())) {
+                            tempList.add(obj);
+                        }
+                    }
+
+                    filterResults.count = tempList.size();
+                    filterResults.values = tempList;
+                } else {
+                    filterResults.count = values.size();
+                    filterResults.values = values;
+                }
+
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                filteredValues = (List<EntryObj>) results.values;
+                notifyDataSetChanged();
+            }
         }
     }
 

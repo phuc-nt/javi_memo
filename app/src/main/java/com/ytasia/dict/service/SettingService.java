@@ -8,7 +8,9 @@ import com.ytasia.dict.dao.db_handle.TBEntryHandler;
 import com.ytasia.dict.dao.db_handle.TBKanjiHandler;
 import com.ytasia.dict.dao.obj.EntryObj;
 import com.ytasia.dict.dao.obj.KanjiObj;
+import com.ytasia.dict.util.YTDictValues;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +23,7 @@ public class SettingService {
      */
     public void resetEntryLevel(Context context) {
         final TBEntryHandler entryHandler = new TBEntryHandler(context);
+        final EntryService service = new EntryService();
 
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setTitle("Alert!!");
@@ -32,7 +35,7 @@ public class SettingService {
                 List<EntryObj> entryObjs = entryHandler.getAll();
                 for (int i = 0; i < entryObjs.size(); i++) {
                     entryObjs.get(i).setLevel(0);
-                    entryHandler.update(entryObjs.get(i), entryObjs.get(i).getEntryId());
+                    service.update(entryObjs.get(i));
                 }
             }
         });
@@ -85,6 +88,7 @@ public class SettingService {
      */
     public void clearEntry(final Context context) {
         final TBEntryHandler entryHandler = new TBEntryHandler(context);
+        final EntryService service = new EntryService();
 
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setTitle("Alert!!");
@@ -96,8 +100,10 @@ public class SettingService {
                 List<EntryObj> entryObjs = entryHandler.getAll();
                 for (int i = 0; i < entryObjs.size(); i++) {
                     EntryObj obj = entryObjs.get(i);
-                    entryHandler.delete(obj.getEntryId());
+                    service.delete(context, obj.getEntryId());
                 }
+                YTDictValues.entriesContent = new ArrayList<String>();
+                YTDictValues.kanjiEntryIds = new ArrayList<String>();
             }
         });
 

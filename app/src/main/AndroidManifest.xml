@@ -23,7 +23,10 @@
 
 
         <activity android:name="com.ytasia.dict.view.activity.MainActivity">
-
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable">
+            </meta-data>
         </activity>
 
         <activity android:name="com.ytasia.dict.view.activity.LoginActivity">

@@ -34,6 +34,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SettingFragment extends Fragment {
@@ -79,6 +80,8 @@ public class SettingFragment extends Fragment {
 
                 TBUserHandler hd = new TBUserHandler(getActivity());
                 hd.dropAllTables();
+                YTDictValues.entriesContent = new ArrayList<String>();
+                YTDictValues.kanjiEntryIds = new ArrayList<String>();
 
                 /*Intent intent = new Intent(getActivity(), UpgradeActivity.class);
                 startActivity(intent);*/
