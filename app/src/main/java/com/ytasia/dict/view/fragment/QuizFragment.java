@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.ytasia.dict.dao.obj.UserObj;
 
+import com.ytasia.dict.util.YTDictValues;
 import com.ytasia.dict.view.activity.EntryQuizMainActivity;
 import com.ytasia.dict.view.activity.KanjiQuizMainActivity;
 import com.ytasia.dict.view.activity.MainActivity;
@@ -24,7 +25,6 @@ public class QuizFragment extends Fragment {
     public static final int RESULT_CODE_KANJI_QUIZ_FINISH = 302;
     private Button entryQuizBt, kanjiQuizBt;
     private TextView entryHS, kanjiHS;
-    private UserObj userObj;
 
     public QuizFragment() {
         // Required empty public constructor
@@ -44,7 +44,6 @@ public class QuizFragment extends Fragment {
         matchObjectToLayout(view);
 
         // Set data for view
-        userObj = MainActivity.user;
         setData();
 
         // on click Entry Quiz button
@@ -53,7 +52,7 @@ public class QuizFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), EntryQuizMainActivity.class);
-                intent.putExtra("user_object", userObj);
+                intent.putExtra("user_object", YTDictValues.user);
                 startActivityForResult(intent, REQUEST_CODE_ENTRY_QUIZ_SELECT);
             }
         });
@@ -64,7 +63,7 @@ public class QuizFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), KanjiQuizMainActivity.class);
-                intent.putExtra("user_object", userObj);
+                intent.putExtra("user_object", YTDictValues.user);
                 startActivityForResult(intent, REQUEST_CODE_KANJI_QUIZ_SELECT);
             }
         });
@@ -79,7 +78,7 @@ public class QuizFragment extends Fragment {
             switch (resultCode) {
                 // Quiz end
                 case RESULT_CODE_ENTRY_QUIZ_FINISH:
-                    userObj = (UserObj) data.getSerializableExtra("user_object");
+                    YTDictValues.user = (UserObj) data.getSerializableExtra("user_object");
                     setData();
                     break;
             }
@@ -89,7 +88,7 @@ public class QuizFragment extends Fragment {
             switch (resultCode) {
                 // Quiz end
                 case RESULT_CODE_KANJI_QUIZ_FINISH:
-                    userObj = (UserObj) data.getSerializableExtra("user_object");
+                    YTDictValues.user = (UserObj) data.getSerializableExtra("user_object");
                     setData();
                     break;
             }
@@ -110,8 +109,8 @@ public class QuizFragment extends Fragment {
      * Set data for view
      */
     private void setData() {
-        entryHS.setText(Integer.toString(userObj.getEntryHighScore()));
-        kanjiHS.setText(Integer.toString(userObj.getKanjiHighScore()));
+        entryHS.setText(Integer.toString(YTDictValues.user.getEntryHighScore()));
+        kanjiHS.setText(Integer.toString(YTDictValues.user.getKanjiHighScore()));
         //ObjectAnimator.ofFloat(entryQuizBt, "rotation", 0, 45).start();
     }
 }

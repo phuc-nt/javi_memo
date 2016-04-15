@@ -50,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout mainTabLayout;
     private ViewPager mainViewPager;
 
-    public static UserObj user;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -189,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
         type = YTDictValues.acc_type;
         pass = UUID.randomUUID().toString();
 
-        MainActivity.user = new UserObj(0, name, pass);
+        YTDictValues.user = new UserObj(0, name, pass);
 
         // connect to server
         final Object ob = new Object();
@@ -380,7 +378,7 @@ public class MainActivity extends AppCompatActivity {
         final String pass = "phucnt123";
         String userId;
 
-        MainActivity.user = new UserObj(0, userName, pass);
+        YTDictValues.user = new UserObj(0, userName, pass);
 
 
         EntryObj ob1, ob2, ob3, ob4, ob5, ob6, ob7, ob8, ob9, ob10;

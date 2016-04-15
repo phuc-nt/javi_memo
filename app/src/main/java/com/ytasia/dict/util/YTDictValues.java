@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.facebook.CallbackManager;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.ytasia.dict.dao.obj.UserObj;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +15,8 @@ import java.util.HashMap;
 public class YTDictValues {
     public static int ENTRY_MAX_LEVEL = 5;
     public static int KANJI_MAX_LEVEL = 5;
+
+    public static UserObj user;
 
     public static boolean isLogin = false;
     public static CallbackManager callbackManager;
