@@ -18,6 +18,7 @@ import java.util.List;
 
 import com.ytasia.dict.dao.db_handle.SuggestDataAccess;
 import com.ytasia.dict.dao.obj.EntryObj;
+import com.ytasia.dict.service.EntryService;
 import com.ytasia.dict.util.YTDictValues;
 
 import ytasia.dictionary.R;
@@ -27,6 +28,8 @@ public class EntryAddActivity extends AppCompatActivity {
     private Toolbar entryToolbar;
     private TextView entryContentTv;
     private EditText entryFuriganaEt, entryMeaningEt, entryExampleEt;
+
+    private EntryService service = new EntryService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,10 +85,10 @@ public class EntryAddActivity extends AppCompatActivity {
 
                 // Create new object with new data
                 EntryObj newObj = new EntryObj(YTDictValues.username, newEntryContent, newEntryFurigana, newEntryMeaning, newEntryExample, null);
+                //service.add(newObj);
 
                 // Put Object to EntryListFragment
                 Intent myIntent = getIntent();
-                // myIntent.putExtra("fragmentPosition", "1");
                 myIntent.putExtra("add_entry_object", newObj);
                 setResult(MainActivity.RESULT_CODE_ENTRY_ADD, myIntent);
                 finish();

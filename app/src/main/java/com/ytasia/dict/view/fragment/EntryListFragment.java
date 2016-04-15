@@ -28,6 +28,8 @@ import android.widget.Toast;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCallback;
 
+import java.io.IOError;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -47,7 +49,7 @@ import org.jsoup.helper.StringUtil;
 import ytasia.dictionary.R;
 
 
-public class EntryListFragment extends Fragment {
+public class EntryListFragment extends Fragment implements RefreshInterface {
 
     private ImageButton addBt;
     private EditText newEntryEt;
@@ -118,9 +120,8 @@ public class EntryListFragment extends Fragment {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // Delete Entry
                                     entryService.delete(getActivity(), deleteObj.getEntryId());
+                                    YTDictValues.refreshInterface = EntryListFragment.this;
 
-                                    // Refresh ListView
-                                    refreshListView();
                                 }
                             });
                             alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -133,9 +134,10 @@ public class EntryListFragment extends Fragment {
                             });
 
                             alert.show();
+                            refreshListView();
                         }
+                        refreshListView();
                     }
-
                 }
 
         );
@@ -276,10 +278,11 @@ public class EntryListFragment extends Fragment {
             switch (resultCode) {
                 // After add entry
                 case MainActivity.RESULT_CODE_ENTRY_ADD:
-                    EntryObj entryObj = (EntryObj) data.getSerializableExtra("add_entry_object");
+                    final EntryObj entryObj = (EntryObj) data.getSerializableExtra("add_entry_object");
+                    final Object ob = new Object();
 
-                    // Update new entry
                     entryService.add(entryObj);
+                    YTDictValues.refreshInterface = EntryListFragment.this;
 
                     // Refresh add field
                     newEntryEt.clearFocus();
@@ -298,6 +301,8 @@ public class EntryListFragment extends Fragment {
 
                     // Update to server
                     entryService.update(newObj);
+                    YTDictValues.refreshInterface = EntryListFragment.this;
+
                     break;
             }
         }
@@ -310,6 +315,7 @@ public class EntryListFragment extends Fragment {
      *
      * @param view View of EntryListFragment
      */
+
     private void matchObjectToLayout(View view) {
         toolbar = (Toolbar) view.findViewById(R.id.entry_list_fragment_toolbar);
         addBt = (ImageButton) view.findViewById(R.id.entry_list_add_new_button);
@@ -341,7 +347,7 @@ public class EntryListFragment extends Fragment {
      */
     public void refreshListView() {
         listEntryOb = entryHd.getAll();
-        adapter = new EntryService.EntryListAdapter(getActivity(), listEntryOb);
+        adapter = new EntryService.EntryListAdapter(YTDictValues.appContext, listEntryOb);
         entryList.setAdapter(adapter);
     }
 }

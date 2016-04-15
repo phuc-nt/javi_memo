@@ -5,6 +5,7 @@ import android.content.Context;
 import com.facebook.CallbackManager;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.ytasia.dict.dao.obj.UserObj;
+import com.ytasia.dict.view.fragment.RefreshInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,4 +38,6 @@ public class YTDictValues {
 
     public static ArrayList<String> entriesContent = new ArrayList<>();
     public static ArrayList<String> kanjiEntryIds = new ArrayList<>();
+
+    public static RefreshInterface refreshInterface;
 }

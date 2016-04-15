@@ -213,6 +213,9 @@ public class DBBasic implements MeteorCallback {
             public void onSuccess(String s) {
                 Log.i("Update entry", "Success");
                 entryHandler.update(entry, entry.getEntryId());
+                if (YTDictValues.refreshInterface != null) {
+                    YTDictValues.refreshInterface.refreshListView();
+                }
             }
 
             @Override
@@ -230,6 +233,9 @@ public class DBBasic implements MeteorCallback {
                 String deleteEntry = entryHandler.getById(entryId).getContent();
                 entryHandler.delete(entryId);
                 YTDictValues.entriesContent.remove(deleteEntry);
+                if (YTDictValues.refreshInterface != null) {
+                    YTDictValues.refreshInterface.refreshListView();
+                }
             }
 
             @Override
@@ -298,10 +304,8 @@ public class DBBasic implements MeteorCallback {
 
     }
 
-
     @Override
     public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
-        //Log.i("Collection name ", collectionName);
         Log.i("onDataAdded", collectionName + "\n" + documentID + "\n" + newValuesJson);
         switch (collectionName) {
             case TBENTRY_NAME:
@@ -327,6 +331,9 @@ public class DBBasic implements MeteorCallback {
         }
         disConnect();
 
+        if (YTDictValues.refreshInterface != null) {
+            YTDictValues.refreshInterface.refreshListView();
+        }
     }
 
     @Override
