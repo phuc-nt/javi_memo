@@ -71,23 +71,28 @@ public class EntryAddActivity extends AppCompatActivity {
         }
 
         if (id == R.id.toolbar_done_button) {
-            // Get new data
-            //String newEntryContent = getIntent().getStringExtra("new_entry_name");
-            String newEntryContent = entryContentTv.getText().toString();
-            String newEntryFurigana = entryFuriganaEt.getText().toString();
-            String newEntryMeaning = entryMeaningEt.getText().toString();
-            String newEntryExample = entryExampleEt.getText().toString();
+            String furi = entryFuriganaEt.getText().toString().replaceAll("\\s", "");
+            if (!furi.equalsIgnoreCase("")) {
+                // Get new data
+                //String newEntryContent = getIntent().getStringExtra("new_entry_name");
+                String newEntryContent = entryContentTv.getText().toString();
+                String newEntryFurigana = entryFuriganaEt.getText().toString();
+                String newEntryMeaning = entryMeaningEt.getText().toString();
+                String newEntryExample = entryExampleEt.getText().toString();
 
-            // Create new object with new data
-            EntryObj newObj = new EntryObj(YTDictValues.username, newEntryContent, newEntryFurigana, newEntryMeaning, newEntryExample, null);
+                // Create new object with new data
+                EntryObj newObj = new EntryObj(YTDictValues.username, newEntryContent, newEntryFurigana, newEntryMeaning, newEntryExample, null);
 
-            // Put Object to EntryListFragment
-            Intent myIntent = getIntent();
-            // myIntent.putExtra("fragmentPosition", "1");
-            myIntent.putExtra("add_entry_object", newObj);
-            setResult(MainActivity.RESULT_CODE_ENTRY_ADD, myIntent);
-            finish();
-            return true;
+                // Put Object to EntryListFragment
+                Intent myIntent = getIntent();
+                // myIntent.putExtra("fragmentPosition", "1");
+                myIntent.putExtra("add_entry_object", newObj);
+                setResult(MainActivity.RESULT_CODE_ENTRY_ADD, myIntent);
+                finish();
+                return true;
+            } else {
+                entryFuriganaEt.setError("Please insert some text");
+            }
         }
 
         return super.onOptionsItemSelected(item);

@@ -42,6 +42,8 @@ import com.ytasia.dict.view.activity.EntryAddActivity;
 import com.ytasia.dict.view.activity.EntryViewActivity;
 import com.ytasia.dict.view.activity.MainActivity;
 
+import org.jsoup.helper.StringUtil;
+
 import ytasia.dictionary.R;
 
 
@@ -69,7 +71,7 @@ public class EntryListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_entry, container, false);
 
@@ -140,10 +142,10 @@ public class EntryListFragment extends Fragment {
 
         // on click Add Button
         addBt.setOnClickListener(new View.OnClickListener() {
-
                                      @Override
                                      public void onClick(View arg0) {
-                                         if (!newEntryEt.getText().toString().equalsIgnoreCase("")) {
+                                         String input = newEntryEt.getText().toString().replaceAll("\\s", "");
+                                         if (!input.equalsIgnoreCase("") && !StringUtil.isNumeric(input)) {
                                              String newEntry = newEntryEt.getText().toString();
                                              String newEntry2 = newEntry.replaceAll("\\s", "");
 
