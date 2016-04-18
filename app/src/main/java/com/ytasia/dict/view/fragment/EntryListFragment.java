@@ -34,6 +34,7 @@ import com.ytasia.dict.dao.obj.EntryObj;
 
 import com.ytasia.dict.ddp.DBBasic;
 import com.ytasia.dict.service.EntryService;
+import com.ytasia.dict.util.JapaneseHandler;
 import com.ytasia.dict.util.YTDictValues;
 import com.ytasia.dict.view.activity.EntryAddActivity;
 import com.ytasia.dict.view.activity.EntryViewActivity;
@@ -148,10 +149,38 @@ public class EntryListFragment extends Fragment implements RefreshInterface {
                                              String newEntry = newEntryEt.getText().toString();
                                              String newEntry2 = newEntry.replaceAll("\\s", "");
 
+                                             JapaneseHandler handler = new JapaneseHandler();
+                                             String kanji = handler.getAllKanji(newEntry2);
+
+                                             /**
+                                              * Check data on device
+                                              * If new entry is existed, do nothing
+                                              */
                                              if (!YTDictValues.entriesContent.contains(newEntry2)) {
-                                                 Intent intent = new Intent(getActivity(), EntryAddActivity.class);
-                                                 intent.putExtra("new_entry_name", newEntry2);
-                                                 startActivityForResult(intent, MainActivity.REQUEST_CODE_ENTRY_ADD);
+                                                 /**
+                                                  * Check number of kanji
+                                                  * If > 4, do nothing
+                                                  */
+                                                 if (!(handler.getCodePointLength(kanji) > 4)) {
+                                                     Intent intent = new Intent(getActivity(), EntryAddActivity.class);
+                                                     intent.putExtra("new_entry_name", newEntry2);
+                                                     startActivityForResult(intent, MainActivity.REQUEST_CODE_ENTRY_ADD);
+                                                 } else {
+                                                     final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                                                     alert.setTitle("Alert!!");
+                                                     alert.setMessage("Please insert entry with maximum 4 kanjis");
+                                                     alert.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+
+                                                         @Override
+                                                         public void onClick(DialogInterface dialog, int which) {
+
+                                                             dialog.dismiss();
+                                                         }
+                                                     });
+
+                                                     alert.show();
+                                                 }
+
                                              } else {
                                                  final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
                                                  alert.setTitle("Alert!!");
