@@ -183,7 +183,9 @@ public class DBBasic implements MeteorCallback {
             @Override
             public void onSuccess(String s) {
                 Log.i("Insert entry", "Success : " + s);
-                subscribe(TBENTRY_NAME);
+                YTDictValues.refreshInterface.init(TBENTRY_NAME);
+
+                //subscribe(TBENTRY_NAME);
             }
 
             @Override

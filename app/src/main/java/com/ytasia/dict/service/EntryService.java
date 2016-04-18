@@ -2,6 +2,7 @@ package com.ytasia.dict.service;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,6 @@ public class EntryService {
         private Context context;
         private List<EntryObj> values;
         private List<EntryObj> filteredValues;
-        private Typeface typeface;
         private EntryFilter entryFilter;
 
         // Constructor
@@ -68,6 +68,7 @@ public class EntryService {
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            EntryObj entryObj = (EntryObj) getItem(position);
 
             // Match ListView to Layout
             View itemView = inflater.inflate(R.layout.list_item_entry, parent, false);
@@ -75,8 +76,9 @@ public class EntryService {
             TextView entryLevel = (TextView) itemView.findViewById(R.id.entry_list_item_content_2);
 
             // Set data for ListItem
-            entryName.setText(values.get(position).toString());
-            entryLevel.setText(Integer.toString(values.get(position).getLevel()));
+            entryName.setText(entryObj.toString());
+            entryLevel.setText(Integer.toString(entryObj.getLevel()));
+
 
             return itemView;
         }

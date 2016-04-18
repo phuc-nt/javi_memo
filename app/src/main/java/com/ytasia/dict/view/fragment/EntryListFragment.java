@@ -1,7 +1,5 @@
 package com.ytasia.dict.view.fragment;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,13 +21,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCallback;
 
-import java.io.IOError;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -39,7 +34,6 @@ import com.ytasia.dict.dao.obj.EntryObj;
 
 import com.ytasia.dict.ddp.DBBasic;
 import com.ytasia.dict.service.EntryService;
-import com.ytasia.dict.service.KanjiService;
 import com.ytasia.dict.util.YTDictValues;
 import com.ytasia.dict.view.activity.EntryAddActivity;
 import com.ytasia.dict.view.activity.EntryViewActivity;
@@ -68,12 +62,20 @@ public class EntryListFragment extends Fragment implements RefreshInterface {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init("tbEntry");
+    }
+
+    @Override
+    public void init(String tbName) {
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
+        entryHd = new TBEntryHandler(getActivity());
+        listEntryOb = entryHd.getAll();
         YTDictValues.refreshInterface = EntryListFragment.this;
+
         DBBasic db = DBBasic.getInstance();
-        db.subscribeAll();
+        db.subscribe(tbName);
     }
 
     @Override
@@ -97,7 +99,7 @@ public class EntryListFragment extends Fragment implements RefreshInterface {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 // Get Entry Object by position
-                EntryObj ob = (EntryObj) parent.getAdapter().getItem(position);
+                EntryObj ob = (EntryObj) parent.getItemAtPosition(position);
 
                 // Set data object to Intent
                 Intent intent = new Intent(getActivity(), EntryViewActivity.class);
@@ -125,25 +127,20 @@ public class EntryListFragment extends Fragment implements RefreshInterface {
                                     // Delete Entry
                                     entryService.delete(getActivity(), deleteObj.getEntryId());
                                     YTDictValues.refreshInterface = EntryListFragment.this;
-
                                 }
                             });
                             alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
 
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-
                                     dialog.dismiss();
                                 }
                             });
 
                             alert.show();
-                            refreshListView();
                         }
-                        refreshListView();
                     }
                 }
-
         );
 
         // on click Add Button
@@ -211,7 +208,8 @@ public class EntryListFragment extends Fragment implements RefreshInterface {
                 if (TextUtils.isEmpty(newText)) {
                     entryList.clearTextFilter();
                 } else {
-                    adapter.getFilter().filter(newText);
+                    //adapter.getFilter().filter(newText);
+                    entryList.setFilterText(newText.toString());
                 }
                 return true;
             }
