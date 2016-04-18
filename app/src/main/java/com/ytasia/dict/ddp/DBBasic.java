@@ -30,47 +30,69 @@ public class DBBasic implements MeteorCallback {
     private static final String TBKANJI_NAME = "tbKanji";
     private static final String TBENTRY_NAME = "tbEntry";
     private static final String TBKANJIENTRY_NAME = "tbKanjiEntry";
+    private static final String CHECKDATAFUNCTION = "checkEmpty";
     private Meteor meteor = null;
     //private static DBBasic instance;
 
     private static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 
     private static TBEntryHandler entryHandler = new TBEntryHandler(YTDictValues.appContext);
-    private static TBKanjiHandler kanjiHandler = new TBKanjiHandler(YTDictValues.appContext);
     private static TBKanjiEntryHandler kanjiEntryHandler = new TBKanjiEntryHandler(YTDictValues.appContext);
 
-    protected DBBasic() {
+
+    public DBBasic() {
         super();
     }
 
+    /**
+     * Initial new DBBasic object
+     *
+     * @return DBBasic
+     */
     public static DBBasic getInstance() {
-        /*if (instance == null) {
-            instance = new DBBasic();
-            instance.init();
-        }
-        return instance;*/
-
         DBBasic db = new DBBasic();
         db.init();
         return db;
     }
 
+    /**
+     * Check on server, if data available, get all data to device,
+     * if NOT, do nothing
+     */
+    public void checkServerData() {
+        String[] user = new String[2];
+        user[0] = YTDictValues.acc_type;
+        user[1] = YTDictValues.username;
+        meteor.call(CHECKDATAFUNCTION, user, new ResultListener() {
+            @Override
+            public void onSuccess(String s) {
+                Log.i("Server data", s);
+                if ("1".equals(s)) {
+                    subscribe(TBENTRY_NAME);
+                }
+            }
+
+            @Override
+            public void onError(String s, String s1, String s2) {
+            }
+        });
+
+    }
+
+    /**
+     * Initial meteor
+     */
     public void init() {
         meteor = new Meteor(YTDictValues.appContext, YTDictValues.server_ddp);
-        Log.i("YTDictValues.server_ddp", YTDictValues.server_ddp);
         meteor.addCallback(this);
         meteor.connect();
     }
 
-    public void subscribeAll() {
-        meteor.subscribe(TBKANJI_NAME);
-        String[] user = new String[2];
-        user[0] = YTDictValues.acc_type;
-        user[1] = YTDictValues.username;
-        meteor.subscribe(TBENTRY_NAME, user);
-        meteor.subscribe(TBKANJIENTRY_NAME, user);
-    }
-
+    /**
+     * Subscribe data on server to get data immediately when data on server changed
+     *
+     * @param tbName table name
+     */
     public void subscribe(String tbName) {
         String sub = null;
         if (TBKANJI_NAME.equals(tbName)) {
@@ -89,79 +111,11 @@ public class DBBasic implements MeteorCallback {
         Log.v("subscribe", "pull all from server");
     }
 
-    public void update() {
-        // MeteorSingleton.getInstance().update("Kanji",);
-
-    }
-
-    public void registerDB(String user, String pwd) {
-        meteor.registerAndLogin(user, null, pwd, new ResultListener() {
-
-            @Override
-            public void onSuccess(String arg0) {
-                // TODO Auto-generated method stub
-                YTDictValues.isRegister = false;
-            }
-
-            @Override
-            public void onError(String arg0, String arg1, String arg2) {
-                // TODO Auto-generated method stub
-
-            }
-        });
-
-    }
-
-    public void loginDB(String user, String pwd) {
-        meteor.loginWithUsername(user, pwd, new ResultListener() {
-            @Override
-            public void onSuccess(String arg0) {
-                // TODO Auto-generated method stub
-                //YTDictValues.isRegister=false;
-            }
-
-            @Override
-            public void onError(String arg0, String arg1, String arg2) {
-                // TODO Auto-generated method stub
-
-            }
-        });
-    }
-
-    public void insertKanjiEntry(String kanjiId, String entryId) {
-        Map<String, Object> values = new HashMap<>();
-        values.put("kanjiId", kanjiId);
-        values.put("entryId", entryId);
-        meteor.insert(TBKANJIENTRY_NAME, values, new ResultListener() {
-            @Override
-            public void onSuccess(String s) {
-                Log.i("Insert Kanji-Entry to Server", "Success");
-                subscribe(TBKANJIENTRY_NAME);
-            }
-
-            @Override
-            public void onError(String s, String s1, String s2) {
-
-            }
-        });
-    }
-
-    public void deleteKanjiEntry(final String id) {
-        meteor.remove(TBKANJIENTRY_NAME, id, new ResultListener() {
-            @Override
-            public void onSuccess(String s) {
-                Log.i("Delete kanji-entry", "Success");
-                kanjiEntryHandler.delete(id);
-                YTDictValues.kanjiEntryIds.remove(id);
-            }
-
-            @Override
-            public void onError(String s, String s1, String s2) {
-
-            }
-        });
-    }
-
+    /**
+     * Insert new entry to server
+     *
+     * @param entry
+     */
     public void insertEntry(final EntryObj entry) {
         Map<String, Object> values = new HashMap<>();
 
@@ -183,9 +137,9 @@ public class DBBasic implements MeteorCallback {
             @Override
             public void onSuccess(String s) {
                 Log.i("Insert entry", "Success : " + s);
-                YTDictValues.refreshInterface.init(TBENTRY_NAME);
+                //YTDictValues.refreshInterface.init(TBENTRY_NAME);
 
-                //subscribe(TBENTRY_NAME);
+                subscribe(TBENTRY_NAME);
             }
 
             @Override
@@ -196,6 +150,11 @@ public class DBBasic implements MeteorCallback {
         });
     }
 
+    /**
+     * Update entry on server
+     *
+     * @param entry
+     */
     public void updateEntry(final EntryObj entry) {
         Map<String, Object> query = new HashMap<>();
         query.put("_id", entry.getEntryId());
@@ -227,6 +186,11 @@ public class DBBasic implements MeteorCallback {
         });
     }
 
+    /**
+     * Delete entry on server
+     *
+     * @param entryId
+     */
     public void deleteEntry(final String entryId) {
         meteor.remove(TBENTRY_NAME, entryId, new ResultListener() {
             @Override
@@ -247,6 +211,50 @@ public class DBBasic implements MeteorCallback {
         });
     }
 
+    /**
+     * Insert new Kanji-Entry constrain on server
+     *
+     * @param kanjiId
+     * @param entryId
+     */
+    public void insertKanjiEntry(String kanjiId, String entryId) {
+        Map<String, Object> values = new HashMap<>();
+        values.put("kanjiId", kanjiId);
+        values.put("entryId", entryId);
+        meteor.insert(TBKANJIENTRY_NAME, values, new ResultListener() {
+            @Override
+            public void onSuccess(String s) {
+                Log.i("Insert Kanji-Entry to Server", "Success");
+                subscribe(TBKANJIENTRY_NAME);
+            }
+
+            @Override
+            public void onError(String s, String s1, String s2) {
+
+            }
+        });
+    }
+
+    /**
+     * Delete Kanji-Entry constrain on server
+     *
+     * @param id
+     */
+    public void deleteKanjiEntry(final String id) {
+        meteor.remove(TBKANJIENTRY_NAME, id, new ResultListener() {
+            @Override
+            public void onSuccess(String s) {
+                Log.i("Delete kanji-entry", "Success");
+                kanjiEntryHandler.delete(id);
+                YTDictValues.kanjiEntryIds.remove(id);
+            }
+
+            @Override
+            public void onError(String s, String s1, String s2) {
+
+            }
+        });
+    }
 
     public void insertKanji(String kanji, String onyomi, String kunyomi, String hanviet, String meaning, String level) {
         Map<String, Object> values = new HashMap<String, Object>();
@@ -287,11 +295,6 @@ public class DBBasic implements MeteorCallback {
 
         if (meteor != null && meteor.isConnected())
             meteor.disconnect();
-    }
-
-    private void checkConnect() {
-        if (!MeteorSingleton.getInstance().isConnected())
-            MeteorSingleton.getInstance().reconnect();
     }
 
     @Override

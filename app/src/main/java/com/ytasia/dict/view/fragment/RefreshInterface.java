@@ -5,6 +5,4 @@ package com.ytasia.dict.view.fragment;
  */
 public interface RefreshInterface {
     public void refreshListView();
-
-    public void init(String tbName);
 }

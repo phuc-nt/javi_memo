@@ -62,11 +62,7 @@ public class EntryListFragment extends Fragment implements RefreshInterface {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init("tbEntry");
-    }
 
-    @Override
-    public void init(String tbName) {
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
@@ -75,7 +71,7 @@ public class EntryListFragment extends Fragment implements RefreshInterface {
         YTDictValues.refreshInterface = EntryListFragment.this;
 
         DBBasic db = DBBasic.getInstance();
-        db.subscribe(tbName);
+        db.checkServerData();
     }
 
     @Override
@@ -176,7 +172,6 @@ public class EntryListFragment extends Fragment implements RefreshInterface {
                                          }
                                      }
                                  }
-
         );
 
         return view;
@@ -186,7 +181,6 @@ public class EntryListFragment extends Fragment implements RefreshInterface {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.tool_bar_main_menu, menu);
-        //SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
 
         // Match object to layout elements
         MenuItem searchItem = menu.findItem(R.id.toolbar_search);
@@ -195,7 +189,6 @@ public class EntryListFragment extends Fragment implements RefreshInterface {
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setIconifiedByDefault(true);
         searchView.setSubmitButtonEnabled(false);
-        //searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -208,7 +201,6 @@ public class EntryListFragment extends Fragment implements RefreshInterface {
                 if (TextUtils.isEmpty(newText)) {
                     entryList.clearTextFilter();
                 } else {
-                    //adapter.getFilter().filter(newText);
                     entryList.setFilterText(newText.toString());
                 }
                 return true;

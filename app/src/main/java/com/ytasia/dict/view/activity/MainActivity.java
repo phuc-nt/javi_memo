@@ -64,18 +64,6 @@ public class MainActivity extends AppCompatActivity {
         // set data for YTDictValues
         setYTDictValues();
 
-        // Get data from Server by User
-        //getDataFromServerByUser(YTDictValues.username, YTDictValues.acc_type);
-
-        //getKanji(kanji);
-
-
-        //createSampleDb();
-
-        //testDB();
-        //testSuggestDb();
-
-
         int fragmentPosition = 0;
 
         Intent i = getIntent();
@@ -272,17 +260,6 @@ public class MainActivity extends AppCompatActivity {
                 YTDictValues.kanjiEntryIds.add(i, kanjiEntryObjs.get(i).getServerId());
             }
         }
-    }
-
-    /**
-     * Get data from Server by User
-     *
-     * @param user
-     * @param type
-     */
-    private void getDataFromServerByUser(String user, String type) {
-        DBBasic db = DBBasic.getInstance();
-        db.subscribeAll();
     }
 
     /*private void testDB() {
