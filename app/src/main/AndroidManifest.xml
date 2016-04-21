@@ -22,7 +22,9 @@
             android:value="@string/facebook_app_id" />
 
 
-        <activity android:name="com.ytasia.dict.view.activity.MainActivity"></activity>
+        <activity android:name="com.ytasia.dict.view.activity.MainActivity">
+
+        </activity>
 
         <activity android:name="com.ytasia.dict.view.activity.LoginActivity">
             <intent-filter>

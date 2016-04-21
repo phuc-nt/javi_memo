@@ -252,14 +252,6 @@ public class MainActivity extends AppCompatActivity {
                 YTDictValues.entriesContent.add(i, entryObjs.get(i).getContent());
             }
         }
-
-        TBKanjiEntryHandler kanjiEntryHandler = new TBKanjiEntryHandler(this);
-        List<KanjiEntryObj> kanjiEntryObjs = kanjiEntryHandler.getAll();
-        if (!kanjiEntryObjs.isEmpty()) {
-            for (int i = 0; i < kanjiEntryObjs.size(); i++) {
-                YTDictValues.kanjiEntryIds.add(i, kanjiEntryObjs.get(i).getServerId());
-            }
-        }
     }
 
     /*private void testDB() {

@@ -1,6 +1,8 @@
 package com.ytasia.dict.service;
 
-import com.ytasia.dict.ddp.DBBasic;
+import com.ytasia.dict.dao.db_handle.TBKanjiEntryHandler;
+import com.ytasia.dict.dao.obj.KanjiEntryObj;
+import com.ytasia.dict.util.YTDictValues;
 
 /**
  * Created by PhucNT on 16/March/26.
@@ -8,13 +10,10 @@ import com.ytasia.dict.ddp.DBBasic;
 public class KanjiEntryService {
 
     /**
-     * Add new Kanji-Entry constrain to server
-     *
-     * @param kanjiId
-     * @param entryId
+     * @param obj
      */
-    public void add(String kanjiId, String entryId) {
-        DBBasic dbBasic = DBBasic.getInstance();
-        dbBasic.insertKanjiEntry(kanjiId, entryId);
+    public void add(KanjiEntryObj obj) {
+        TBKanjiEntryHandler handler = new TBKanjiEntryHandler(YTDictValues.appContext);
+        handler.add(obj);
     }
 }

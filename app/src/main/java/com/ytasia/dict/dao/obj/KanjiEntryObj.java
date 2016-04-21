@@ -5,7 +5,6 @@ package com.ytasia.dict.dao.obj;
  */
 public class KanjiEntryObj {
 
-    private String serverId;
     private int kanjiId;
     private String entryId;
 
@@ -18,13 +17,7 @@ public class KanjiEntryObj {
         this.entryId = entryId;
     }
 
-    public String getServerId() {
-        return serverId;
-    }
 
-    public void setServerId(String serverId) {
-        this.serverId = serverId;
-    }
 
     public int getKanjiId() {
         return kanjiId;

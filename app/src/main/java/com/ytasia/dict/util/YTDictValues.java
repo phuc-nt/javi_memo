@@ -9,6 +9,7 @@ import com.ytasia.dict.view.fragment.RefreshInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by phucnt on 16/03/14.
@@ -40,4 +41,6 @@ public class YTDictValues {
     public static ArrayList<String> kanjiEntryIds = new ArrayList<>();
 
     public static RefreshInterface refreshInterface;
+
+    //public static Map<String, WordPosition> words = new HashMap<String, WordPosition>();
 }

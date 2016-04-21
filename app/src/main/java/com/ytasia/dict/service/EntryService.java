@@ -133,14 +133,6 @@ public class EntryService {
      */
     public void delete(Context context, String id) {
         DBBasic db = DBBasic.getInstance();
-
-        TBKanjiEntryHandler kanjiEntryHandler = new TBKanjiEntryHandler(context);
-        List<String> serverIds = kanjiEntryHandler.getAllServerIdByEntryId(id);
-
-        for (int i = 0; i < serverIds.size(); i++) {
-            db.deleteKanjiEntry(serverIds.get(i));
-        }
-
         db.deleteEntry(id);
     }
 

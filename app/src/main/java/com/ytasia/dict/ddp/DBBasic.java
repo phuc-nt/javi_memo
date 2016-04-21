@@ -4,6 +4,7 @@
 package com.ytasia.dict.ddp;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
@@ -37,7 +38,6 @@ public class DBBasic implements MeteorCallback {
     private static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 
     private static TBEntryHandler entryHandler = new TBEntryHandler(YTDictValues.appContext);
-    private static TBKanjiEntryHandler kanjiEntryHandler = new TBKanjiEntryHandler(YTDictValues.appContext);
 
 
     public DBBasic() {
@@ -199,6 +199,16 @@ public class DBBasic implements MeteorCallback {
                 String deleteEntry = entryHandler.getById(entryId).getContent();
                 entryHandler.delete(entryId);
                 YTDictValues.entriesContent.remove(deleteEntry);
+
+                /**
+                 * Delete all Kanji-Entry constrains
+                 */
+                TBKanjiEntryHandler handler = new TBKanjiEntryHandler(YTDictValues.appContext);
+                List<Integer> kanjiIds = handler.getAllKanjiIdByEntryId(entryId);
+                for (int i = 0; i < kanjiIds.size(); i++) {
+                    handler.delete(kanjiIds.get(i), entryId);
+                }
+
                 if (YTDictValues.refreshInterface != null) {
                     YTDictValues.refreshInterface.refreshListView();
                 }
@@ -240,57 +250,21 @@ public class DBBasic implements MeteorCallback {
      *
      * @param id
      */
-    public void deleteKanjiEntry(final String id) {
-        meteor.remove(TBKANJIENTRY_NAME, id, new ResultListener() {
-            @Override
-            public void onSuccess(String s) {
-                Log.i("Delete kanji-entry", "Success");
-                kanjiEntryHandler.delete(id);
-                YTDictValues.kanjiEntryIds.remove(id);
-            }
-
-            @Override
-            public void onError(String s, String s1, String s2) {
-
-            }
-        });
-    }
-
-    public void insertKanji(String kanji, String onyomi, String kunyomi, String hanviet, String meaning, String level) {
-        Map<String, Object> values = new HashMap<String, Object>();
-        values.put("character", kanji);
-        values.put("kanjiId", "kanji-id");
-        values.put("onyomi", onyomi);
-        values.put("kunyomi", kunyomi);
-        values.put("hanviet", "");
-        values.put("meaning", meaning);
-        values.put("associated", "");
-        values.put("level", level);
-        String[] str = new String[6];
-        str[0] = kanji;
-        str[1] = onyomi;
-        str[2] = kunyomi;
-        str[3] = hanviet;
-        str[4] = meaning;
-        str[5] = level;
-        meteor.insert(TBKANJI_NAME, values);
-    }
-
-    public void updateKanji(String kanji, String onyomi, String kunyomi, String hanviet, String meaning, int level) {
-        Map<String, Object> values = new HashMap<String, Object>();
-        values.put("character", kanji);
-        values.put("kanjiId", "kanji-id");
-        values.put("onyomi", onyomi);
-        values.put("kunyomi", kunyomi);
-        values.put("hanviet", "");
-        values.put("meaning", meaning);
-        values.put("associated", "");
-        values.put("level", level);
-        meteor.insert(TBKANJI_NAME, values);
-        //checkConnect();
-        // MeteorSingleton.getInstance().update(TBKANJI_NAME, query, values);
-    }
-
+//    public void deleteKanjiEntry(final String id) {
+//        meteor.remove(TBKANJIENTRY_NAME, id, new ResultListener() {
+//            @Override
+//            public void onSuccess(String s) {
+//                Log.i("Delete kanji-entry", "Success");
+//                kanjiEntryHandler.delete(id);
+//                YTDictValues.kanjiEntryIds.remove(id);
+//            }
+//
+//            @Override
+//            public void onError(String s, String s1, String s2) {
+//
+//            }
+//        });
+//    }
     public void disConnect() {
 
         if (meteor != null && meteor.isConnected())
@@ -325,13 +299,6 @@ public class DBBasic implements MeteorCallback {
             case TBKANJI_NAME:
                 break;
             case TBKANJIENTRY_NAME:
-                KanjiEntryObj newOb = gson.fromJson(newValuesJson, KanjiEntryObj.class);
-                newOb.setServerId(documentID);
-
-                if (!YTDictValues.kanjiEntryIds.contains(newOb.getServerId())) {
-                    kanjiEntryHandler.add(newOb);
-                    YTDictValues.kanjiEntryIds.add(newOb.getServerId());
-                }
                 break;
         }
         disConnect();

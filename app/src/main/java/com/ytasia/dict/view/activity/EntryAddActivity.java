@@ -141,4 +141,13 @@ public class EntryAddActivity extends AppCompatActivity {
 
         dbAccess.close();
     }
+
+    /*private void getSuggest2(String entry) {
+        StarDictService dictService = new StarDictService();
+        if (YTDictValues.words.isEmpty())
+            dictService.loadIndexFile();
+        WordPosition p = YTDictValues.words.get(entry);
+        String meaning = dictService.getWordMeaning(p.getStartPos(), p.getLength());
+        entryMeaningEt.setText(meaning);
+    }*/
 }

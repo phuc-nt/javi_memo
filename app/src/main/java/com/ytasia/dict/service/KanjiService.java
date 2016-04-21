@@ -127,9 +127,4 @@ public class KanjiService {
         TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(context);
         return tbKanjiEntryHandler.getAllKanjiIdByEntryId(entryId);
     }
-
-    public List<String> getAllServerIdByEntryId(Context context, String entryId) {
-        TBKanjiEntryHandler tbKanjiEntryHandler = new TBKanjiEntryHandler(context);
-        return tbKanjiEntryHandler.getAllServerIdByEntryId(entryId);
-    }
 }
