@@ -42,5 +42,4 @@ public class YTDictValues {
 
     public static RefreshInterface refreshInterface;
 
-    //public static Map<String, WordPosition> words = new HashMap<String, WordPosition>();
 }
