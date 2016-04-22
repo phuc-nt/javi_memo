@@ -174,40 +174,40 @@ public class KanjiQuizPlayActivity extends AppCompatActivity {
                 isAnswer2 = false;
                 isAnswer3 = false;
                 isAnswer4 = false;
-                answer1Bt.setText("TRUE");
-                answer2Bt.setText("FALSE");
-                answer3Bt.setText("FALSE");
-                answer4Bt.setText("FALSE");
+                answer1Bt.setText(trueObj.getHanviet());
+                answer2Bt.setText(answerObjs.get(0).getHanviet());
+                answer3Bt.setText(answerObjs.get(1).getHanviet());
+                answer4Bt.setText(answerObjs.get(2).getHanviet());
                 break;
             case 2:
                 isAnswer1 = false;
                 isAnswer2 = true;
                 isAnswer3 = false;
                 isAnswer4 = false;
-                answer1Bt.setText("FALSE");
-                answer2Bt.setText("TRUE");
-                answer3Bt.setText("FALSE");
-                answer4Bt.setText("FALSE");
+                answer1Bt.setText(answerObjs.get(0).getHanviet());
+                answer2Bt.setText(trueObj.getHanviet());
+                answer3Bt.setText(answerObjs.get(1).getHanviet());
+                answer4Bt.setText(answerObjs.get(2).getHanviet());
                 break;
             case 3:
                 isAnswer1 = false;
                 isAnswer2 = false;
                 isAnswer3 = true;
                 isAnswer4 = false;
-                answer1Bt.setText("FALSE");
-                answer2Bt.setText("FALSE");
-                answer3Bt.setText("TRUE");
-                answer4Bt.setText("FALSE");
+                answer1Bt.setText(answerObjs.get(0).getHanviet());
+                answer2Bt.setText(answerObjs.get(1).getHanviet());
+                answer3Bt.setText(trueObj.getHanviet());
+                answer4Bt.setText(answerObjs.get(2).getHanviet());
                 break;
             case 4:
                 isAnswer1 = false;
                 isAnswer2 = false;
                 isAnswer3 = false;
                 isAnswer4 = true;
-                answer1Bt.setText("FALSE");
-                answer2Bt.setText("FALSE");
-                answer3Bt.setText("FALSE");
-                answer4Bt.setText("TRUE");
+                answer1Bt.setText(answerObjs.get(0).getHanviet());
+                answer2Bt.setText(answerObjs.get(1).getHanviet());
+                answer3Bt.setText(answerObjs.get(2).getHanviet());
+                answer4Bt.setText(trueObj.getHanviet());
                 break;
         }
     }

@@ -4,19 +4,15 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.ytasia.dict.dao.db_handle.SuggestDataAccess;
+import com.ytasia.dict.dao.db_handle.SuggestEntryAccess;
+import com.ytasia.dict.dao.db_handle.SuggestKanjiAccess;
 import com.ytasia.dict.dao.obj.EntryObj;
 import com.ytasia.dict.service.EntryService;
 import com.ytasia.dict.util.YTDictValues;
@@ -75,24 +71,29 @@ public class EntryAddActivity extends AppCompatActivity {
 
         if (id == R.id.toolbar_done_button) {
             String furi = entryFuriganaEt.getText().toString().replaceAll("\\s", "");
+            String mean = entryMeaningEt.getText().toString().replaceAll("\\s", "");
             if (!furi.equalsIgnoreCase("")) {
-                // Get new data
-                //String newEntryContent = getIntent().getStringExtra("new_entry_name");
-                String newEntryContent = entryContentTv.getText().toString();
-                String newEntryFurigana = entryFuriganaEt.getText().toString();
-                String newEntryMeaning = entryMeaningEt.getText().toString();
-                String newEntryExample = entryExampleEt.getText().toString();
+                if (!mean.equalsIgnoreCase("")) {
+                    // Get new data
+                    //String newEntryContent = getIntent().getStringExtra("new_entry_name");
+                    String newEntryContent = entryContentTv.getText().toString();
+                    String newEntryFurigana = entryFuriganaEt.getText().toString();
+                    String newEntryMeaning = entryMeaningEt.getText().toString();
+                    String newEntryExample = entryExampleEt.getText().toString();
 
-                // Create new object with new data
-                EntryObj newObj = new EntryObj(YTDictValues.username, newEntryContent, newEntryFurigana, newEntryMeaning, newEntryExample, null);
-                //service.add(newObj);
+                    // Create new object with new data
+                    EntryObj newObj = new EntryObj(YTDictValues.username, newEntryContent, newEntryFurigana, newEntryMeaning, newEntryExample, null);
+                    //service.add(newObj);
 
-                // Put Object to EntryListFragment
-                Intent myIntent = getIntent();
-                myIntent.putExtra("add_entry_object", newObj);
-                setResult(MainActivity.RESULT_CODE_ENTRY_ADD, myIntent);
-                finish();
-                return true;
+                    // Put Object to EntryListFragment
+                    Intent myIntent = getIntent();
+                    myIntent.putExtra("add_entry_object", newObj);
+                    setResult(MainActivity.RESULT_CODE_ENTRY_ADD, myIntent);
+                    finish();
+                    return true;
+                } else {
+                    entryMeaningEt.setError("Please insert some text");
+                }
             } else {
                 entryFuriganaEt.setError("Please insert some text");
             }
@@ -102,52 +103,38 @@ public class EntryAddActivity extends AppCompatActivity {
     }
 
     private void getSuggest(String entry) {
-        SuggestDataAccess dbAccess = SuggestDataAccess.getInstance(this);
+        //SuggestKanjiAccess dbAccess = SuggestKanjiAccess.getInstance(this);
+        SuggestEntryAccess dbAccess = SuggestEntryAccess.getInstance(this);
         dbAccess.open();
-        String input = dbAccess.getSuggestMeaning(entry);
-        Document doc = Jsoup.parse(input);
-
-        List<String> furi = new ArrayList<>();
-        List<String> exam = new ArrayList<>();
-        List<String> mexam = new ArrayList<>();
-
-        for (Element element : doc.select("span[class=title]")) {
-            furi.add(element.text());
-        }
-
-        for (Element element : doc.select("span[class=example]")) {
-            exam.add(element.text());
-        }
-
-        for (Element element : doc.select("span[class=mexample]")) {
-            mexam.add(element.text());
-        }
-
-        if (!furi.isEmpty()) {
-            entryFuriganaEt.setText(furi.get(0));
-        } else {
-            entryFuriganaEt.setText("");
-        }
-
-        if (!exam.isEmpty()) {
-            StringBuffer exams = new StringBuffer();
-            for (int i = 0; i < exam.size(); i++) {
-                exams.append(exam.get(i) + "\n" + mexam.get(i) + "\n");
-            }
-            entryExampleEt.setText(exams.toString());
-        } else {
-            entryExampleEt.setText("");
-        }
-
+        String res = dbAccess.getSuggestMeaning(entry);
         dbAccess.close();
-    }
 
-    /*private void getSuggest2(String entry) {
-        StarDictService dictService = new StarDictService();
-        if (YTDictValues.words.isEmpty())
-            dictService.loadIndexFile();
-        WordPosition p = YTDictValues.words.get(entry);
-        String meaning = dictService.getWordMeaning(p.getStartPos(), p.getLength());
+        String furi = "";
+        String meaning = "";
+        String example = "";
+
+        String[] a = res.split("\n");
+        for (int i = 0; i < a.length; i++) {
+            a[i].replaceAll("[!*]", "").trim();
+        }
+        for (int i = 0; i < a.length; i++) {
+            if (i == 0) {
+                furi = a[i];
+                if (a[i].equals("No Suggest"))
+                    furi = "";
+            } else {
+                char c = a[i].replaceAll("[!*]", "").trim().charAt(0);
+                int value = (int) c;
+                if ((value >= 65 && value <= 90) || (value >= 97 && value <= 122)) {
+                    meaning = meaning + a[i].replaceAll("[!*]", "").trim() + "\n";
+                } else {
+                    example = example + a[i].replaceAll("[!*]", "").trim() + "\n";
+                }
+            }
+        }
+
+        entryFuriganaEt.setText(furi);
         entryMeaningEt.setText(meaning);
-    }*/
+        entryExampleEt.setText(example);
+    }
 }

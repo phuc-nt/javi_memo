@@ -133,6 +133,7 @@ public class DBBasic implements MeteorCallback {
         values.put("level", entry.getLevel());
         values.put("source", entry.getSource());
         values.put("createdDate", entry.getCreatedDate());
+        Log.i("Uploading", "...");
         meteor.insert(TBENTRY_NAME, values, new ResultListener() {
             @Override
             public void onSuccess(String s) {

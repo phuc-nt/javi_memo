@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.ytasia.dict.ddp.DBBasic;
 import com.ytasia.dict.service.KanjiEntryService;
 import com.ytasia.dict.util.JapaneseHandler;
 
@@ -20,6 +19,9 @@ import com.ytasia.dict.dao.obj.KanjiEntryObj;
 import com.ytasia.dict.dao.obj.KanjiObj;
 import com.ytasia.dict.dao.schema.YTDictSchema;
 import com.ytasia.dict.util.YTDictValues;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 /**
  * Created by luongduy on 2/26/16.
@@ -218,11 +220,21 @@ public class TBEntryHandler extends YTDictDbHandler {
         for (int i = 0; i < cpLength; ++i) {
             // Get unique kanji from all kanji
             KanjiObj kanjiObj = new KanjiObj(jpHd.getUniqueKanji(kanji, i, 1));
+
             // Set suggest meaning to new Kanji
-            SuggestDataAccess dbAccess = SuggestDataAccess.getInstance(context);
+            SuggestKanjiAccess dbAccess = SuggestKanjiAccess.getInstance(context);
             dbAccess.open();
-            kanjiObj.setMeaning(dbAccess.getSuggestMeaning(Character.toString(kanjiObj.getCharacter())));
+            String res = dbAccess.getSuggestMeaning(Character.toString(kanjiObj.getCharacter()));
             dbAccess.close();
+
+            kanjiObj.setMeaning(res);
+
+            Document doc = Jsoup.parse(res);
+
+            if (!doc.getElementsByTag("b").isEmpty()) {
+                String hanviet = doc.getElementsByTag("b").get(0).text();
+                kanjiObj.setHanviet(hanviet);
+            }
 
             // Add new kanji to database
             TBKanjiHandler kanjiHandler = new TBKanjiHandler(context);

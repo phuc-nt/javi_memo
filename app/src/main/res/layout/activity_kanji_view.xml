@@ -63,49 +63,14 @@
         android:layout_below="@id/kanji_view_title_group">
 
         <TextView
-            android:id="@+id/kanji_view_hanviet_text_view"
+            android:id="@+id/kanji_view_meaning_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:text="Han Viet"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+id/kanji_view_onyomi_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/kanji_view_hanviet_text_view"
-            android:layout_centerHorizontal="true"
-            android:text="Onyomi"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+id/kanji_view_kunyomi_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/kanji_view_onyomi_text_view"
-            android:layout_centerHorizontal="true"
-            android:text="Kunyomi"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+id/kanji_view_meaning_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/kanji_view_kunyomi_text_view"
-            android:layout_centerHorizontal="true"
             android:text="Meaning"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <TextView
-            android:id="@+id/kanji_view_associated_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/kanji_view_meaning_text_view"
-            android:layout_centerHorizontal="true"
-            android:text="Associated"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
     </RelativeLayout>
 
 </RelativeLayout>

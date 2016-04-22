@@ -2,7 +2,7 @@ package com.ytasia.dict.dao.obj;
 
 import android.content.Context;
 
-import com.ytasia.dict.dao.db_handle.SuggestDataAccess;
+import com.ytasia.dict.dao.db_handle.SuggestEntryAccess;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -132,7 +132,7 @@ public class EntryObj implements Serializable {
 
     // Get suggest for sample data (create on MainActivity)
     private void getSuggest(Context context, String entry) {
-        SuggestDataAccess dbAccess = SuggestDataAccess.getInstance(context);
+        SuggestEntryAccess dbAccess = SuggestEntryAccess.getInstance(context);
         dbAccess.open();
         String input = dbAccess.getSuggestMeaning(entry);
         Document doc = Jsoup.parse(input);

@@ -145,8 +145,7 @@ public class EntryListFragment extends Fragment implements RefreshInterface {
                                      @Override
                                      public void onClick(View arg0) {
                                          String input = newEntryEt.getText().toString().replaceAll("\\s", "");
-                                         if (!input.equalsIgnoreCase("")) {
-                                             //&& !StringUtil.isNumeric(input)
+                                         if (!input.equalsIgnoreCase("") && !StringUtil.isNumeric(input)) {
                                              String newEntry = newEntryEt.getText().toString();
                                              String newEntry2 = newEntry.replaceAll("\\s", "");
 
@@ -303,7 +302,8 @@ public class EntryListFragment extends Fragment implements RefreshInterface {
                 // After add entry
                 case MainActivity.RESULT_CODE_ENTRY_ADD:
                     final EntryObj entryObj = (EntryObj) data.getSerializableExtra("add_entry_object");
-                    final Object ob = new Object();
+
+                    Log.i("Entry", entryObj.getContent());
 
                     entryService.add(entryObj);
                     YTDictValues.refreshInterface = EntryListFragment.this;

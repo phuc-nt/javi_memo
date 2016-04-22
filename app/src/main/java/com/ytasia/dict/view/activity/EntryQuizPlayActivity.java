@@ -166,46 +166,92 @@ public class EntryQuizPlayActivity extends AppCompatActivity {
 
         // Set true answer to randomly location
         int random2 = random.nextInt(4) + 1;
+        String[] a;
+        String[] b;
         switch (random2) {
             case 1:
                 isAnswer1 = true;
                 isAnswer2 = false;
                 isAnswer3 = false;
                 isAnswer4 = false;
-                answer1Bt.setText(trueObj.getFurigana());
-                answer2Bt.setText(answerObjs.get(1).getFurigana());
-                answer3Bt.setText(answerObjs.get(2).getFurigana());
-                answer4Bt.setText(answerObjs.get(0).getFurigana());
+                a = trueObj.getMeaning().split("\n");
+                b = a[0].split(";");
+                answer1Bt.setText(b[0]);
+
+                a = answerObjs.get(0).getMeaning().split("\n");
+                b = a[0].split(";");
+                answer2Bt.setText(b[0]);
+
+                a = answerObjs.get(1).getMeaning().split("\n");
+                b = a[0].split(";");
+                answer3Bt.setText(b[0]);
+
+                a = answerObjs.get(2).getMeaning().split("\n");
+                b = a[0].split(";");
+                answer4Bt.setText(b[0]);
                 break;
             case 2:
                 isAnswer1 = false;
                 isAnswer2 = true;
                 isAnswer3 = false;
                 isAnswer4 = false;
-                answer4Bt.setText(answerObjs.get(0).getFurigana());
-                answer1Bt.setText(answerObjs.get(1).getFurigana());
-                answer2Bt.setText(trueObj.getFurigana());
-                answer3Bt.setText(answerObjs.get(2).getFurigana());
+                a = trueObj.getMeaning().split("\n");
+                b = a[0].split(";");
+                answer2Bt.setText(b[0]);
+
+                a = answerObjs.get(0).getMeaning().split("\n");
+                b = a[0].split(";");
+                answer1Bt.setText(b[0]);
+
+                a = answerObjs.get(1).getMeaning().split("\n");
+                b = a[0].split(";");
+                answer3Bt.setText(b[0]);
+
+                a = answerObjs.get(2).getMeaning().split("\n");
+                b = a[0].split(";");
+                answer4Bt.setText(b[0]);
                 break;
             case 3:
                 isAnswer1 = false;
                 isAnswer2 = false;
                 isAnswer3 = true;
                 isAnswer4 = false;
-                answer1Bt.setText(answerObjs.get(1).getFurigana());
-                answer2Bt.setText(answerObjs.get(2).getFurigana());
-                answer3Bt.setText(trueObj.getFurigana());
-                answer4Bt.setText(answerObjs.get(0).getFurigana());
+                a = trueObj.getMeaning().split("\n");
+                b = a[0].split(";");
+                answer3Bt.setText(b[0]);
+
+                a = answerObjs.get(0).getMeaning().split("\n");
+                b = a[0].split(";");
+                answer2Bt.setText(b[0]);
+
+                a = answerObjs.get(1).getMeaning().split("\n");
+                b = a[0].split(";");
+                answer1Bt.setText(b[0]);
+
+                a = answerObjs.get(2).getMeaning().split("\n");
+                b = a[0].split(";");
+                answer4Bt.setText(b[0]);
                 break;
             case 4:
                 isAnswer1 = false;
                 isAnswer2 = false;
                 isAnswer3 = false;
                 isAnswer4 = true;
-                answer1Bt.setText(answerObjs.get(1).getFurigana());
-                answer2Bt.setText(answerObjs.get(2).getFurigana());
-                answer3Bt.setText(answerObjs.get(0).getFurigana());
-                answer4Bt.setText(trueObj.getFurigana());
+                a = trueObj.getMeaning().split("\n");
+                b = a[0].split(";");
+                answer4Bt.setText(b[0]);
+
+                a = answerObjs.get(0).getMeaning().split("\n");
+                b = a[0].split(";");
+                answer2Bt.setText(b[0]);
+
+                a = answerObjs.get(1).getMeaning().split("\n");
+                b = a[0].split(";");
+                answer3Bt.setText(b[0]);
+
+                a = answerObjs.get(2).getMeaning().split("\n");
+                b = a[0].split(";");
+                answer1Bt.setText(b[0]);
                 break;
         }
     }

@@ -16,16 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import com.ytasia.dict.dao.db_handle.SuggestDataAccess;
+import com.ytasia.dict.dao.db_handle.SuggestEntryAccess;
 import com.ytasia.dict.dao.db_handle.TBEntryHandler;
-import com.ytasia.dict.dao.db_handle.TBKanjiEntryHandler;
 import com.ytasia.dict.dao.db_handle.TBKanjiHandler;
 import com.ytasia.dict.dao.db_handle.TBUserHandler;
 import com.ytasia.dict.dao.obj.EntryObj;
-import com.ytasia.dict.dao.obj.KanjiEntryObj;
 import com.ytasia.dict.dao.obj.UserObj;
-import com.ytasia.dict.ddp.DBBasic;
-import com.ytasia.dict.service.DictService;
+import com.ytasia.dict.service.AuthenService;
 import com.ytasia.dict.service.EntryService;
 import com.ytasia.dict.util.YTDictValues;
 import com.ytasia.dict.view.fragment.EntryListFragment;
@@ -229,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
      * @throws IOException
      */
     private String getLoginInfo(String name, String pwd, String type) throws IOException {
-        DictService ds = new DictService();
+        AuthenService ds = new AuthenService();
         String uuid = "";
         try {
             uuid = ds.getLoginInfo(name, pwd, type);
@@ -401,7 +398,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void testSuggestDb() {
-        SuggestDataAccess dbAccess = SuggestDataAccess.getInstance(this);
+        SuggestEntryAccess dbAccess = SuggestEntryAccess.getInstance(this);
         dbAccess.open();
         System.out.println(Html.fromHtml(dbAccess.getSuggestMeaning("家族")));
         dbAccess.close();

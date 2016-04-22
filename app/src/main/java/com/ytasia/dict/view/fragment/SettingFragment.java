@@ -78,10 +78,10 @@ public class SettingFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                TBUserHandler hd = new TBUserHandler(getActivity());
+                /*TBUserHandler hd = new TBUserHandler(getActivity());
                 hd.dropAllTables();
                 YTDictValues.entriesContent = new ArrayList<String>();
-                YTDictValues.kanjiEntryIds = new ArrayList<String>();
+                YTDictValues.kanjiEntryIds = new ArrayList<String>();*/
 
                 /*Intent intent = new Intent(getActivity(), UpgradeActivity.class);
                 startActivity(intent);*/
