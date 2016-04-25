@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">YT-dictionary</string>
+    <string name="app_name">JaVi Memo</string>
     <string name="quiz_tab_label">QUIZ</string>
     <string name="entryList_tab_label">LIST</string>
     <string name="kanjiList_tab_label">KANJI</string>
@@ -70,7 +70,7 @@
     <string name="rate_dialog_cancel">Remind Me Later</string>
     <string name="rate_dialog_no">No, Thanks</string>
     <string name="feedback_mail_button">Send feedback</string>
-    <string name="feedback_rate_app_button">Rate this app</string>
+    <string name="rate_app_button">Rate this app</string>
     <string name="feedback_hint_edit_text">Your feedback</string>
     <string name="facebook_app_id">1566898820287328</string>
 

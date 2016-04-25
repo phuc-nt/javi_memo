@@ -12,6 +12,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_logo"
         android:label="@string/app_name"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme">
         <meta-data
@@ -22,11 +23,9 @@
             android:value="@string/facebook_app_id" />
 
 
-        <activity android:name="com.ytasia.dict.view.activity.MainActivity">
-
-        </activity>
-
-        <activity android:name="com.ytasia.dict.view.activity.LoginActivity">
+        <activity
+            android:name="com.ytasia.dict.view.activity.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,20 +34,43 @@
         </activity>
 
         <activity
+            android:name="com.ytasia.dict.view.activity.LoginActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name="com.ytasia.dict.view.activity.EntryQuizMainActivity" />
-        <activity android:name="com.ytasia.dict.view.activity.KanjiQuizMainActivity" />
-        <activity android:name="com.ytasia.dict.view.activity.EntryViewActivity" />
-        <activity android:name="com.ytasia.dict.view.activity.KanjiViewActivity" />
-        <activity android:name="com.ytasia.dict.view.activity.EntryEditActivity" />
-        <activity android:name="com.ytasia.dict.view.activity.EntryAddActivity" />
-        <activity android:name="com.ytasia.dict.view.activity.AppSettingActivity" />
-        <activity android:name="com.ytasia.dict.view.activity.FeedbackActivity" />
-        <activity android:name="com.ytasia.dict.view.activity.EntryQuizPlayActivity" />
-        <activity android:name="com.ytasia.dict.view.activity.KanjiQuizPlayActivity" />
-        <activity android:name="com.ytasia.dict.view.activity.UpgradeActivity"></activity>
+        <activity
+            android:name="com.ytasia.dict.view.activity.EntryQuizMainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ytasia.dict.view.activity.KanjiQuizMainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ytasia.dict.view.activity.EntryViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ytasia.dict.view.activity.KanjiViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ytasia.dict.view.activity.EntryEditActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ytasia.dict.view.activity.EntryAddActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ytasia.dict.view.activity.EntryQuizPlayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ytasia.dict.view.activity.KanjiQuizPlayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ytasia.dict.view.activity.UpgradeActivity"
+            android:screenOrientation="portrait"></activity>
 
         <meta-data
             android:name="com.google.android.gms.version"

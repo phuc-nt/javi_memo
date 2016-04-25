@@ -36,13 +36,16 @@
         android:layout_below="@+id/entry_toolbar_container"
         android:padding="20dp"
         android:text="ENTRY"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#045FB4"
+        android:textSize="50dp" />
 
     <RelativeLayout
         android:id="@+id/entry_add_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/entry_add_content_text_view">
+        android:layout_below="@id/entry_add_content_text_view"
+        android:padding="10dp">
 
         <EditText
             android:id="@+id/entry_add_furigana_text_edit"

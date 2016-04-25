@@ -1,4 +1,4 @@
-package com.ytasia.dict.view.fragment;
+package com.ytasia.dict.util;
 
 /**
  * Created by PhucNT on 16/April/15.

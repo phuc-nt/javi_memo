@@ -35,6 +35,7 @@ import com.ytasia.dict.dao.obj.EntryObj;
 import com.ytasia.dict.ddp.DBBasic;
 import com.ytasia.dict.service.EntryService;
 import com.ytasia.dict.util.JapaneseHandler;
+import com.ytasia.dict.util.RefreshInterface;
 import com.ytasia.dict.util.YTDictValues;
 import com.ytasia.dict.view.activity.EntryAddActivity;
 import com.ytasia.dict.view.activity.EntryViewActivity;

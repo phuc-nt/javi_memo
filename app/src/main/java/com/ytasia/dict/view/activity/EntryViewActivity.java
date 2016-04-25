@@ -1,11 +1,14 @@
 package com.ytasia.dict.view.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
@@ -126,11 +129,17 @@ public class EntryViewActivity extends AppCompatActivity {
         kanjiService = new KanjiService();
         List<Integer> list = kanjiService.getAllKanjiIdByEntryId(this, ob.getEntryId());
 
+//        TextView tv = new TextView(this);
+//        tv.setText("Chữ Hán : ");
+//        ll.addView(tv);
+
         // Create Kanji button
         for (int j = 0; j < list.size(); j++) {
             final KanjiObj kanjiObj = new TBKanjiHandler(this).getById(list.get(j));
             Button bt = new Button(this);
             bt.setText(Character.toString(kanjiObj.getCharacter()));
+            bt.setTextSize(25);
+            bt.setTextColor(Color.parseColor("#045FB4"));
             ll.addView(bt);
             // Set onClick function
             bt.setOnClickListener(new Button.OnClickListener() {
@@ -153,9 +162,29 @@ public class EntryViewActivity extends AppCompatActivity {
      */
     private void setData() {
         entryContentTv.setText(ob.getContent());
-        entryFuriganaTv.setText(ob.getFurigana());
-        entryMeaningTv.setText(ob.getMeaning());
-        entryExamleTv.setText(ob.getExample());
+
+        String furi = "<b>Furigana: </b> <font color='#045FB4'>" + ob.getFurigana() + "</font><br>";
+        entryFuriganaTv.setText(Html.fromHtml(furi));
+
+        String _mean[] = ob.getMeaning().split("\n");
+        StringBuilder mean = new StringBuilder();
+        for (int i = 0; i < _mean.length; i++) {
+            mean.insert(mean.length(), _mean[i] + "<br>");
+        }
+        mean.insert(0, "<b>Ý nghĩa:</b><br>");
+        entryMeaningTv.setText(Html.fromHtml(mean.toString()));
+
+        String[] _exam = ob.getExample().split("\n");
+        StringBuilder exam = new StringBuilder();
+        for (int i = 0; i < _exam.length; i++) {
+            String[] __exam = _exam[i].split(":");
+            if (__exam.length > 1)
+                _exam[i] = i + 1 + " : " + __exam[0] + ": <font color='#045FB4'>" + __exam[1] + "</font><br>";
+            exam.insert(exam.length(), _exam[i]);
+        }
+        exam.insert(0, "<b>Ví dụ:</b><br>");
+        entryExamleTv.setText(Html.fromHtml(exam.toString()));
+
         levelTv.setText(Integer.toString(ob.getLevel()));
     }
 }

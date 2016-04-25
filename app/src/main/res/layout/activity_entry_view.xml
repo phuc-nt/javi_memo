@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/entry_toolbar_container"
-        android:padding="20dp">
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/entry_view_content_text_view"
@@ -44,7 +44,9 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:text="ENTRY"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#045FB4"
+            android:textSize="50dp" />
 
         <TextView
             android:id="@+id/entry_view_level_text_view"
@@ -53,49 +55,59 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_margin="5dp"/>
+            android:layout_marginRight="20dp"
+            android:textColor="#045FB4"
+            android:textSize="30dp" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/entry_view_content"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/entry_view_kanji_scroll_view"
         android:layout_below="@id/entry_view_title_group">
 
-        <TextView
-            android:id="@+id/entry_view_furigana_text_view"
+        <RelativeLayout
+            android:id="@+id/entry_view_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:text="furigana"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
 
-        <TextView
-            android:id="@+id/entry_view_meaning_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/entry_view_furigana_text_view"
-            android:layout_centerHorizontal="true"
-            android:text="Meaning"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            <TextView
+                android:id="@+id/entry_view_furigana_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:text="furigana"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <TextView
-            android:id="@+id/entry_view_example_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/entry_view_meaning_text_view"
-            android:layout_centerHorizontal="true"
-            android:text="Example"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/entry_view_meaning_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/entry_view_furigana_text_view"
+                android:layout_centerHorizontal="true"
+                android:text="Meaning"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/entry_view_example_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/entry_view_meaning_text_view"
+                android:layout_centerHorizontal="true"
+                android:text="Example"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </RelativeLayout>
+    </ScrollView>
 
     <ScrollView
         android:id="@+id/entry_view_kanji_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:clickable="true"></ScrollView>
 
 </RelativeLayout>

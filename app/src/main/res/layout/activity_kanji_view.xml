@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/kanji_toolbar_container"
-        android:padding="20dp">
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/kanji_view_content_text_view"
@@ -44,7 +44,9 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:text="KANJI"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#045FB4"
+            android:textSize="50dp" />
 
         <TextView
             android:id="@+id/kanji_view_level_text_view"
@@ -53,24 +55,28 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_margin="5dp" />
+            android:layout_marginRight="20dp"
+            android:textColor="#045FB4"
+            android:textSize="30dp" />
     </RelativeLayout>
 
-    <RelativeLayout
+    <ScrollView
         android:id="@+id/kanji_view_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/kanji_view_title_group">
+        android:layout_below="@id/kanji_view_title_group"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
         <TextView
             android:id="@+id/kanji_view_meaning_text_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:text="Meaning"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

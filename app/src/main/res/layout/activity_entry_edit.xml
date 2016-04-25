@@ -44,26 +44,30 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:text="ENTRY"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <SeekBar
-            android:id="@+id/entry_edit_level_seekbar"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_margin="5dp"
-            android:max="10" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#045FB4"
+            android:textSize="50dp" />
 
         <TextView
             android:id="@+id/entry_edit_level_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/entry_edit_level_seekbar"
+            android:layout_alignParentTop="true"
             android:layout_margin="5dp"
-            android:text="Level" />
+            android:text="Level"
+            android:textColor="#045FB4"
+            android:textSize="30dp" />
+
+        <SeekBar
+            android:id="@+id/entry_edit_level_seekbar"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/entry_edit_level_text_view"
+            android:layout_margin="5dp"
+            android:max="10" />
 
     </RelativeLayout>
 
@@ -71,7 +75,8 @@
         android:id="@+id/entry_edit_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/entry_edit_title_group">
+        android:layout_below="@id/entry_edit_title_group"
+        android:padding="10dp">
 
         <EditText
             android:id="@+id/entry_edit_furigana_text_edit"

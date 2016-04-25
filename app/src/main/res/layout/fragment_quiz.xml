@@ -83,7 +83,7 @@
         android:layout_above="@+id/quiz_select_kanji_button"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp"
-        android:background="@drawable/button_background"
+        android:background="@drawable/button_background_light"
         android:padding="10dp"
         android:text="@string/quiz_select_vocabulary_button"
         android:textColor="@color/colorPrimary2" />
@@ -95,7 +95,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="105dp"
-        android:background="@drawable/button_background"
+        android:background="@drawable/button_background_light"
         android:padding="10dp"
         android:text="@string/quiz_select_kanji_button"
         android:textColor="@color/colorPrimary2" />
