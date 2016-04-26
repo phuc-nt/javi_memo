@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ListViewCompat;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -21,9 +22,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
-
-import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
-import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCallback;
+import android.widget.ListView;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -51,7 +50,7 @@ public class EntryListFragment extends Fragment implements RefreshInterface {
     private ImageButton addBt;
     private EditText newEntryEt;
     private Toolbar toolbar;
-    private DynamicListView entryList;
+    private ListView entryList;
     private EntryService.EntryListAdapter adapter;
     private List<EntryObj> listEntryOb;
     private TBEntryHandler entryHd;
@@ -106,40 +105,71 @@ public class EntryListFragment extends Fragment implements RefreshInterface {
             }
         });
 
-        // on swipe listView element
-        entryList.enableSwipeToDismiss(
-                new OnDismissCallback() {
+
+        entryList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final EntryObj deleteObj = listEntryOb.get(position);
+
+                final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                alert.setTitle("Alert!!");
+                alert.setMessage("Are you sure to delete record");
+                alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
                     @Override
-                    public void onDismiss(@NonNull final ViewGroup listView, @NonNull final int[] reverseSortedPositions) {
-                        for (final int position : reverseSortedPositions) {
-                            // Get object user want to delete
-                            final EntryObj deleteObj = listEntryOb.get(position);
-
-                            final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                            alert.setTitle("Alert!!");
-                            alert.setMessage("Are you sure to delete record");
-                            alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // Delete Entry
-                                    entryService.delete(getActivity(), deleteObj.getEntryId());
-                                    YTDictValues.refreshInterface = EntryListFragment.this;
-                                }
-                            });
-                            alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-
-                            alert.show();
-                        }
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Delete Entry
+                        entryService.delete(getActivity(), deleteObj.getEntryId());
+                        YTDictValues.refreshInterface = EntryListFragment.this;
                     }
-                }
-        );
+                });
+                alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
+                return true;
+            }
+        });
+
+        // on swipe listView element
+//        entryList.enableSwipeToDismiss(
+//                new OnDismissCallback() {
+//                    @Override
+//                    public void onDismiss(@NonNull final ViewGroup listView, @NonNull final int[] reverseSortedPositions) {
+//                        for (final int position : reverseSortedPositions) {
+//                            // Get object user want to delete
+//                            final EntryObj deleteObj = listEntryOb.get(position);
+//
+//                            final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+//                            alert.setTitle("Alert!!");
+//                            alert.setMessage("Are you sure to delete record");
+//                            alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+//
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    // Delete Entry
+//                                    entryService.delete(getActivity(), deleteObj.getEntryId());
+//                                    YTDictValues.refreshInterface = EntryListFragment.this;
+//                                }
+//                            });
+//                            alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+//
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    dialog.dismiss();
+//                                }
+//                            });
+//
+//                            alert.show();
+//                        }
+//                    }
+//                }
+//        );
 
         // on click Add Button
         addBt.setOnClickListener(new View.OnClickListener() {
@@ -345,7 +375,7 @@ public class EntryListFragment extends Fragment implements RefreshInterface {
         toolbar = (Toolbar) view.findViewById(R.id.entry_list_fragment_toolbar);
         addBt = (ImageButton) view.findViewById(R.id.entry_list_add_new_button);
         newEntryEt = (EditText) view.findViewById(R.id.entry_list_new_text_edit);
-        entryList = (DynamicListView) view.findViewById(R.id.entry_list_view);
+        entryList = (ListView) view.findViewById(R.id.entry_list_view);
     }
 
     /**

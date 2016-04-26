@@ -9,10 +9,17 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.ytasia.dict.view.fragment.SettingFragment">
 
+    <com.startapp.android.publish.banner.Banner
+        android:id="@+id/startAppBanner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fragment_setting_toolbar_container">
+        android:layout_below="@+id/startAppBanner">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -303,16 +310,57 @@
                 android:padding="10dp"
                 android:paddingBottom="10dp">
 
+                <TextView
+                    android:id="@+id/fragment_setting_message_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:paddingBottom="20dp"
+                    android:paddingTop="20dp"
+                    android:text="@string/setting_message"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@android:color/white">
+
+                </TextView>
+
                 <Button
                     android:id="@+id/fragment_setting_rating_bt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/fragment_setting_message_tv"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/button_background_dark"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:text="@string/rate_app_button"
                     android:textColor="@android:color/white" />
+
+                <ImageButton
+                    android:id="@+id/fragment_setiing_facebook_bt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fragment_setting_rating_bt"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="20dp"
+                    android:background="@android:color/transparent"
+                    android:src="@mipmap/facebook_logo" />
+
+                <TextView
+                    android:id="@+id/fragment_setting_version_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fragment_setiing_facebook_bt"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:paddingBottom="20dp"
+                    android:text="@string/setting_version"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@android:color/white">
+
+                </TextView>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

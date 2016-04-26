@@ -55,6 +55,8 @@
     <string name="lock_screen_game_catalog_tv">Select data for game</string>
     <string name="reset_button">RESET</string>
     <string name="clear_button">CLEAR</string>
+    <string name="setting_message">If you enjoy playing this app,\nwould you mind taking a moment to rate it\nIt won\'t take more than a minute.\nありがとう!</string>
+    <string name="setting_version">JaVi Memo 1.0.1 was crafted with love\nin Tokyo and across the\nPlanet Earth.</string>
 
     <string-array name="level_array">
         <item>5</item>
@@ -73,6 +75,8 @@
     <string name="rate_app_button">Rate this app</string>
     <string name="feedback_hint_edit_text">Your feedback</string>
     <string name="facebook_app_id">1566898820287328</string>
+
+    <string name="facebook_page_id">株式会社YTAsia-814833155312577</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

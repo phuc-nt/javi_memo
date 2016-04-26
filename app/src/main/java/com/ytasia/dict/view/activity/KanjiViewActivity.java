@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.startapp.android.publish.StartAppAd;
 import com.ytasia.dict.dao.obj.KanjiObj;
 
 import ytasia.dictionary.R;
@@ -18,6 +19,8 @@ public class KanjiViewActivity extends AppCompatActivity {
     private Toolbar kanjiToolbar;
     private TextView kanjiContentTv, kanjiMeaningTv, levelTv;
     private KanjiObj ob;
+
+    private StartAppAd startAppAd = new StartAppAd(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,24 @@ public class KanjiViewActivity extends AppCompatActivity {
         setSupportActionBar(kanjiToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startAppAd.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        startAppAd.onPause();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        //startAppAd.onBackPressed();
     }
 
     @Override

@@ -4,6 +4,13 @@
     android:layout_height="match_parent"
     tools:context="com.ytasia.dict.view.fragment.QuizFragment">
 
+    <com.startapp.android.publish.banner.Banner
+        android:id="@+id/startAppBanner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
     <TextView
         android:id="@+id/record_label"
         android:layout_width="wrap_content"
@@ -12,10 +19,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
         android:text="@string/record_label"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/colorPrimary"
-        android:textSize="40sp" />
-
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="35sp" />
 
     <TableLayout
         android:id="@+id/tableLayout"
@@ -33,18 +38,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:paddingRight="20dp"
+                android:paddingRight="25dp"
                 android:text="@string/entry_label"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/colorPrimary" />
 
             <TextView
                 android:id="@+id/kanji_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:paddingLeft="20dp"
+                android:paddingLeft="25dp"
                 android:text="@string/kanji_label"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/colorPrimary" />
         </TableRow>
 
         <TableRow
@@ -59,45 +66,42 @@
                 android:gravity="center_horizontal"
                 android:paddingRight="20dp"
                 android:text="score"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/colorPrimary" />
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
                 android:id="@+id/quiz_main_kanji_score_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/kanji_label"
-
                 android:gravity="center_horizontal"
                 android:paddingLeft="20dp"
                 android:text="score"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/colorPrimary" />
+                android:textAppearance="?android:attr/textAppearanceMedium" />
         </TableRow>
     </TableLayout>
 
     <Button
         android:id="@+id/quiz_select_vocabulary_button"
-        android:layout_width="wrap_content"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_above="@+id/quiz_select_kanji_button"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp"
-        android:background="@drawable/button_background_light"
+        android:background="@color/colorPrimary"
         android:padding="10dp"
         android:text="@string/quiz_select_vocabulary_button"
-        android:textColor="@color/colorPrimary2" />
+        android:textColor="@android:color/white" />
 
     <Button
         android:id="@+id/quiz_select_kanji_button"
-        android:layout_width="wrap_content"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="105dp"
-        android:background="@drawable/button_background_light"
+        android:background="@color/colorPrimary"
         android:padding="10dp"
         android:text="@string/quiz_select_kanji_button"
-        android:textColor="@color/colorPrimary2" />
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>

@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.startapp.android.publish.StartAppAd;
+import com.startapp.android.publish.StartAppSDK;
+import com.startapp.android.publish.video.VideoListener;
 import com.ytasia.dict.dao.db_handle.SuggestEntryAccess;
 import com.ytasia.dict.dao.db_handle.TBEntryHandler;
 import com.ytasia.dict.dao.db_handle.TBKanjiHandler;
@@ -47,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout mainTabLayout;
     private ViewPager mainViewPager;
 
+    private StartAppAd startAppAd = new StartAppAd(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +59,16 @@ public class MainActivity extends AppCompatActivity {
 
         // set app context is MainActivity
         YTDictValues.appContext = MainActivity.this;
+
+        StartAppSDK.init(this, "103367364", "203600019", true);
+//        startAppAd.loadAd(StartAppAd.AdMode.REWARDED_VIDEO);
+//        startAppAd.setVideoListener(new VideoListener() {
+//            @Override
+//            public void onVideoCompleted() {
+//
+//            }
+//        });
+//        startAppAd.showSplash(this, savedInstanceState);
 
         // Authentication to server
         authenToServer();
@@ -92,13 +107,23 @@ public class MainActivity extends AppCompatActivity {
         }
 
         mainTabLayout.setupWithViewPager(mainViewPager);
-
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        startAppAd.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        startAppAd.onPause();
+    }
+
+    @Override
+    public void onBackPressed() {
+        startAppAd.onBackPressed();
     }
 
     /**
@@ -165,9 +190,6 @@ public class MainActivity extends AppCompatActivity {
             YTDictValues.username = YTDictValues.gUserid;
             YTDictValues.acc_type = "g";
             Log.i("Google id", YTDictValues.username);
-        } else {
-            YTDictValues.username = "guest";
-            Log.i("Guest id", YTDictValues.username);
         }
 
         name = YTDictValues.username;
@@ -249,6 +271,10 @@ public class MainActivity extends AppCompatActivity {
                 YTDictValues.entriesContent.add(i, entryObjs.get(i).getContent());
             }
         }
+    }
+
+    public void onShowAdButtonPressed() {
+        startAppAd.showAd();
     }
 
     /*private void testDB() {

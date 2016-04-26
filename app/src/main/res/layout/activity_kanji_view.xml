@@ -29,11 +29,18 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <com.startapp.android.publish.banner.Banner
+        android:id="@+id/startAppBanner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/kanji_toolbar_container"
+        android:layout_centerHorizontal="true" />
+
     <RelativeLayout
         android:id="@+id/kanji_view_title_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/kanji_toolbar_container"
+        android:layout_below="@+id/startAppBanner"
         android:padding="10dp">
 
         <TextView

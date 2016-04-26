@@ -2,6 +2,7 @@ package com.ytasia.dict.view.fragment;
 
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import com.ytasia.dict.service.SettingService;
@@ -33,12 +35,12 @@ import com.google.android.gms.common.api.Status;
 
 public class SettingFragment extends Fragment {
 
-    private Button ratingBt;
-    private Button logoutBt;
     private Spinner entryLevelSpinner, kanjiLevelSpinner;
-    private Button resetEntryLevelBt, resetKanjiLevelBt, clearEntryBt;
+    private Button resetEntryLevelBt, resetKanjiLevelBt, clearEntryBt, ratingBt, logoutBt;
     private SettingService settingService;
+    private ImageButton facebookBt;
 
+    private String facebookId;
 
     public SettingFragment() {
     }
@@ -146,6 +148,15 @@ public class SettingFragment extends Fragment {
             }
         });
 
+        facebookBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent fb = getOpenFacebookIntent(getActivity());
+//                startActivity(fb);
+                visitFacebook();
+            }
+        });
+
         return view;
     }
 
@@ -162,6 +173,7 @@ public class SettingFragment extends Fragment {
         resetKanjiLevelBt = (Button) view.findViewById(R.id.fragment_setting_reset_level_kanji_bt);
         clearEntryBt = (Button) view.findViewById(R.id.fragment_setting_clear_entry_bt);
         ratingBt = (Button) view.findViewById(R.id.fragment_setting_rating_bt);
+        facebookBt = (ImageButton) view.findViewById(R.id.fragment_setiing_facebook_bt);
     }
 
     /**
@@ -181,6 +193,8 @@ public class SettingFragment extends Fragment {
         kanjiLevelSpinner.setAdapter(adapter);
         entryLevelSpinner.setSelection(getIndex(entryLevelSpinner, Integer.toString(YTDictValues.ENTRY_MAX_LEVEL)));
         kanjiLevelSpinner.setSelection(getIndex(kanjiLevelSpinner, Integer.toString(YTDictValues.KANJI_MAX_LEVEL)));
+
+        facebookId = getActivity().getResources().getString(R.string.facebook_page_id);
     }
 
     /**
@@ -217,6 +231,24 @@ public class SettingFragment extends Fragment {
         } catch (ActivityNotFoundException e) {
             startActivity(new Intent(Intent.ACTION_VIEW,
                     Uri.parse("http://play.google.com/store/apps/details?id=" + context)));
+        }
+    }
+
+    /**
+     * Visit Facebook Page
+     */
+    private void visitFacebook() {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/" + facebookId));
+        startActivity(browserIntent);
+    }
+
+    public static Intent getOpenFacebookIntent(Context context) {
+
+        try {
+            context.getPackageManager().getPackageInfo("com.facebook.katana", 0);
+            return new Intent(Intent.ACTION_VIEW, Uri.parse("fb://facewebmodal/f?href=www.facebook.com/株式会社YTAsia-814833155312577"));
+        } catch (Exception e) {
+            return new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/株式会社YTAsia-814833155312577"));
         }
     }
 

@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import com.startapp.android.publish.StartAppAd;
 import com.ytasia.dict.dao.db_handle.TBKanjiHandler;
 import com.ytasia.dict.dao.obj.EntryObj;
 import com.ytasia.dict.dao.obj.KanjiObj;
@@ -32,6 +33,8 @@ public class EntryViewActivity extends AppCompatActivity {
     private ScrollView kanjiSv;
 
     private KanjiService kanjiService;
+
+    private StartAppAd startAppAd = new StartAppAd(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,24 @@ public class EntryViewActivity extends AppCompatActivity {
         setSupportActionBar(entryToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startAppAd.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        startAppAd.onPause();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        //startAppAd.onBackPressed();
     }
 
     @Override

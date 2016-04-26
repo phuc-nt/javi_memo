@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.startapp.android.publish.StartAppAd;
+import com.startapp.android.publish.video.VideoListener;
 import com.ytasia.dict.dao.db_handle.TBEntryHandler;
 import com.ytasia.dict.dao.obj.EntryObj;
 import com.ytasia.dict.dao.obj.UserObj;
@@ -43,10 +45,21 @@ public class EntryQuizMainActivity extends AppCompatActivity {
     private EntryService service = new EntryService();
     private TBEntryHandler handler = new TBEntryHandler(this);
 
+    private StartAppAd startAppAd = new StartAppAd(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry_quiz_main);
+
+//        startAppAd.loadAd(StartAppAd.AdMode.REWARDED_VIDEO);
+//        startAppAd.setVideoListener(new VideoListener() {
+//            @Override
+//            public void onVideoCompleted() {
+//
+//            }
+//        });
+//        startAppAd.showSplash(this, savedInstanceState);
 
         // Get current user object
         Intent intent = getIntent();
@@ -150,8 +163,23 @@ public class EntryQuizMainActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startAppAd.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        startAppAd.onPause();
+    }
+
+
     @Override
     public void onBackPressed() {
+        startAppAd.onBackPressed();
         Intent intent = new Intent();
         intent.putExtra("user_object", userObj);
         setResult(RESULT_CODE_ENTRY_QUIZ_FINISH, intent);

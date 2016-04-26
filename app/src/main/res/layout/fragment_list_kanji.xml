@@ -24,7 +24,7 @@
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
-    <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
+    <ListView
         android:id="@+id/kanji_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

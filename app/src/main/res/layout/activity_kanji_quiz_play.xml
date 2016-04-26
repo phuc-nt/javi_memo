@@ -52,9 +52,8 @@
                 android:layout_marginRight="30dp"
                 android:gravity="center_horizontal"
                 android:text="0"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/colorPrimary"
-                android:textSize="25dp" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="50dp" />
 
             <TextView
                 android:id="@+id/kanji_quiz_play_time_tv"
@@ -63,9 +62,8 @@
                 android:layout_marginLeft="30dp"
                 android:gravity="center_horizontal"
                 android:text="0"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/colorPrimary"
-                android:textSize="25dp" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="50dp" />
         </TableRow>
     </TableLayout>
 
@@ -75,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/colorPrimary"
@@ -83,53 +81,61 @@
 
     <Button
         android:id="@+id/kanji_quiz_answer_1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/kanji_quiz_play_question_kanji_tv"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/button_background_light"
+        android:background="@color/colorPrimaryDark"
         android:padding="10dp"
         android:text="Answer 1 (true)"
-        android:textColor="@color/colorPrimary2"
+        android:textColor="@color/textColorPrimary"
         android:textSize="20dp" />
 
     <Button
         android:id="@+id/kanji_quiz_answer_2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/kanji_quiz_answer_1"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/button_background_light"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/colorPrimaryDark"
         android:padding="10dp"
         android:text="Answer 2 (false)"
-        android:textColor="@color/colorPrimary2"
+        android:textColor="@color/textColorPrimary"
         android:textSize="20dp" />
 
     <Button
         android:id="@+id/kanji_quiz_answer_3"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/kanji_quiz_answer_2"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/button_background_light"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/colorPrimaryDark"
         android:padding="10dp"
         android:text="Answer 3"
-        android:textColor="@color/colorPrimary2"
+        android:textColor="@color/textColorPrimary"
         android:textSize="20dp" />
 
     <Button
         android:id="@+id/kanji_quiz_answer_4"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/kanji_quiz_answer_3"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/button_background_light"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/colorPrimaryDark"
         android:padding="10dp"
         android:text="Answer 4"
-        android:textColor="@color/colorPrimary2"
+        android:textColor="@color/textColorPrimary"
         android:textSize="20dp" />
 </RelativeLayout>

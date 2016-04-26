@@ -160,6 +160,8 @@ public class EntryQuizPlayActivity extends AppCompatActivity {
         trueObj = quizObjs.get(random.nextInt(listSize));
         questionEntryTv.setText(trueObj.getContent());
 
+        questionFuriganaTv.setText(trueObj.getFurigana().toString());
+
         // Get all Entries except Quiz selected entry (for fault answer)
         List<EntryObj> answerObjs = handler.getAllWithout(trueObj.getContent());
         Collections.shuffle(answerObjs);

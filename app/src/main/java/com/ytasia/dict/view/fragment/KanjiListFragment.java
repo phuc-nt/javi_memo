@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import android.widget.ListView;
-;import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,6 +28,7 @@ import com.ytasia.dict.dao.obj.KanjiObj;
 import com.ytasia.dict.service.KanjiService;
 
 import com.ytasia.dict.view.activity.KanjiViewActivity;
+
 import ytasia.dictionary.R;
 
 
@@ -59,7 +59,7 @@ public class KanjiListFragment extends Fragment {
 
         // Match object to layout elements
         toolbar = (Toolbar) view.findViewById(R.id.kanji_list_fragment_toolbar);
-        kanjiList = (DynamicListView) view.findViewById(R.id.kanji_list_view);
+        kanjiList = (ListView) view.findViewById(R.id.kanji_list_view);
 
         // Get data from database
         kanjiHd = new TBKanjiHandler(getActivity());

@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.startapp.android.publish.StartAppAd;
+import com.startapp.android.publish.video.VideoListener;
 import com.ytasia.dict.dao.db_handle.TBKanjiHandler;
 import com.ytasia.dict.dao.obj.UserObj;
 import com.ytasia.dict.util.YTDictValues;
@@ -33,10 +35,21 @@ public class KanjiQuizMainActivity extends AppCompatActivity {
 
     private TBKanjiHandler handler = new TBKanjiHandler(this);
 
+    private StartAppAd startAppAd = new StartAppAd(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kanji_quiz_main);
+
+//        startAppAd.loadAd(StartAppAd.AdMode.REWARDED_VIDEO);
+//        startAppAd.setVideoListener(new VideoListener() {
+//            @Override
+//            public void onVideoCompleted() {
+//
+//            }
+//        });
+//        startAppAd.showSplash(this, savedInstanceState);
 
         // Get current user object
         Intent intent = getIntent();
@@ -133,8 +146,23 @@ public class KanjiQuizMainActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startAppAd.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        startAppAd.onPause();
+    }
+
+
     @Override
     public void onBackPressed() {
+        startAppAd.onBackPressed();
         Intent intent = new Intent();
         intent.putExtra("user_object", userObj);
         setResult(RESULT_CODE_KANJI_QUIZ_FINISH, intent);

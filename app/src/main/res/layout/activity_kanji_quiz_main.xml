@@ -9,6 +9,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.ytasia.dict.view.activity.KanjiQuizMainActivity">
 
+    <com.startapp.android.publish.banner.Banner
+        android:id="@+id/startAppBanner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
     <TextView
         android:id="@+id/kanji_quiz_main_high_score_title"
         android:layout_width="wrap_content"
@@ -28,7 +35,7 @@
         android:text="0"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/colorPrimary"
-        android:textSize="30dp" />
+        android:textSize="50dp" />
 
     <TextView
         android:id="@+id/kanji_quiz_main_your_score_title"
@@ -45,11 +52,11 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/kanji_quiz_main_start_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="15dp"
         android:text="0"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/colorPrimary"
-        android:textSize="30dp" />
+        android:textSize="50dp" />
 
     <Button
         android:id="@+id/kanji_quiz_main_start_button"
@@ -82,7 +89,7 @@
         android:text="0"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/colorPrimary"
-        android:textSize="30dp" />
+        android:textSize="45dp" />
 
     <SeekBar
         android:id="@+id/kanji_quiz_main_level_sb"
