@@ -6,7 +6,7 @@
     <string name="setting_tab_label">Cài Đặt</string>
     <string name="toolbar_search_label">Tìm kiếm</string>
     <string name="toolbar_refresh_label">Tải </string>
-    <string name="toolbar_sort_label">Sắp </string>
+    <string name="toolbar_sort_label">Sắp xếp</string>
     <string name="quiz_select_vocabulary_button">Quiz Từ Vựng</string>
     <string name="quiz_select_kanji_button">Quiz Chữ Hán</string>
     <string name="entry_label">Từ Vựng</string>
@@ -24,7 +24,7 @@
     <string name="sign_in_button">Đăng nhập</string>
     <string name="sign_up_button">Đăng kí</string>
     <string name="alphabet_menu_item">Alphabet</string>
-    <string name="date_menu_item">Thêm ngày</string>
+    <string name="date_menu_item">Ngày thêm</string>
     <string name="level_menu_item">Level</string>
     <string name="high_score_title">ĐIỂM </string>
     <string name="your_score_title">ĐIỂM CỦA BẠN</string>
@@ -38,6 +38,19 @@
     <string name="request_update_list_title">Hãy cập nhật danh sách</string>
     <string name="continue_message">Chọn OK dể tiếp tục</string>
     <string name="ok_button">OK</string>
+
+    <string name="warning_title">WARNING</string>
+    <string name="delete_entry_confirm">Bạn có chắc muốn xoá từ này không?</string>
+    <string name="max_value_validate">Hãy nhập từ có dưới 4 chữ</string>
+    <string name="existed_warning"> đã có trong danh sách</string>
+    <string name="not_null_validate">Hãy nhập gì đó</string>
+    <string name="log_out_warning">Bạn có muốn đăng xuất</string>
+    <string name="reset_entry_level_confirm">Bạn có muốn reset level của toàn bộ Từ Vựng</string>
+    <string name="reset_kanji_level_confirm">Bạn có muốn reset level của toàn bộ Chữ Hán</string>
+    <string name="clear_entry_confirm">Bạn có muốn XOÁ toàn bộ Từ Vựng</string>
+    <string name="yes_button">CÓ</string>
+    <string name="no_button">KHÔNG</string>
+
     <string name="max_level_title">Max Level</string>
     <string name="reset_level_title">Reset Level</string>
     <string name="clear_data_title">Xoá dữ liệu</string>

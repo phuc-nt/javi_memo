@@ -112,9 +112,9 @@ public class EntryListFragment extends Fragment implements RefreshInterface {
                 final EntryObj deleteObj = listEntryOb.get(position);
 
                 final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                alert.setTitle("Alert!!");
-                alert.setMessage("Are you sure to delete record");
-                alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                alert.setTitle(getResources().getString(R.string.warning_title));
+                alert.setMessage(getResources().getString(R.string.delete_entry_confirm));
+                alert.setPositiveButton(getResources().getString(R.string.yes_button), new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -123,7 +123,7 @@ public class EntryListFragment extends Fragment implements RefreshInterface {
                         YTDictValues.refreshInterface = EntryListFragment.this;
                     }
                 });
-                alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                alert.setNegativeButton(getResources().getString(R.string.no_button), new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -135,41 +135,6 @@ public class EntryListFragment extends Fragment implements RefreshInterface {
                 return true;
             }
         });
-
-        // on swipe listView element
-//        entryList.enableSwipeToDismiss(
-//                new OnDismissCallback() {
-//                    @Override
-//                    public void onDismiss(@NonNull final ViewGroup listView, @NonNull final int[] reverseSortedPositions) {
-//                        for (final int position : reverseSortedPositions) {
-//                            // Get object user want to delete
-//                            final EntryObj deleteObj = listEntryOb.get(position);
-//
-//                            final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-//                            alert.setTitle("Alert!!");
-//                            alert.setMessage("Are you sure to delete record");
-//                            alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-//
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    // Delete Entry
-//                                    entryService.delete(getActivity(), deleteObj.getEntryId());
-//                                    YTDictValues.refreshInterface = EntryListFragment.this;
-//                                }
-//                            });
-//                            alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-//
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    dialog.dismiss();
-//                                }
-//                            });
-//
-//                            alert.show();
-//                        }
-//                    }
-//                }
-//        );
 
         // on click Add Button
         addBt.setOnClickListener(new View.OnClickListener() {
@@ -198,9 +163,9 @@ public class EntryListFragment extends Fragment implements RefreshInterface {
                                                      startActivityForResult(intent, MainActivity.REQUEST_CODE_ENTRY_ADD);
                                                  } else {
                                                      final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                                                     alert.setTitle("Alert!!");
-                                                     alert.setMessage("Please insert entry with maximum 4 kanjis");
-                                                     alert.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                                     alert.setTitle(getResources().getString(R.string.warning_title));
+                                                     alert.setMessage(getResources().getString(R.string.max_value_validate));
+                                                     alert.setNegativeButton(getResources().getString(R.string.ok_button), new DialogInterface.OnClickListener() {
 
                                                          @Override
                                                          public void onClick(DialogInterface dialog, int which) {
@@ -214,9 +179,9 @@ public class EntryListFragment extends Fragment implements RefreshInterface {
 
                                              } else {
                                                  final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                                                 alert.setTitle("Alert!!");
-                                                 alert.setMessage(newEntry2 + " already in your list");
-                                                 alert.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                                 alert.setTitle(getResources().getString(R.string.warning_title));
+                                                 alert.setMessage(newEntry2 + getResources().getString(R.string.existed_warning));
+                                                 alert.setNegativeButton(getResources().getString(R.string.ok_button), new DialogInterface.OnClickListener() {
 
                                                      @Override
                                                      public void onClick(DialogInterface dialog, int which) {
@@ -228,7 +193,7 @@ public class EntryListFragment extends Fragment implements RefreshInterface {
                                                  alert.show();
                                              }
                                          } else {
-                                             newEntryEt.setError("Please insert some text");
+                                             newEntryEt.setError(getResources().getString(R.string.not_null_validate));
                                          }
                                      }
                                  }

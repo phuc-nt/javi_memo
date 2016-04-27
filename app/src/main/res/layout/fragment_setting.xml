@@ -234,7 +234,7 @@
                 </RelativeLayout>
             </LinearLayout>
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -300,7 +300,7 @@
                         android:layout_toRightOf="@+id/fragment_setting_lock_screen_game_catalog_tv" />
 
                 </RelativeLayout>
-            </LinearLayout>
+            </LinearLayout>-->
 
             <RelativeLayout
                 android:layout_width="match_parent"

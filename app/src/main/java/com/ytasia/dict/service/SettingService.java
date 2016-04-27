@@ -13,6 +13,8 @@ import com.ytasia.dict.util.YTDictValues;
 import java.util.ArrayList;
 import java.util.List;
 
+import ytasia.dictionary.R;
+
 /**
  * Created by PhucNT on 16/March/22.
  */
@@ -26,9 +28,9 @@ public class SettingService {
         final EntryService service = new EntryService();
 
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
-        alert.setTitle("Alert!!");
-        alert.setMessage("Are you sure reset level of all Entries");
-        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+        alert.setTitle(context.getResources().getString(R.string.warning_title));
+        alert.setMessage(context.getResources().getString(R.string.reset_entry_level_confirm));
+        alert.setPositiveButton(context.getResources().getString(R.string.yes_button), new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -40,7 +42,7 @@ public class SettingService {
             }
         });
 
-        alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+        alert.setNegativeButton(context.getResources().getString(R.string.no_button), new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -58,9 +60,9 @@ public class SettingService {
         final TBKanjiHandler kanjiHandler = new TBKanjiHandler(context);
 
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
-        alert.setTitle("Alert!!");
-        alert.setMessage("Are you sure reset level of all Entries");
-        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+        alert.setTitle(context.getResources().getString(R.string.warning_title));
+        alert.setMessage(context.getResources().getString(R.string.reset_kanji_level_confirm));
+        alert.setPositiveButton(context.getResources().getString(R.string.yes_button), new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -72,7 +74,7 @@ public class SettingService {
             }
         });
 
-        alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+        alert.setNegativeButton(context.getResources().getString(R.string.no_button), new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -91,9 +93,9 @@ public class SettingService {
         final EntryService service = new EntryService();
 
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
-        alert.setTitle("Alert!!");
-        alert.setMessage("Are you sure clear all Entries");
-        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+        alert.setTitle(context.getResources().getString(R.string.warning_title));
+        alert.setMessage(context.getResources().getString(R.string.clear_entry_confirm));
+        alert.setPositiveButton(context.getResources().getString(R.string.yes_button), new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -107,7 +109,7 @@ public class SettingService {
             }
         });
 
-        alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+        alert.setNegativeButton(context.getResources().getString(R.string.no_button), new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {

@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         YTDictValues.appContext = MainActivity.this;
 
         // init Ad
-        //StartAppSDK.init(this, "103367364", "203600019", true);
+        StartAppSDK.init(this, "103367364", "203600019", true);
 
 
 //        startAppAd.loadAd(StartAppAd.AdMode.REWARDED_VIDEO);
@@ -361,7 +361,6 @@ public class MainActivity extends AppCompatActivity {
         Assert.assertEquals(ls4.get(0).getEntryId(), ls2.get(0).getEntryId());
         System.out.println("DONE!");
     }*/
-
     private void createSampleDb() {
         YTDictValues.appContext = this.getApplicationContext();
         // DBBasic db = DBBasic.createInstance();

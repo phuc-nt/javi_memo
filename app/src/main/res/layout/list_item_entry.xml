@@ -19,18 +19,15 @@
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:textColor="@android:color/black" />
 
-    <TextView
+    <ProgressBar
         android:id="@+id/entry_list_item_content_2"
-        android:layout_width="wrap_content"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:gravity="center_vertical"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
-        android:paddingRight="?android:attr/listPreferredItemPaddingRight"
-        android:text="name"
-        android:textAppearance="?android:attr/textAppearanceListItemSmall"
-        android:textColor="@android:color/black" />
+        android:layout_centerVertical="true"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp" />
+
 </RelativeLayout>

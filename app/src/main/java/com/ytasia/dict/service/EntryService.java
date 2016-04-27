@@ -10,12 +10,14 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ytasia.dict.dao.db_handle.TBEntryHandler;
 import com.ytasia.dict.dao.db_handle.TBKanjiEntryHandler;
 import com.ytasia.dict.dao.obj.EntryObj;
 import com.ytasia.dict.ddp.DBBasic;
+import com.ytasia.dict.util.YTDictValues;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,12 +75,12 @@ public class EntryService {
             // Match ListView to Layout
             View itemView = inflater.inflate(R.layout.list_item_entry, parent, false);
             TextView entryName = (TextView) itemView.findViewById(R.id.entry_list_item_content_1);
-            TextView entryLevel = (TextView) itemView.findViewById(R.id.entry_list_item_content_2);
+            ProgressBar bar = (ProgressBar) itemView.findViewById(R.id.entry_list_item_content_2);
 
             // Set data for ListItem
             entryName.setText(entryObj.toString());
-            entryLevel.setText(Integer.toString(entryObj.getLevel()));
-
+            bar.setMax(YTDictValues.ENTRY_MAX_LEVEL);
+            bar.setProgress(entryObj.getLevel());
 
             return itemView;
         }

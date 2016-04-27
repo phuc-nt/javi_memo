@@ -122,15 +122,15 @@ public class SettingFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                alert.setTitle("Alert !");
-                alert.setMessage("Are you Loguot ?");
-                alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                alert.setTitle(getResources().getString(R.string.warning_title));
+                alert.setMessage(getResources().getString(R.string.log_out_warning));
+                alert.setPositiveButton(getResources().getString(R.string.yes_button), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         LogoutFunction();
                     }
                 });
-                alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                alert.setNegativeButton(getResources().getString(R.string.no_button), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -151,8 +151,6 @@ public class SettingFragment extends Fragment {
         facebookBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent fb = getOpenFacebookIntent(getActivity());
-//                startActivity(fb);
                 visitFacebook();
             }
         });
@@ -242,16 +240,9 @@ public class SettingFragment extends Fragment {
         startActivity(browserIntent);
     }
 
-    public static Intent getOpenFacebookIntent(Context context) {
-
-        try {
-            context.getPackageManager().getPackageInfo("com.facebook.katana", 0);
-            return new Intent(Intent.ACTION_VIEW, Uri.parse("fb://facewebmodal/f?href=www.facebook.com/株式会社YTAsia-814833155312577"));
-        } catch (Exception e) {
-            return new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/株式会社YTAsia-814833155312577"));
-        }
-    }
-
+    /**
+     * Facebook Logout
+     */
     private void LogoutFunction() {
         //log out when logged with Facebook
         FacebookSdk.sdkInitialize(getContext());
@@ -286,7 +277,9 @@ public class SettingFragment extends Fragment {
         }
     }
 
-    //Google Logout function
+    /**
+     * Google Logout
+     */
     private void signOut() {
         YTDictValues.gUserid = null;
         YTDictValues.gEmail = null;
