@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -22,15 +23,17 @@ import com.ytasia.dict.dao.db_handle.TBKanjiHandler;
 import com.ytasia.dict.dao.obj.EntryObj;
 import com.ytasia.dict.dao.obj.KanjiObj;
 import com.ytasia.dict.service.KanjiService;
+import com.ytasia.dict.util.YTDictValues;
 
 import ytasia.dictionary.R;
 
 public class EntryViewActivity extends AppCompatActivity {
 
     private Toolbar entryToolbar;
-    private TextView entryContentTv, entryFuriganaTv, entryMeaningTv, entryExamleTv, levelTv;
+    private TextView entryContentTv, entryFuriganaTv, entryMeaningTv, entryExamleTv, levelTv, completeTv;
     private EntryObj ob;
     private ScrollView kanjiSv;
+    private ProgressBar levelPb;
 
     private KanjiService kanjiService;
 
@@ -39,7 +42,9 @@ public class EntryViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_entry_view);
+
 
         // Get object from list
         Intent intent = getIntent();
@@ -137,6 +142,7 @@ public class EntryViewActivity extends AppCompatActivity {
         entryMeaningTv = (TextView) this.findViewById(R.id.entry_view_meaning_text_view);
         entryExamleTv = (TextView) this.findViewById(R.id.entry_view_example_text_view);
         levelTv = (TextView) this.findViewById(R.id.entry_view_level_text_view);
+        levelPb = (ProgressBar) this.findViewById(R.id.entry_view_level_progress_bar);
     }
 
     /**
@@ -206,6 +212,9 @@ public class EntryViewActivity extends AppCompatActivity {
         exam.insert(0, "<b>Ví dụ:</b><br>");
         entryExamleTv.setText(Html.fromHtml(exam.toString()));
 
-        levelTv.setText(Integer.toString(ob.getLevel()));
+        levelTv.setText("(" + ob.getLevel() + "/" + YTDictValues.ENTRY_MAX_LEVEL + ")");
+
+        levelPb.setMax(YTDictValues.ENTRY_MAX_LEVEL);
+        levelPb.setProgress(ob.getLevel());
     }
 }

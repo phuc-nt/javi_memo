@@ -31,7 +31,6 @@ public class LoginActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks,
         View.OnClickListener {
 
-    private Button Guest_SigninBt;
     private LoginButton Face_loginButton;
     private static final int RC_SIGN_IN = 9001;
 
@@ -66,17 +65,6 @@ public class LoginActivity extends AppCompatActivity implements
                 Toast.makeText(LoginActivity.this, "Login attempt failed.", Toast.LENGTH_LONG).show();
             }
 
-        });
-
-        // Login with Guest User
-        Guest_SigninBt = (Button) findViewById(R.id.login_sign_in_button);
-        Guest_SigninBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                YTDictValues.guestid = "Guest_123";
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
         });
 
         // [START configure_signin]

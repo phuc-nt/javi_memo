@@ -8,8 +8,8 @@ android {
         applicationId "com.ytasia.javimemo"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0.0"
+        versionCode 3
+        versionName "1.0.2"
 
     }
     buildTypes {
@@ -35,22 +35,16 @@ dependencies {
     compile 'com.android.support:support-v4:23.1.1'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:recyclerview-v7:23.0.0'
-    compile 'com.nhaarman.listviewanimations:lib-core:3.1.0@aar'
-    compile 'com.nhaarman.listviewanimations:lib-manipulation:3.1.0@aar'
-    compile 'com.nhaarman.listviewanimations:lib-core-slh:3.1.0@aar'
-    compile 'com.nineoldandroids:library:2.4.+'
     compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
     compile 'com.google.guava:guava:19.0'
     compile 'org.jsoup:jsoup:1.7.2'
-    compile 'com.github.hotchemi:android-rate:0.5.6'
     compile 'com.facebook.android:facebook-android-sdk:4.+'
     compile 'com.google.android.gms:play-services-appindexing:8.3.0'
     compile 'com.google.android.gms:play-services-auth:8.3.0'
-    compile 'com.mcxiaoke.volley:library-aar:1.0.0'
 
     compile 'com.github.delight-im:Android-DDP:v3.0.0'
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.loopj.android:android-async-http:1.4.9'
-    compile 'org.apache.httpcomponents:httpcore:4.4.1'
-    compile 'org.apache.httpcomponents:httpclient:4.5'
+
+    compile files('src/main/libs/StartAppInApp-3.4.1.jar')
 }

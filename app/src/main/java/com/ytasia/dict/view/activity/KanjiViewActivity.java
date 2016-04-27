@@ -7,10 +7,12 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.startapp.android.publish.StartAppAd;
 import com.ytasia.dict.dao.obj.KanjiObj;
+import com.ytasia.dict.util.YTDictValues;
 
 import ytasia.dictionary.R;
 
@@ -19,6 +21,7 @@ public class KanjiViewActivity extends AppCompatActivity {
     private Toolbar kanjiToolbar;
     private TextView kanjiContentTv, kanjiMeaningTv, levelTv;
     private KanjiObj ob;
+    private ProgressBar levelPb;
 
     private StartAppAd startAppAd = new StartAppAd(this);
 
@@ -90,6 +93,7 @@ public class KanjiViewActivity extends AppCompatActivity {
         kanjiContentTv = (TextView) findViewById(R.id.kanji_view_content_text_view);
         kanjiMeaningTv = (TextView) findViewById(R.id.kanji_view_meaning_text_view);
         levelTv = (TextView) findViewById(R.id.kanji_view_level_text_view);
+        levelPb = (ProgressBar) findViewById(R.id.kanji_view_level_progress_bar);
     }
 
     /**
@@ -98,6 +102,9 @@ public class KanjiViewActivity extends AppCompatActivity {
     private void setData() {
         kanjiContentTv.setText(Character.toString(ob.getCharacter()));
         kanjiMeaningTv.setText(Html.fromHtml(ob.getMeaning()));
-        levelTv.setText(Integer.toString(ob.getLevel()));
+        levelTv.setText("(" + ob.getLevel() + "/" + YTDictValues.KANJI_MAX_LEVEL + ")");
+
+        levelPb.setMax(YTDictValues.KANJI_MAX_LEVEL);
+        levelPb.setProgress(ob.getLevel());
     }
 }

@@ -60,7 +60,10 @@ public class MainActivity extends AppCompatActivity {
         // set app context is MainActivity
         YTDictValues.appContext = MainActivity.this;
 
-        StartAppSDK.init(this, "103367364", "203600019", true);
+        // init Ad
+        //StartAppSDK.init(this, "103367364", "203600019", true);
+
+
 //        startAppAd.loadAd(StartAppAd.AdMode.REWARDED_VIDEO);
 //        startAppAd.setVideoListener(new VideoListener() {
 //            @Override
@@ -276,6 +279,11 @@ public class MainActivity extends AppCompatActivity {
     public void onShowAdButtonPressed() {
         startAppAd.showAd();
     }
+
+    /**
+     * From here is for TEST
+     * ---------------------------------------------------------------------------------------------
+     */
 
     /*private void testDB() {
         TBUserHandler hd = new TBUserHandler(this);

@@ -55,16 +55,27 @@
             android:textColor="#045FB4"
             android:textSize="50dp" />
 
+        <ProgressBar
+            android:id="@+id/kanji_view_level_progress_bar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/kanji_view_level_text_view"
+            android:layout_toRightOf="@+id/kanji_view_content_text_view"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
+
         <TextView
             android:id="@+id/kanji_view_level_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
-            android:textColor="#045FB4"
-            android:textSize="30dp" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="25dp" />
     </RelativeLayout>
 
     <ScrollView
